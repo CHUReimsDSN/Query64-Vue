@@ -40795,7 +40795,7 @@ const rF = {
       updateGridParams: C,
       updateRows: v,
       gridOptions: n,
-      gridApi: r.value,
+      gridApi: r,
       lastGetRowsParams: d,
       isLoadingSettingUpGrid: l
     }), $r(async () => {

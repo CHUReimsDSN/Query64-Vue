@@ -312,7 +312,7 @@ defineExpose<TQuery64GridExpose<T>>({
   updateGridParams,
   updateRows,
   gridOptions: gridOptions as Ref<GridOptions<T>>,
-  gridApi: gridApi.value,
+  gridApi,
   lastGetRowsParams,
   isLoadingSettingUpGrid,
 });
