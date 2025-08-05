@@ -306,6 +306,14 @@ function resetGridParams() {
   gridApi.value.setRowGroupColumns([]);
 }
 
+// lifeCycle
+onMounted(async () => {
+  inheritGridOptionsProps();
+  await setupResourceMetaData();
+  setupGridEvents();
+  isLoadingSettingUpGrid.value = false;
+});
+
 // Expose
 defineExpose<TQuery64GridExpose<T>>({
   resetGridParams,
@@ -315,14 +323,6 @@ defineExpose<TQuery64GridExpose<T>>({
   gridApi,
   lastGetRowsParams,
   isLoadingSettingUpGrid,
-});
-
-// lifeCycle
-onMounted(async () => {
-  inheritGridOptionsProps();
-  await setupResourceMetaData();
-  setupGridEvents();
-  isLoadingSettingUpGrid.value = false;
 });
 </script>
 

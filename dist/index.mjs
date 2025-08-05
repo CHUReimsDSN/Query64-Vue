@@ -40790,7 +40790,9 @@ const rF = {
     function A() {
       r.value && (r.value.setFilterModel(null), r.value.resetColumnState(), r.value.setRowGroupColumns([]));
     }
-    return t({
+    return $r(async () => {
+      w(), await u(), x(), l.value = !1;
+    }), t({
       resetGridParams: A,
       updateGridParams: C,
       updateRows: v,
@@ -40798,8 +40800,6 @@ const rF = {
       gridApi: r,
       lastGetRowsParams: d,
       isLoadingSettingUpGrid: l
-    }), $r(async () => {
-      w(), await u(), x(), l.value = !1;
     }), (R, F) => l.value ? Zn("", !0) : (Wt(), Vt("div", rF, [
       Kr(qc(iF), {
         gridOptions: n.value,
