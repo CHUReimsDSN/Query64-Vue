@@ -90,12 +90,10 @@ const lastDisplayedCols = ref<string[]>([]);
 
 // functions
 async function setupResourceMetaData() {
-  const response = await propsComponent.getMetadata(
-    {
-      resourceName: propsComponent.resourceName,
-      context: propsComponent.context
-    }
-  );
+  const response = await propsComponent.getMetadata({
+    resourceName: propsComponent.resourceName,
+    context: propsComponent.context,
+  });
   resourceMetaDatas = response;
 }
 function getRowId(params: GetRowIdParams) {
@@ -145,15 +143,13 @@ function setupRowData(): IServerSideDatasource<T> {
       });
       displayedCols.push(...groupCols);
       propsComponent
-        .getRows(
-          {
-            resourceName: propsComponent.resourceName,
-            agGridServerParams: { ...params.request },
-            columnsToDisplay: displayedCols,
-            shallReturnCount: shallReturnCount,
-            context: propsComponent.context
-          }
-        )
+        .getRows({
+          resourceName: propsComponent.resourceName,
+          agGridServerParams: { ...params.request },
+          columnsToDisplay: displayedCols,
+          shallReturnCount: shallReturnCount,
+          context: propsComponent.context,
+        })
         .then((response) => {
           let jsonKeysToParse: (keyof T)[] = [];
           const isGroupMode =
@@ -266,17 +262,18 @@ function inheritGridOptionsProps() {
     "getRowId",
     "getChildCount",
   ];
-  Object.entries(propsComponent.initialGridParams.gridOptions).forEach((attribute) => {
-    const attributeForReal = attribute as [keyof GridOptions<T>, unknown]
-    if (optionsToFreeze.includes(attributeForReal[0])) return
-    gridOptions.value[attributeForReal[0]] = attribute[1]
-  })
+  Object.entries(propsComponent.initialGridParams.gridOptions).forEach(
+    (attribute) => {
+      const attributeForReal = attribute as [keyof GridOptions<T>, unknown];
+      if (optionsToFreeze.includes(attributeForReal[0])) return;
+      gridOptions.value[attributeForReal[0]] = attribute[1];
+    }
+  );
 }
 function setupGridEvents() {
   const baseOnGridReady = gridOptions.value.onGridReady;
   gridOptions.value.onGridReady = (params: GridReadyEvent) => {
     gridApi.value = params.api;
-    console.log(gridApi.value ?? 'oula')
     updateGridParams(
       propsComponent.initialGridParams?.columnProfils,
       propsComponent.initialGridParams?.filterModel,
@@ -319,11 +316,13 @@ defineExpose<TQuery64GridExpose<T>>({
   resetGridParams,
   updateGridParams,
   updateRows,
-  gridOptions: gridOptions as Ref<GridOptions<T>>,
+  gridOptions,
   gridApi,
   lastGetRowsParams,
   isLoadingSettingUpGrid,
-});
+} as unknown as TQuery64GridExpose<T>);
+// VueJS automatically unwrap refs and reactive, meaning type system will be wrong if saying ref are Ref<> and acessing .value
+// https://vuejs.org/api/sfc-script-setup#defineexpose
 </script>
 
 <template>

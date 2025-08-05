@@ -1,5 +1,5 @@
 import { ColDef, GridApi, GridOptions, IServerSideGetRowsParams, IServerSideGetRowsRequest } from "ag-grid-community";
-import { Component, Ref } from "vue";
+import { Component } from "vue";
 import { TResourceColumnOverload } from "./query64";
 export type TRecord = {
     id: number;
@@ -79,8 +79,8 @@ export type TQuery64GridExpose<T = unknown> = {
     resetGridParams: () => void;
     updateGridParams: (columnProfils?: TResourceColumnProfil[], filterModel?: IServerSideGetRowsRequest["filterModel"], sortModel?: IServerSideGetRowsRequest["sortModel"], rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"]) => void;
     updateRows: () => void;
-    gridOptions: Ref<GridOptions<T>>;
-    gridApi: Ref<GridApi<T> | undefined>;
-    lastGetRowsParams: Ref<IServerSideGetRowsParams<T>["request"] | null>;
-    isLoadingSettingUpGrid: Ref<boolean>;
+    gridOptions: GridOptions<T>;
+    gridApi: GridApi<T> | undefined;
+    lastGetRowsParams: IServerSideGetRowsParams<T>["request"] | null;
+    isLoadingSettingUpGrid: boolean;
 };
