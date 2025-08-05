@@ -40769,7 +40769,7 @@ const rF = {
       const R = n.value.onGridReady;
       n.value.onGridReady = (E) => {
         var P, L, N, k;
-        r.value = E.api, C(
+        console.log(r.value), r.value = E.api, C(
           (P = s.initialGridParams) == null ? void 0 : P.columnProfils,
           (L = s.initialGridParams) == null ? void 0 : L.filterModel,
           (N = s.initialGridParams) == null ? void 0 : N.sortModel,
@@ -40795,7 +40795,7 @@ const rF = {
       updateGridParams: C,
       updateRows: v,
       gridOptions: n,
-      gridApi: r,
+      gridApi: r.value,
       lastGetRowsParams: d,
       isLoadingSettingUpGrid: l
     }), $r(async () => {

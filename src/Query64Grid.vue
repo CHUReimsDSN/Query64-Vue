@@ -275,6 +275,7 @@ function inheritGridOptionsProps() {
 function setupGridEvents() {
   const baseOnGridReady = gridOptions.value.onGridReady;
   gridOptions.value.onGridReady = (params: GridReadyEvent) => {
+    console.log(gridApi.value)
     gridApi.value = params.api;
     updateGridParams(
       propsComponent.initialGridParams?.columnProfils,
@@ -311,7 +312,7 @@ defineExpose<TQuery64GridExpose<T>>({
   updateGridParams,
   updateRows,
   gridOptions: gridOptions as Ref<GridOptions<T>>,
-  gridApi,
+  gridApi: gridApi.value,
   lastGetRowsParams,
   isLoadingSettingUpGrid,
 });

@@ -96,7 +96,7 @@ export type TQuery64GridExpose<T = unknown> = {
   ) => void;
   updateRows: () => void;
   gridOptions: Ref<GridOptions<T>>;
-  gridApi: Ref<GridApi<T> | undefined>;
+  gridApi: GridApi<T> | undefined;
   lastGetRowsParams: Ref<IServerSideGetRowsParams<T>["request"] | null>;
   isLoadingSettingUpGrid: Ref<boolean>;
 };

@@ -80,7 +80,7 @@ export type TQuery64GridExpose<T = unknown> = {
     updateGridParams: (columnProfils?: TResourceColumnProfil[], filterModel?: IServerSideGetRowsRequest["filterModel"], sortModel?: IServerSideGetRowsRequest["sortModel"], rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"]) => void;
     updateRows: () => void;
     gridOptions: Ref<GridOptions<T>>;
-    gridApi: Ref<GridApi<T> | undefined>;
+    gridApi: GridApi<T> | undefined;
     lastGetRowsParams: Ref<IServerSideGetRowsParams<T>["request"] | null>;
     isLoadingSettingUpGrid: Ref<boolean>;
 };
