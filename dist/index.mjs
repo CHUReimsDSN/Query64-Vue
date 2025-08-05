@@ -40769,7 +40769,7 @@ const rF = {
       const R = n.value.onGridReady;
       n.value.onGridReady = (E) => {
         var P, L, N, k;
-        console.log(r.value), r.value = E.api, C(
+        r.value = E.api, console.log(r.value ?? "oula"), C(
           (P = s.initialGridParams) == null ? void 0 : P.columnProfils,
           (L = s.initialGridParams) == null ? void 0 : L.filterModel,
           (N = s.initialGridParams) == null ? void 0 : N.sortModel,

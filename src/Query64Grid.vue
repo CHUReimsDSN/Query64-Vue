@@ -275,8 +275,8 @@ function inheritGridOptionsProps() {
 function setupGridEvents() {
   const baseOnGridReady = gridOptions.value.onGridReady;
   gridOptions.value.onGridReady = (params: GridReadyEvent) => {
-    console.log(gridApi.value)
     gridApi.value = params.api;
+    console.log(gridApi.value ?? 'oula')
     updateGridParams(
       propsComponent.initialGridParams?.columnProfils,
       propsComponent.initialGridParams?.filterModel,
