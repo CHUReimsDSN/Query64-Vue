@@ -40655,12 +40655,10 @@ const rF = {
       null
     ), c = we([]);
     async function u() {
-      i = await s.getMetadata(
-        {
-          resourceName: s.resourceName,
-          context: s.context
-        }
-      );
+      i = await s.getMetadata({
+        resourceName: s.resourceName,
+        context: s.context
+      });
     }
     function h(R) {
       return R.data.id ? R.data.id.toString() : R.data.__id.toString();
@@ -40693,15 +40691,13 @@ const rF = {
           }) || c.value.join(", ") !== F.join(", ");
           c.value = F, d.value = R.request;
           const E = R.api.getRowGroupColumns().map((L) => L.getColId());
-          F.push(...E), s.getRows(
-            {
-              resourceName: s.resourceName,
-              agGridServerParams: { ...R.request },
-              columnsToDisplay: F,
-              shallReturnCount: I,
-              context: s.context
-            }
-          ).then((L) => {
+          F.push(...E), s.getRows({
+            resourceName: s.resourceName,
+            agGridServerParams: { ...R.request },
+            columnsToDisplay: F,
+            shallReturnCount: I,
+            context: s.context
+          }).then((L) => {
             let N = [];
             R.request.rowGroupCols.length !== 0 && R.request.rowGroupCols.length !== R.request.groupKeys.length || (N = F.filter((z) => z.includes(".")).map((z) => z.split(".").at(0) ?? ""));
             const G = L.items.map((z) => (N.forEach((q) => {
@@ -40760,10 +40756,12 @@ const rF = {
         "getRowId",
         "getChildCount"
       ];
-      Object.entries(s.initialGridParams.gridOptions).forEach((I) => {
-        const E = I;
-        R.includes(E[0]) || (n.value[E[0]] = I[1]);
-      });
+      Object.entries(s.initialGridParams.gridOptions).forEach(
+        (I) => {
+          const E = I;
+          R.includes(E[0]) || (n.value[E[0]] = I[1]);
+        }
+      );
     }
     function x() {
       const R = n.value.onGridReady;
@@ -40790,7 +40788,9 @@ const rF = {
     function A() {
       r.value && (r.value.setFilterModel(null), r.value.resetColumnState(), r.value.setRowGroupColumns([]));
     }
-    return t({
+    return $r(async () => {
+      w(), await u(), x(), l.value = !1;
+    }), t({
       resetGridParams: A,
       updateGridParams: C,
       updateRows: v,
@@ -40798,8 +40798,6 @@ const rF = {
       gridApi: r,
       lastGetRowsParams: d,
       isLoadingSettingUpGrid: l
-    }), $r(async () => {
-      w(), await u(), x(), l.value = !1;
     }), (R, F) => l.value ? Zn("", !0) : (Wt(), Vt("div", rF, [
       Kr(qc(iF), {
         gridOptions: n.value,
