@@ -1,11 +1,32 @@
-import { AllCommunityModule, ColDef } from "ag-grid-community";
+import { ColDef } from "ag-grid-community";
 import {
+  CellStyleModule,
+  ClientSideRowModelApiModule,
+  ClientSideRowModelModule,
+  ColumnApiModule,
+  ColumnAutoSizeModule,
+  DateFilterModule,
+  EventApiModule,
+  InfiniteRowModelModule,
+  LocaleModule,
   ModuleRegistry,
+  NumberFilterModule,
+  PaginationModule,
+  RenderApiModule,
+  RowAutoHeightModule,
+  RowDragModule,
+  RowStyleModule,
+  TextFilterModule,
   ValidationModule,
 } from "ag-grid-community";
 import {
+  ColumnMenuModule,
+  ContextMenuModule,
+  MasterDetailModule,
+  RowGroupingPanelModule,
   LicenseManager,
-  AllEnterpriseModule,
+  ServerSideRowModelApiModule,
+  ServerSideRowModelModule,
 } from "ag-grid-enterprise";
 
 export type TResourceColumnOverload = {
@@ -101,12 +122,32 @@ export class Query64 {
    */
   static registerAgGridKeyAndModules(key: string, devMode?: boolean) {
     const modulesToRegister = [
-      AllCommunityModule,
-      AllEnterpriseModule
+      ServerSideRowModelModule,
+      MasterDetailModule,
+      LocaleModule,
+      DateFilterModule,
+      NumberFilterModule,
+      TextFilterModule,
+      PaginationModule,
+      ContextMenuModule,
+      RowStyleModule,
+      CellStyleModule,
+      ClientSideRowModelModule,
+      InfiniteRowModelModule,
+      RowDragModule,
+      ClientSideRowModelApiModule,
+      RenderApiModule,
+      EventApiModule,
+      ColumnApiModule,
+      ColumnMenuModule,
+      ServerSideRowModelApiModule,
+      ColumnAutoSizeModule,
+      RowAutoHeightModule,
+      RowGroupingPanelModule,
     ];
     if (devMode) {
       modulesToRegister.push(ValidationModule);
-    }
+    } 
     ModuleRegistry.registerModules(modulesToRegister);
     LicenseManager.setLicenseKey(key);
     this._instance.hasRegisterKeyAndModule = true;
