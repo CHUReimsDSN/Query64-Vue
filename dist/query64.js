@@ -1,4 +1,5 @@
-import { CellStyleModule, ClientSideRowModelApiModule, ClientSideRowModelModule, ColumnApiModule, ColumnAutoSizeModule, ColumnMenuModule, ContextMenuModule, DateFilterModule, EventApiModule, InfiniteRowModelModule, LicenseManager, LocaleModule, MasterDetailModule, ModuleRegistry, NumberFilterModule, PaginationModule, RenderApiModule, RowAutoHeightModule, RowDragModule, RowGroupingPanelModule, RowStyleModule, ServerSideRowModelApiModule, ServerSideRowModelModule, TextFilterModule, ValidationModule, } from "ag-grid-enterprise";
+import { CellStyleModule, ClientSideRowModelApiModule, ClientSideRowModelModule, ColumnApiModule, ColumnAutoSizeModule, DateFilterModule, EventApiModule, InfiniteRowModelModule, LocaleModule, ModuleRegistry, NumberFilterModule, PaginationModule, RenderApiModule, RowAutoHeightModule, RowDragModule, RowStyleModule, TextFilterModule, ValidationModule, } from "ag-grid-community";
+import { ColumnMenuModule, ContextMenuModule, MasterDetailModule, RowGroupingPanelModule, LicenseManager, ServerSideRowModelApiModule, ServerSideRowModelModule, } from "ag-grid-enterprise";
 export class Query64 {
     static _instance = new Query64();
     overloads = [];
@@ -88,8 +89,9 @@ export class Query64 {
             RowAutoHeightModule,
             RowGroupingPanelModule,
         ];
-        if (devMode)
+        if (devMode) {
             modulesToRegister.push(ValidationModule);
+        }
         ModuleRegistry.registerModules(modulesToRegister);
         LicenseManager.setLicenseKey(key);
         this._instance.hasRegisterKeyAndModule = true;

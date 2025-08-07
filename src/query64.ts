@@ -5,26 +5,28 @@ import {
   ClientSideRowModelModule,
   ColumnApiModule,
   ColumnAutoSizeModule,
-  ColumnMenuModule,
-  ContextMenuModule,
   DateFilterModule,
   EventApiModule,
   InfiniteRowModelModule,
-  LicenseManager,
   LocaleModule,
-  MasterDetailModule,
   ModuleRegistry,
   NumberFilterModule,
   PaginationModule,
   RenderApiModule,
   RowAutoHeightModule,
   RowDragModule,
-  RowGroupingPanelModule,
   RowStyleModule,
-  ServerSideRowModelApiModule,
-  ServerSideRowModelModule,
   TextFilterModule,
   ValidationModule,
+} from "ag-grid-community";
+import {
+  ColumnMenuModule,
+  ContextMenuModule,
+  MasterDetailModule,
+  RowGroupingPanelModule,
+  LicenseManager,
+  ServerSideRowModelApiModule,
+  ServerSideRowModelModule,
 } from "ag-grid-enterprise";
 
 export type TResourceColumnOverload = {
@@ -143,7 +145,9 @@ export class Query64 {
       RowAutoHeightModule,
       RowGroupingPanelModule,
     ];
-    if (devMode) modulesToRegister.push(ValidationModule);
+    if (devMode) {
+      modulesToRegister.push(ValidationModule);
+    }
     ModuleRegistry.registerModules(modulesToRegister);
     LicenseManager.setLicenseKey(key);
     this._instance.hasRegisterKeyAndModule = true;
