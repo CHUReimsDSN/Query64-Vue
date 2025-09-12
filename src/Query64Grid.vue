@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T extends TRecord">
 import { themeAlpine } from "ag-grid-enterprise";
 import { AgGridVue } from "ag-grid-vue3";
-import { onMounted, Ref, ref } from "vue";
+import { onMounted, ref } from "vue";
 import {
   TRecord,
   TResourceColumnProfil,

@@ -1,0 +1,59 @@
+name: Build and Deploy Docs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+
+      - name: Install Bundler & Gems
+        run: bundle install --gemfile=.github/workflows/Gemfile.docs
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Generate API Markdown
+        run: npx typedoc --plugin typedoc-plugin-markdown
+
+      - name: Add Jekyll headers to Markdown files
+        run: node scripts/generate-api-doc.js
+
+      - name: Build Jekyll site
+        run: bundle exec --gemfile=.github/workflows/Gemfile.docs jekyll build --source docs --destination _site
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
