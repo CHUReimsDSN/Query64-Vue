@@ -16,7 +16,7 @@ Il est possible de définir une référence sur le composant Query64Grid afin d'
 - `isLoadingSettingUpGrid` Référence de chargement de la grille
 
 Exemple d'accès à la gridApi :
-```typescript
+```vue
 <script setup lang="ts">
 import { Query64Grid } from 'query64-vue';
 import type { TQuery64GridExpose } from 'query64-vue';

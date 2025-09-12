@@ -6,7 +6,7 @@ nav_order: 1
 ---
 
 # Exemple de définition de contexte : 
-```typescript
+```vue
 <script setup lang="ts">
 import { Query64Grid } from 'query64-vue';
 import type { GridOptions } from 'ag-grid-enterprise';

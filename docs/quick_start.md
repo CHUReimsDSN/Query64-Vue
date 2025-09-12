@@ -19,7 +19,7 @@ Query64.registerAgGridKeyAndModules('myAgGridKey')
 
 Utiliser le composant `Query64Grid` pour afficher la grille :
 
-```ts
+```vue
 <script setup lang="ts">
 import { Query64Grid } from 'query64-vue';
 </script>
