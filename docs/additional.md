@@ -24,7 +24,7 @@ Query64.registerColumnAdditional('User'
 )
 ```
 
-```typescript
+```vue
 <script setup lang="ts">
 // CellCustomAdditionalColumn.vue
 // Les données de la ligne sont passer en props automatiquement au composant de la cellule
@@ -47,7 +47,7 @@ const propsComponent = defineProps<{
 L'ajout local permet d'ajouter des colonnes sur une ressource pour une grille unique.
 
 Exemple :
-```typescript
+```vue
 // Ici la colonne 'myAdditionalColumn' sera ajouter uniquement à la grille composant
 <script setup lang="ts">
 import { Query64Grid } from 'query64-vue';

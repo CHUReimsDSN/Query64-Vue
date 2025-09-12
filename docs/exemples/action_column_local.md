@@ -6,7 +6,7 @@ nav_order: 1
 ---
 
 # Exemple pour définir une colonne d'action sur une grille précise : 
-```typescript
+```vue
 <script setup lang="ts">
 import { Query64Grid } from 'query64-vue';
 import MyActionColumn from './MyActionColumn.vue'

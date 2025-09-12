@@ -6,7 +6,7 @@ nav_order: 1
 ---
 
 # Exemple système de préferences utilisateur : 
-```typescript
+```vue
 <script setup lang="ts">
 import { Query64Grid } from 'query64-vue';
 

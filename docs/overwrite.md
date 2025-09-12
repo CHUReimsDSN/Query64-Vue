@@ -27,7 +27,7 @@ Query64.registerColumnOverload({
 )
 ```
 
-```typescript
+```vue
 <script setup lang="ts">
 // CellCustomIdRes.vue
 // Les données de la ligne sont passer en props automatiquement au composant de la cellule
@@ -49,9 +49,9 @@ const propsComponent = defineProps<{
 La surcharge locale permet de surcharger les colonnes d'une ressource pour une grille unique.
 
 Exemple avec un composant custom :
-```typescript
-// Ici la colonne 'id_res' de la ressource 'User' sera remplacer par la nouvelle définition
+```vue
 <script setup lang="ts">
+// Ici la colonne 'id_res' de la ressource 'User' sera remplacer par la nouvelle définition
 import { Query64Grid } from 'query64-vue';
 
 const userColumnOverloads = [
@@ -72,7 +72,7 @@ const userColumnOverloads = [
 </template>
 ```
 
-```typescript
+```vue
 <script setup lang="ts">
 // CellCustomIdRes.vue
 // Les données de la ligne sont passer en props automatiquement au composant de la cellule
