@@ -54,7 +54,7 @@ export class ColumnFactory {
             "notEqual",
             "notContains",
             {
-              displayKey: "empty",
+              displayKey: "blank",
               displayName: "Vide",
               predicate: function (
                 _: null,

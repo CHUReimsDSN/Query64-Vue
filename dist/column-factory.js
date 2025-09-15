@@ -35,7 +35,7 @@ export class ColumnFactory {
                         "notEqual",
                         "notContains",
                         {
-                            displayKey: "empty",
+                            displayKey: "blank",
                             displayName: "Vide",
                             predicate: function (_, cellValue) {
                                 return String(cellValue).length === 0;
