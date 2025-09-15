@@ -43135,9 +43135,9 @@ class Hi {
       colId: t.field_name,
       type: "dateColumn",
       filter: "agDateColumnFilter",
-      valueGetter: (s) => (console.log(s.data ?? "sdflsdlfsdlf"), s.data ? this.globalColumnSettings.columnDateFormater(
+      valueGetter: (s) => !s.data || !s.data[t.raw_field_name] ? "" : this.globalColumnSettings.columnDateFormater(
         s.data[t.raw_field_name]
-      ) : ""),
+      ),
       width: 150
     };
   }
@@ -43146,7 +43146,7 @@ class Hi {
       headerName: t.label_name,
       colId: t.field_name,
       type: "booleanColumn",
-      valueGetter: (s) => !s.data || s.data[t.raw_field_name] === void 0 || s.data[t.raw_field_name] === null ? "" : s.data[t.raw_field_name] ? "Oui" : "Non",
+      valueGetter: (s) => !s.data || !s.data[t.raw_field_name] ? "" : s.data[t.raw_field_name] ? "Oui" : "Non",
       width: 150
     };
   }

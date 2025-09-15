@@ -428,8 +428,7 @@ export class ColumnFactory {
       type: "dateColumn",
       filter: "agDateColumnFilter",
       valueGetter: (params) => {
-        console.log(params.data ?? 'sdflsdlfsdlf')
-        if (!params.data) return "";
+        if (!params.data || !params.data[metaData.raw_field_name as keyof T]) return "";
         return this.globalColumnSettings.columnDateFormater!(
           params.data[metaData.raw_field_name as keyof T] as string
         );
@@ -447,8 +446,7 @@ export class ColumnFactory {
       valueGetter: (params) => {
         if (
           !params.data ||
-          params.data[metaData.raw_field_name as keyof T] === undefined ||
-          params.data[metaData.raw_field_name as keyof T] === null
+          !params.data[metaData.raw_field_name as keyof T]
         )
           return "";
         return params.data[metaData.raw_field_name as keyof T] ? "Oui" : "Non";
