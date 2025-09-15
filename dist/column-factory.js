@@ -358,6 +358,7 @@ export class ColumnFactory {
             type: "dateColumn",
             filter: "agDateColumnFilter",
             valueGetter: (params) => {
+                console.log(params.data ?? 'sdflsdlfsdlf');
                 if (!params.data)
                     return "";
                 return this.globalColumnSettings.columnDateFormater(params.data[metaData.raw_field_name]);

@@ -43135,9 +43135,9 @@ class Hi {
       colId: t.field_name,
       type: "dateColumn",
       filter: "agDateColumnFilter",
-      valueGetter: (s) => s.data ? this.globalColumnSettings.columnDateFormater(
+      valueGetter: (s) => (console.log(s.data ?? "sdflsdlfsdlf"), s.data ? this.globalColumnSettings.columnDateFormater(
         s.data[t.raw_field_name]
-      ) : "",
+      ) : ""),
       width: 150
     };
   }
