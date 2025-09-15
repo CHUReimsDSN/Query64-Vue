@@ -358,7 +358,7 @@ export class ColumnFactory {
             type: "dateColumn",
             filter: "agDateColumnFilter",
             valueGetter: (params) => {
-                if (!params.data)
+                if (!params.data || !params.data[metaData.raw_field_name])
                     return "";
                 return this.globalColumnSettings.columnDateFormater(params.data[metaData.raw_field_name]);
             },
@@ -372,8 +372,7 @@ export class ColumnFactory {
             type: "booleanColumn",
             valueGetter: (params) => {
                 if (!params.data ||
-                    params.data[metaData.raw_field_name] === undefined ||
-                    params.data[metaData.raw_field_name] === null)
+                    !params.data[metaData.raw_field_name])
                     return "";
                 return params.data[metaData.raw_field_name] ? "Oui" : "Non";
             },
