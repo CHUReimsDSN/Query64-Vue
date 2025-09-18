@@ -1,8 +1,7 @@
 ---
 title: Démarage rapide
-layout: default
-nav_order: 40
 ---
+
 # Démarrage rapide
 
 Query64 fonctionne sur [AgGrid](https://www.ag-grid.com/).  

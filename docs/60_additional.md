@@ -1,7 +1,5 @@
 ---
 title: Ajout de colonne
-layout: default
-nav_order: 60
 ---
 
 # Ajout de colonne

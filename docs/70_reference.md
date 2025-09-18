@@ -1,7 +1,5 @@
 ---
 title: Réference
-layout: default
-nav_order: 70
 ---
 
 # Réference
