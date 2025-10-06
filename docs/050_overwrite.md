@@ -1,7 +1,5 @@
 ---
 title: Surcharge de colonne
-layout: default
-nav_order: 50
 ---
 
 # Surcharge de colonne

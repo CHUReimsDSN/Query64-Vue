@@ -15,5 +15,5 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "include": ["src", "src/shim.d.ts"],
-  "exclude": ["node_modules", "dist", "assets"]
+  "exclude": ["node_modules", "dist", "docs"]
 }
