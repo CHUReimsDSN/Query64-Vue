@@ -8,9 +8,9 @@ nav_order: 1
 # Exemple pour définir une colonne d'action sur une grille précise : 
 ```vue
 <script setup lang="ts">
-// MyPage.vue
+// ArticlePage.vue
 import { Query64Grid } from 'query64-vue';
-import MyActionColumn from './MyActionColumn.vue'
+import ColumnActionArticle from './ColumnActionArticle.vue'
 
 type Article = {
   id: number;
@@ -18,7 +18,7 @@ type Article = {
 }
 
 const actionColumnSettings = {
-  defaultComponent: MyActionColumn
+  defaultComponent: ColumnActionArticle
 }
 </script>
 
@@ -27,11 +27,12 @@ const actionColumnSettings = {
 </template>
 ```
 
-Dans le composant, il est possible de récupérer les données de la ligne courante via les props.
+Dans le composant, il est possible de récupérer les données de la ligne courante via les props,
+à travers la propriété `params.data`.
 ```vue
 <script setup lang="ts">
-// MyActionColumn.vue
-import type Article from './MyPage.vue'
+// ColumnActionArticle.vue
+import type { Article } from './ArticlePage.vue'
 
 const propsComponent = defineProps<{
   params: {
@@ -52,3 +53,6 @@ const propsComponent = defineProps<{
 </template>
 
 ```
+
+{: .highlight }
+Plus d'infos dans la doc de l'AgGrid : https://www.ag-grid.com/vue-data-grid/component-cell-renderer/#custom-components
