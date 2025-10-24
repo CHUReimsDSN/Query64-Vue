@@ -55,7 +55,7 @@ const propsComponent = defineProps<{
 ```
 
 {: .highlight }
-Plus d'infos sur les props dans la documentation de l'AgGrid : (Custom Components)[https://www.ag-grid.com/vue-data-grid/component-cell-renderer/#custom-components]
+Plus d'infos sur les props dans la documentation de l'AgGrid : [Custom Components](https://www.ag-grid.com/vue-data-grid/component-cell-renderer/#custom-components)
 
 ## Exemple avec une suppression de ligne
 
@@ -83,5 +83,6 @@ async function deleteArticleById() {
   </div>
 </template>
 ```
+
 {: .important }
 Query64 utilise le mode `ServerSide` d'AgGrid. Il n'est donc pas possible d'utiliser les méthodes `applyTransaction` et `applyTransactionAsync`. Il faut donc utiliser la méthode `refreshServerSide` pour se resynchroniser sur les données.
