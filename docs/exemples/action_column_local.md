@@ -29,7 +29,6 @@ const actionColumnSettings = {
 
 Dans le composant, il est possible de récupérer les données de la ligne courante via les props,
 à travers la propriété `params.data`.
-Plus d'infos dans la doc de l'AgGrid : https://www.ag-grid.com/vue-data-grid/component-cell-renderer/#custom-components
 ```vue
 <script setup lang="ts">
 // ColumnActionArticle.vue
@@ -54,3 +53,6 @@ const propsComponent = defineProps<{
 </template>
 
 ```
+
+{: .highlight }
+Plus d'infos dans la doc de l'AgGrid : https://www.ag-grid.com/vue-data-grid/component-cell-renderer/#custom-components
