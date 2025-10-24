@@ -11,7 +11,7 @@ import {
 } from "./models";
 import AgGridFrenchTranslate from "./locale.fr";
 import { ColumnFactory } from "./column-factory";
-import {
+import type {
   ColDef,
   ColTypeDef,
   Column,

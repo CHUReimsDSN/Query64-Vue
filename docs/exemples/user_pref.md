@@ -22,7 +22,7 @@ const preference = {
       "order": 1,
       "width": 140,
       "visible": false,
-      "field_name": "id_res"
+      "field_name": "label"
     },
   ],
   filterModel: {},
