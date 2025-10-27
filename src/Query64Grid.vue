@@ -54,6 +54,7 @@ const columnFactory = new ColumnFactory(
 const gridOptions = ref<GridOptions<T>>({
   localeText: AgGridFrenchTranslate,
   suppressMiddleClickScrolls: true,
+  suppressNoRowsOverlay: false,
   rowSelection: "multiple",
   rowModelType: "serverSide",
   rowGroupPanelShow: "onlyWhenGrouping",
@@ -180,6 +181,11 @@ function setupRowData(): IServerSideDatasource<T> {
             params.success({
               rowData: items,
             });
+          }
+          if (response.length === 0) {
+            gridApi.value?.showNoRowsOverlay()
+          } else {
+            gridApi.value?.hideOverlay()
           }
         })
         .catch((error) => {
