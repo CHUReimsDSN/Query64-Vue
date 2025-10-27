@@ -184,6 +184,8 @@ function setupRowData(): IServerSideDatasource<T> {
           }
           if (response.length === 0) {
             gridApi.value?.showNoRowsOverlay()
+          } else {
+            gridApi.value?.hideOverlay()
           }
         })
         .catch((error) => {
