@@ -43207,6 +43207,7 @@ const FP = {
     ), n = pe({
       localeText: RP,
       suppressMiddleClickScrolls: !0,
+      suppressNoRowsOverlay: !1,
       rowSelection: "multiple",
       rowModelType: "serverSide",
       rowGroupPanelShow: "onlyWhenGrouping",
