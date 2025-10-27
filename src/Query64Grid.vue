@@ -182,9 +182,9 @@ function setupRowData(): IServerSideDatasource<T> {
               rowData: items,
             });
           }
-          // if (response.length === 0) {
-          //   gridApi.value?.showNoRowsOverlay
-          // }
+          if (response.length === 0) {
+            gridApi.value?.showNoRowsOverlay()
+          }
         })
         .catch((error) => {
           params.fail();
