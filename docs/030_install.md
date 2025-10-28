@@ -8,7 +8,7 @@ title: Installation
 // package.json
 {
   "dependencies": {
-    "query64-vue": "git+ssh://git@github.com:CHUReimsDSN/Query64-Vue.git"
+    "query64-vue": "https://github.com/CHUReimsDSN/Query64-Vue.git"
   }
 }
 ```
@@ -23,7 +23,7 @@ npm install
 // package.json
 {
   "dependencies": {
-    "query64-vue": "git+ssh://git@github.com:CHUReimsDSN/Query64-Vue.git#nom_de_la_branche"
+    "query64-vue": "https://github.com/CHUReimsDSN/Query64-Vue.git#nom_de_la_branche"
   }
 }
 ```
