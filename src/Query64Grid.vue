@@ -136,7 +136,6 @@ function setupRowData(): IServerSideDatasource<T> {
             startRow: 0,
             sortModel: [],
           }) || lastDisplayedCols.value.join(", ") !== displayedCols.join(", ");
-
       lastDisplayedCols.value = displayedCols;
       lastGetRowsParams.value = params.request;
       const groupCols = params.api.getRowGroupColumns().map((groupColumn) => {
@@ -182,10 +181,13 @@ function setupRowData(): IServerSideDatasource<T> {
               rowData: items,
             });
           }
-          if (response.length === 0) {
-            gridApi.value?.showNoRowsOverlay()
+          if (
+            (shallReturnCount && response.length === 0) ||
+            (!shallReturnCount && response.items.length === 0)
+          ) {
+            gridApi.value?.showNoRowsOverlay();
           } else {
-            gridApi.value?.hideOverlay()
+            gridApi.value?.hideOverlay();
           }
         })
         .catch((error) => {
@@ -247,10 +249,6 @@ function updateGridParams(
   if (!gridApi.value) return;
   setupGridColumns(columnProfils);
   setupGridFiltersSortsAndGroups(filterModel, sortModel, rowGroupCols);
-}
-function updateRows() {
-  if (!gridApi.value) return;
-  gridApi.value.refreshServerSide();
 }
 function setRowCountString() {
   if (!gridApi.value) return;
@@ -321,7 +319,6 @@ onMounted(async () => {
 defineExpose<TQuery64GridExpose<T>>({
   resetGridParams,
   updateGridParams,
-  updateRows,
   gridOptions,
   gridApi,
   lastGetRowsParams,
