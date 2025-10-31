@@ -372,7 +372,7 @@ export class ColumnFactory {
             type: "booleanColumn",
             valueGetter: (params) => {
                 if (!params.data ||
-                    !params.data[metaData.raw_field_name])
+                    params.data[metaData.raw_field_name] === undefined)
                     return "";
                 return params.data[metaData.raw_field_name] ? "Oui" : "Non";
             },
