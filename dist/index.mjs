@@ -43146,7 +43146,7 @@ class Hi {
       headerName: t.label_name,
       colId: t.field_name,
       type: "booleanColumn",
-      valueGetter: (s) => !s.data || !s.data[t.raw_field_name] ? "" : s.data[t.raw_field_name] ? "Oui" : "Non",
+      valueGetter: (s) => !s.data || s.data[t.raw_field_name] === void 0 ? "" : s.data[t.raw_field_name] ? "Oui" : "Non",
       width: 150
     };
   }

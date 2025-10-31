@@ -446,7 +446,7 @@ export class ColumnFactory {
       valueGetter: (params) => {
         if (
           !params.data ||
-          !params.data[metaData.raw_field_name as keyof T]
+          params.data[metaData.raw_field_name as keyof T] === undefined
         )
           return "";
         return params.data[metaData.raw_field_name as keyof T] ? "Oui" : "Non";
