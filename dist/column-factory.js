@@ -281,6 +281,7 @@ export class ColumnFactory {
             if (!column.context)
                 column.context = {};
             column.hide = metadata.association_type !== null;
+            column.cellStyle = this.generateSafeColDefStyle();
             if (metadata.raw_field_name === "id")
                 column.enableRowGroup = false;
             if (metadata.association_type !== null) {
@@ -309,6 +310,7 @@ export class ColumnFactory {
             columns.push(this.getGenericColumnAction(resourceName, this.actionColumnSettings.defaultComponent));
         }
         this.additionalSettings.forEach((additionalSetting) => {
+            additionalSetting.colDef.cellStyle = this.generateSafeColDefStyle();
             columns.push(additionalSetting.colDef);
         });
         return columns;
@@ -323,6 +325,7 @@ export class ColumnFactory {
                 resourceName,
             },
             width: 107,
+            cellStyle: this.generateSafeColDefStyle(),
         };
     }
     getGenericColumnString(metaData) {
@@ -421,5 +424,16 @@ export class ColumnFactory {
             };
         }
         return () => null;
+    }
+    // Avoid displaying cell for group mode
+    generateSafeColDefStyle() {
+        return (params) => {
+            if (params.data.__id) {
+                return {
+                    display: "none",
+                };
+            }
+            return {};
+        };
     }
 }

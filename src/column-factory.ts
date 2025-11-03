@@ -1,4 +1,6 @@
 import type {
+  CellClassParams,
+  CellStyle,
   ColDef,
   IDateFilterParams,
   INumberFilterParams,
@@ -338,6 +340,7 @@ export class ColumnFactory {
       }
       if (!column.context) column.context = {};
       column.hide = metadata.association_type !== null;
+      column.cellStyle = this.generateSafeColDefStyle();
       if (metadata.raw_field_name === "id") column.enableRowGroup = false;
       if (metadata.association_type !== null) {
         column.valueGetter = this.getGenericColumnValueGetterRelation(column);
@@ -372,6 +375,7 @@ export class ColumnFactory {
       );
     }
     this.additionalSettings.forEach((additionalSetting) => {
+      additionalSetting.colDef.cellStyle = this.generateSafeColDefStyle();
       columns.push(additionalSetting.colDef);
     });
     return columns;
@@ -389,6 +393,7 @@ export class ColumnFactory {
         resourceName,
       },
       width: 107,
+      cellStyle: this.generateSafeColDefStyle(),
     };
   }
   private getGenericColumnString<T>(
@@ -428,7 +433,8 @@ export class ColumnFactory {
       type: "dateColumn",
       filter: "agDateColumnFilter",
       valueGetter: (params) => {
-        if (!params.data || !params.data[metaData.raw_field_name as keyof T]) return "";
+        if (!params.data || !params.data[metaData.raw_field_name as keyof T])
+          return "";
         return this.globalColumnSettings.columnDateFormater!(
           params.data[metaData.raw_field_name as keyof T] as string
         );
@@ -501,5 +507,16 @@ export class ColumnFactory {
       };
     }
     return () => null;
+  }
+  // Avoid displaying cell for group mode
+  private generateSafeColDefStyle() {
+    return (params: CellClassParams) => {
+      if (params.data.__id) {
+        return {
+          display: "none",
+        } as CellStyle;
+      }
+      return {};
+    };
   }
 }
