@@ -21,4 +21,5 @@ export declare class ColumnFactory {
     private getGenericColumnBoolean;
     private getGenericColumnObject;
     private getGenericColumnValueGetterRelation;
+    private generateSafeColDefStyle;
 }

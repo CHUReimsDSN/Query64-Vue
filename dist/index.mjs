@@ -43087,7 +43087,7 @@ class Hi {
           r = this.getGenericColumnObject(n);
           break;
       }
-      r.context || (r.context = {}), r.hide = n.association_type !== null, n.raw_field_name === "id" && (r.enableRowGroup = !1), n.association_type !== null && (r.valueGetter = this.getGenericColumnValueGetterRelation(r), n.association_type === "has_many" && (r.autoHeight = !0, r.cellRenderer = this.hasManyColumnSettings.customComponent ?? Ra));
+      r.context || (r.context = {}), r.hide = n.association_type !== null, r.cellStyle = this.generateSafeColDefStyle(), n.raw_field_name === "id" && (r.enableRowGroup = !1), n.association_type !== null && (r.valueGetter = this.getGenericColumnValueGetterRelation(r), n.association_type === "has_many" && (r.autoHeight = !0, r.cellRenderer = this.hasManyColumnSettings.customComponent ?? Ra));
       const a = this.overloadSettings.find((l) => l.resourceColumnRegister.columnName === n.raw_field_name && (l.resourceColumnRegister.associationName === n.association_name || l.resourceColumnRegister.associationName === void 0 && n.association_name === null));
       a && (r = a.colDef), i.push(r);
     }), (o = this.actionColumnSettings) != null && o.defaultComponent && i.push(
@@ -43096,7 +43096,7 @@ class Hi {
         this.actionColumnSettings.defaultComponent
       )
     ), this.additionalSettings.forEach((n) => {
-      i.push(n.colDef);
+      n.colDef.cellStyle = this.generateSafeColDefStyle(), i.push(n.colDef);
     }), i;
   }
   getGenericColumnAction(t, s) {
@@ -43108,7 +43108,8 @@ class Hi {
       cellRendererParams: {
         resourceName: t
       },
-      width: 107
+      width: 107,
+      cellStyle: this.generateSafeColDefStyle()
     };
   }
   getGenericColumnString(t) {
@@ -43169,6 +43170,12 @@ class Hi {
       ...n,
       data: n.data[o]
     }) : () => null;
+  }
+  // Avoid displaying cell for group mode
+  generateSafeColDefStyle() {
+    return (t) => t.data.__id ? {
+      display: "none"
+    } : {};
   }
 }
 const FP = {
