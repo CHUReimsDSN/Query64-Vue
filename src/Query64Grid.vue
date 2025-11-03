@@ -98,8 +98,10 @@ async function setupResourceMetaData() {
   resourceMetaDatas = response;
 }
 function getRowId(params: GetRowIdParams) {
-  if (params.data.id) return params.data.id.toString();
+if (params.data.__id) {
   return params.data.__id.toString(); // Group Mode usage, generate by the server
+}
+  return params.data.id.toString();
 }
 function getChildCount(dataItem: GetRowIdParams["data"]) {
   return dataItem.__childCount;

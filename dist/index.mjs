@@ -43237,7 +43237,7 @@ const FP = {
       });
     }
     function h(y) {
-      return y.data.id ? y.data.id.toString() : y.data.__id.toString();
+      return y.data.__id ? y.data.__id.toString() : y.data.id.toString();
     }
     function g(y) {
       return y.__childCount;
