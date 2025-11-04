@@ -43284,8 +43284,8 @@ const FP = {
             var de, W;
             let D = [];
             y.request.rowGroupCols.length !== 0 && y.request.rowGroupCols.length !== y.request.groupKeys.length || (D = M.filter((_) => _.includes(".")).map((_) => _.split(".").at(0) ?? ""));
-            const U = T.items.map((_) => (D.forEach((oe) => {
-              console.log(_[oe]), _[oe] = JSON.parse(_[oe]);
+            const U = T.items.map((_) => (console.log(_), console.log("hello"), D.forEach((oe) => {
+              console.log("bybye"), console.log(oe), _[oe] = JSON.parse(_[oe]);
             }), _));
             I ? y.success({
               rowData: U,
