@@ -429,9 +429,7 @@ export class ColumnFactory {
     generateSafeColDefStyle() {
         return (params) => {
             if (params.data.__id) {
-                return {
-                    display: "none",
-                };
+                return {};
             }
             return {};
         };

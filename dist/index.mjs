@@ -43173,9 +43173,7 @@ class Hi {
   }
   // Avoid displaying cell for group mode
   generateSafeColDefStyle() {
-    return (t) => t.data.__id ? {
-      display: "none"
-    } : {};
+    return (t) => t.data.__id ? {} : {};
   }
 }
 const FP = {
