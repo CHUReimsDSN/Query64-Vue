@@ -403,7 +403,6 @@ export class ColumnFactory {
         if (!colIdRelation ||
             !baseValueGetter ||
             typeof baseValueGetter !== "function") {
-            console.log("wtf");
             return () => null;
         }
         if (colIdMacro === "has_many" || colIdMacro === "has_and_belongs_to_many") {
@@ -420,14 +419,13 @@ export class ColumnFactory {
         if (colIdMacro === "belongs_to" || colIdMacro === "has_one") {
             return (params) => {
                 if (!params.data ||
-                    !params.data[colIdRelation]) {
+                    !params.data[colIdRelation] ||
+                    !Array.isArray(params.data[colIdRelation])) {
                     return "";
                 }
-                console.log(colIdRelation);
-                console.log(params.data[colIdRelation]);
                 return baseValueGetter({
                     ...params,
-                    data: params.data[colIdRelation],
+                    data: params.data[colIdRelation][0],
                 });
             };
         }
