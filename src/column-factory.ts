@@ -512,9 +512,7 @@ export class ColumnFactory {
   private generateSafeColDefStyle() {
     return (params: CellClassParams) => {
       if (params.data.__id) {
-        return {
-          display: "none",
-        } as CellStyle;
+        return {} as CellStyle;
       }
       return {};
     };
