@@ -512,7 +512,8 @@ export class ColumnFactory {
         ) {
           return "";
         }
-        console.log('ahhh ouais')
+        console.log(colIdRelation)
+        console.log(params.data[colIdRelation])
         return baseValueGetter({
           ...params,
           data: params.data[colIdRelation] as T,
@@ -521,7 +522,6 @@ export class ColumnFactory {
     }
     return () => null;
   }
-  // Avoid displaying cell for group mode
   private generateSafeColDefStyle() {
     return (params: CellClassParams) => {
       if (params.data.__id) {

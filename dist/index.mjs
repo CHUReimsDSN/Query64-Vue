@@ -43166,12 +43166,11 @@ class Hi {
     const s = t.valueGetter, i = t.colId.split("::").at(-1), o = t.colId.split(".").at(0);
     return !o || !s || typeof s != "function" ? (console.log("wtf"), () => null) : i === "has_many" || i === "has_and_belongs_to_many" ? (n) => !n.data || !n.data[o] ? "" : n.data[o].map(
       (r) => s({ ...n, data: r })
-    ) : i === "belongs_to" || i === "has_one" ? (n) => !n.data || !n.data[o] ? "" : (console.log("ahhh ouais"), s({
+    ) : i === "belongs_to" || i === "has_one" ? (n) => !n.data || !n.data[o] ? "" : (console.log(o), console.log(n.data[o]), s({
       ...n,
       data: n.data[o]
     })) : () => null;
   }
-  // Avoid displaying cell for group mode
   generateSafeColDefStyle() {
     return (t) => t.data.__id ? {
       display: "none"
