@@ -43164,12 +43164,12 @@ class Hi {
   getGenericColumnValueGetterRelation(t) {
     if (!t.colId) return () => null;
     const s = t.valueGetter, i = t.colId.split("::").at(-1), o = t.colId.split(".").at(0);
-    return !o || !s || typeof s != "function" ? () => null : i === "has_many" || i === "has_and_belongs_to_many" ? (n) => !n.data || n.data[o] === null || n.data[o] === void 0 ? "yo" : n.data[o].map(
+    return !o || !s || typeof s != "function" ? (console.log("wtf"), () => null) : i === "has_many" || i === "has_and_belongs_to_many" ? (n) => !n.data || !n.data[o] ? "" : n.data[o].map(
       (r) => s({ ...n, data: r })
-    ) : i === "belongs_to" || i === "has_one" ? (n) => !n.data || n.data[o] === null || n.data[o] === void 0 ? "hab on" : s({
+    ) : i === "belongs_to" || i === "has_one" ? (n) => !n.data || !n.data[o] ? "" : (console.log("ahhh ouais"), s({
       ...n,
       data: n.data[o]
-    }) : () => null;
+    })) : () => null;
   }
   // Avoid displaying cell for group mode
   generateSafeColDefStyle() {
