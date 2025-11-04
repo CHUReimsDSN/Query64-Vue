@@ -2287,16 +2287,16 @@ function Xe(e, t, s) {
     ), D == null) {
       const q = T("width").value1;
       if (q != null) {
-        const _ = y.getColDef().minWidth ?? u.getDefaultColumnMinWidth();
-        _ != null && q >= _ && y.setActualWidth(q, s);
+        const U = y.getColDef().minWidth ?? u.getDefaultColumnMinWidth();
+        U != null && q >= U && y.setActualWidth(q, s);
       }
     }
     L || !y.isPrimary() || (h == null || h.syncColumnWithState(y, s, T), o == null || o.syncColumnWithState(y, s, T, I), n == null || n.syncColumnWithState(y, s, T, P));
   }, C = (y, M, I) => {
     var zt, qs;
-    const P = Tl(e, s), L = M.slice(), T = {}, D = {}, q = [], _ = [], le = [];
+    const P = Tl(e, s), L = M.slice(), T = {}, D = {}, q = [], U = [], le = [];
     let W = 0;
-    const U = (o == null ? void 0 : o.columns.slice()) ?? [], de = (n == null ? void 0 : n.columns.slice()) ?? [];
+    const _ = (o == null ? void 0 : o.columns.slice()) ?? [], de = (n == null ? void 0 : n.columns.slice()) ?? [];
     y.forEach((ce) => {
       const Cs = ce.colId;
       if (Cs.startsWith(as)) {
@@ -2304,14 +2304,14 @@ function Xe(e, t, s) {
         return;
       }
       if (gs(Cs)) {
-        _.push(ce), le.push(ce);
+        U.push(ce), le.push(ce);
         return;
       }
       const Wt = I(Cs);
       Wt ? (v(Wt, ce, T, D, !1), he(L, Wt)) : (le.push(ce), W += 1);
     });
     const bt = (ce) => v(ce, null, T, D, !1);
-    L.forEach(bt), o == null || o.sortColumns(Pr.bind(o, T, U)), n == null || n.sortColumns(Pr.bind(n, D, de)), i.refreshCols(!1);
+    L.forEach(bt), o == null || o.sortColumns(Pr.bind(o, T, _)), n == null || n.sortColumns(Pr.bind(n, D, de)), i.refreshCols(!1);
     const yt = (ce, Cs, oo = []) => {
       Cs.forEach((Wt) => {
         const hr = ce(Wt.colId);
@@ -2324,7 +2324,7 @@ function Xe(e, t, s) {
       (zt = r == null ? void 0 : r.getColumns()) == null ? void 0 : zt.slice()
     ), yt(
       (ce) => (a == null ? void 0 : a.getColumn(ce)) ?? null,
-      _,
+      U,
       (qs = a == null ? void 0 : a.getColumns()) == null ? void 0 : qs.slice()
     ), Nh(t, i, p), d.refresh(s), g.dispatchEvent({
       type: "columnEverythingChanged",
@@ -2379,11 +2379,11 @@ function Tl(e, t) {
       I.forEach((le) => {
         q.delete(le) || q.add(le);
       });
-      const _ = [...q];
+      const U = [...q];
       a.dispatchEvent({
         type: y,
-        columns: _,
-        column: _.length === 1 ? _[0] : null,
+        columns: U,
+        column: U.length === 1 ? U[0] : null,
         source: t
       });
     }, h = (y) => {
@@ -7307,9 +7307,9 @@ var Oe = {
       let u, h, g = 0;
       this.invalidateVerticalScroll();
       do {
-        const { stickyTopHeight: m, stickyBottomHeight: v } = d, C = c.rowTop, w = c.rowHeight, R = r.getPixelOffset(), F = c.rowTop - R, y = F + c.rowHeight, M = this.getVScrollPosition(), I = a.divStretchOffset, P = M.top + I, L = M.bottom + I, T = L - P, D = a.getScrollPositionForPixel(F), q = a.getScrollPositionForPixel(y - T), _ = Math.min((D + q) / 2, F), le = P + m > F, W = L - v < y;
-        let U = null;
-        t === "top" ? U = D - m : t === "bottom" ? U = q + v : t === "middle" ? U = _ : le ? U = D - m : W && (q - D > T ? U = D - m : U = q + v), U !== null && (this.setVerticalScrollPosition(U), l.redraw({ afterScroll: !0 })), u = C !== c.rowTop || w !== c.rowHeight, h = m !== d.stickyTopHeight || v !== d.stickyBottomHeight, g++;
+        const { stickyTopHeight: m, stickyBottomHeight: v } = d, C = c.rowTop, w = c.rowHeight, R = r.getPixelOffset(), F = c.rowTop - R, y = F + c.rowHeight, M = this.getVScrollPosition(), I = a.divStretchOffset, P = M.top + I, L = M.bottom + I, T = L - P, D = a.getScrollPositionForPixel(F), q = a.getScrollPositionForPixel(y - T), U = Math.min((D + q) / 2, F), le = P + m > F, W = L - v < y;
+        let _ = null;
+        t === "top" ? _ = D - m : t === "bottom" ? _ = q + v : t === "middle" ? _ = U : le ? _ = D - m : W && (q - D > T ? _ = D - m : _ = q + v), _ !== null && (this.setVerticalScrollPosition(_), l.redraw({ afterScroll: !0 })), u = C !== c.rowTop || w !== c.rowHeight, h = m !== d.stickyTopHeight || v !== d.stickyBottomHeight, g++;
       } while ((u || h) && g < 10);
       if ((p = this.animationFrameSvc) == null || p.flushAllFrames(), s < 10 && (c != null && c.stub || !((f = this.beans.rowAutoHeight) != null && f.areRowsMeasured()))) {
         const m = this.getVScrollPosition().top;
@@ -29289,10 +29289,10 @@ var g0 = class extends S {
         const P = (M = d == null ? void 0 : d.columns) == null ? void 0 : M[w.level + 1], L = (P == null ? void 0 : P.getSort()) === null, T = w.childrenAfterAggFilter.slice(0);
         if (w.childrenAfterSort && !L) {
           const D = {};
-          w.childrenAfterSort.forEach((q, _) => {
-            D[q.id] = _;
+          w.childrenAfterSort.forEach((q, U) => {
+            D[q.id] = U;
           }), T.sort(
-            (q, _) => (D[q.id] ?? 0) - (D[_.id] ?? 0)
+            (q, U) => (D[q.id] ?? 0) - (D[U.id] ?? 0)
           );
         }
         y = T;
@@ -35455,7 +35455,7 @@ var $x = class extends S {
       chartMenuItemMapper: M,
       valueColsSvc: I,
       pinnedRowModel: P
-    } = a, L = (T, D, q, _) => {
+    } = a, L = (T, D, q, U) => {
       var le;
       switch (jx(l, T), T) {
         case "pinSubMenu":
@@ -35467,46 +35467,46 @@ var $x = class extends S {
         case "pinLeft":
           return d && D ? {
             name: r("pinLeft", "Pin Left"),
-            action: () => d.setColsPinned([D], "left", _),
+            action: () => d.setColsPinned([D], "left", U),
             checked: !!D && D.isPinnedLeft()
           } : null;
         case "pinRight":
           return d && D ? {
             name: r("pinRight", "Pin Right"),
-            action: () => d.setColsPinned([D], "right", _),
+            action: () => d.setColsPinned([D], "right", U),
             checked: !!D && D.isPinnedRight()
           } : null;
         case "clearPinned":
           return d && D ? {
             name: r("noPin", "No Pin"),
-            action: () => d.setColsPinned([D], null, _),
+            action: () => d.setColsPinned([D], null, U),
             checked: !!D && !D.isPinned()
           } : null;
         case "pinRowSubMenu": {
-          const W = l.get("enableRowPinning"), U = [], de = (s == null ? void 0 : s.rowPinned) ?? ((le = s == null ? void 0 : s.pinnedSibling) == null ? void 0 : le.rowPinned);
-          return de && U.push("unpinRow"), W && W !== "bottom" && de != "top" && U.push("pinTop"), W && W !== "top" && de != "bottom" && U.push("pinBottom"), P != null && P.isManual() ? {
+          const W = l.get("enableRowPinning"), _ = [], de = (s == null ? void 0 : s.rowPinned) ?? ((le = s == null ? void 0 : s.pinnedSibling) == null ? void 0 : le.rowPinned);
+          return de && _.push("unpinRow"), W && W !== "bottom" && de != "top" && _.push("pinTop"), W && W !== "top" && de != "bottom" && _.push("pinBottom"), P != null && P.isManual() ? {
             name: r("pinRow", "Pin Row"),
             icon: k("rowPin", a, D),
-            subMenu: U
+            subMenu: _
           } : null;
         }
         case "pinTop":
           return P != null && P.isManual() ? {
             name: r("pinTop", "Pin to Top"),
             icon: k("rowPinTop", a, D),
-            action: ({ node: W, column: U }) => W && P.pinRow(W, "top", U)
+            action: ({ node: W, column: _ }) => W && P.pinRow(W, "top", _)
           } : null;
         case "pinBottom":
           return P != null && P.isManual() ? {
             name: r("pinBottom", "Pin to Bottom"),
             icon: k("rowPinBottom", a, D),
-            action: ({ node: W, column: U }) => W && P.pinRow(W, "bottom", U)
+            action: ({ node: W, column: _ }) => W && P.pinRow(W, "bottom", _)
           } : null;
         case "unpinRow":
           return P != null && P.isManual() ? {
             name: r("unpinRow", "Unpin Row"),
             icon: k("rowUnpin", a, D),
-            action: ({ node: W, column: U }) => W && P.pinRow(W, null, U)
+            action: ({ node: W, column: _ }) => W && P.pinRow(W, null, _)
           } : null;
         case "valueAggSubMenu":
           return u && I && (D != null && D.isPrimary() || D != null && D.getColDef().pivotValueColumn) ? {
@@ -35518,13 +35518,13 @@ var $x = class extends S {
         case "autoSizeThis":
           return c ? {
             name: r("autosizeThisColumn", "Autosize This Column"),
-            action: () => c.autoSizeColumn(D, _, l.get("skipHeaderOnAutoSize"))
+            action: () => c.autoSizeColumn(D, U, l.get("skipHeaderOnAutoSize"))
           } : null;
         case "autoSizeAll":
           return c ? {
             name: r("autosizeAllColumns", "Autosize All Columns"),
             action: () => c.autoSizeAllColumns({
-              source: _,
+              source: U,
               skipHeader: l.get("skipHeaderOnAutoSize")
             })
           } : null;
@@ -35532,22 +35532,22 @@ var $x = class extends S {
           return h ? {
             name: r("groupBy", "Group by") + " " + g.getDisplayNameForColumn(D, "header"),
             disabled: l.get("functionsReadOnly") || (D == null ? void 0 : D.isRowGroupActive()) || !(D != null && D.getColDef().enableRowGroup),
-            action: () => h.addColumns([D], _),
+            action: () => h.addColumns([D], U),
             icon: k("menuAddRowGroup", a, null)
           } : null;
         case "rowUnGroup":
           if (h && l.isModuleRegistered("SharedRowGrouping")) {
-            const W = D == null ? void 0 : D.getColDef().showRowGroup, U = l.get("groupLockGroupColumns");
+            const W = D == null ? void 0 : D.getColDef().showRowGroup, _ = l.get("groupLockGroupColumns");
             let de, bt, yt;
             if (W === !0)
-              de = r("ungroupAll", "Un-Group All"), bt = l.get("functionsReadOnly") || U === -1 || U >= (h.columns.length ?? 0), yt = () => h.setColumns(h.columns.slice(0, U), _);
+              de = r("ungroupAll", "Un-Group All"), bt = l.get("functionsReadOnly") || _ === -1 || _ >= (h.columns.length ?? 0), yt = () => h.setColumns(h.columns.slice(0, _), U);
             else if (typeof W == "string") {
               const zt = p.getColDefCol(W), qs = zt != null ? g.getDisplayNameForColumn(zt, "header") : W;
               de = r("ungroupBy", "Un-Group by") + " " + qs, bt = l.get("functionsReadOnly") || Vs(zt, a), yt = () => {
-                h.removeColumns([W], _);
+                h.removeColumns([W], U);
               };
             } else
-              de = r("ungroupBy", "Un-Group by") + " " + g.getDisplayNameForColumn(D, "header"), bt = l.get("functionsReadOnly") || !(D != null && D.isRowGroupActive()) || !(D != null && D.getColDef().enableRowGroup) || Vs(D, a), yt = () => h.removeColumns([D], _);
+              de = r("ungroupBy", "Un-Group by") + " " + g.getDisplayNameForColumn(D, "header"), bt = l.get("functionsReadOnly") || !(D != null && D.isRowGroupActive()) || !(D != null && D.getColDef().enableRowGroup) || Vs(D, a), yt = () => h.removeColumns([D], U);
             return {
               name: de,
               disabled: bt,
@@ -35559,7 +35559,7 @@ var $x = class extends S {
         case "resetColumns":
           return {
             name: r("resetColumns", "Reset Columns"),
-            action: () => Al(a, _)
+            action: () => Al(a, U)
           };
         case "expandAll":
           return m ? {
@@ -35594,7 +35594,7 @@ var $x = class extends S {
           } : null;
         case "cut":
           if (f) {
-            const W = v.getFocusedCell(), U = W ? kn(a, W) : null, de = U ? W == null ? void 0 : W.column.isCellEditable(U) : !1;
+            const W = v.getFocusedCell(), _ = W ? kn(a, W) : null, de = _ ? W == null ? void 0 : W.column.isCellEditable(_) : !1;
             return {
               name: r("cut", "Cut"),
               shortcut: r("ctrlX", "Ctrl+X"),
@@ -35664,19 +35664,19 @@ var $x = class extends S {
           return y ? {
             name: r("sortAscending", "Sort Ascending"),
             icon: k("sortAscending", a, null),
-            action: () => y.setSortForColumn(D, "asc", !1, _)
+            action: () => y.setSortForColumn(D, "asc", !1, U)
           } : null;
         case "sortDescending":
           return y ? {
             name: r("sortDescending", "Sort Descending"),
             icon: k("sortDescending", a, null),
-            action: () => y.setSortForColumn(D, "desc", !1, _)
+            action: () => y.setSortForColumn(D, "desc", !1, U)
           } : null;
         case "sortUnSort":
           return y ? {
             name: r("sortUnSort", "Clear Sort"),
             icon: k("sortUnSort", a, null),
-            action: () => y.setSortForColumn(D, null, !1, _)
+            action: () => y.setSortForColumn(D, null, !1, U)
           } : null;
         default:
           return x(176, { key: T }), null;
@@ -35686,9 +35686,9 @@ var $x = class extends S {
       let D;
       if (typeof T == "string" ? D = L(T, t, i, o) : D = { ...T }, !D)
         return;
-      const q = D, { subMenu: _ } = q;
-      _ && _ instanceof Array && (q.subMenu = this.mapWithStockItems(
-        _,
+      const q = D, { subMenu: U } = q;
+      U && U instanceof Array && (q.subMenu = this.mapWithStockItems(
+        U,
         t,
         s,
         i,
@@ -43173,7 +43173,9 @@ class Hi {
   }
   // Avoid displaying cell for group mode
   generateSafeColDefStyle() {
-    return (t) => t.data.__id ? {} : {};
+    return (t) => t.data.__id ? {
+      display: "none"
+    } : {};
   }
 }
 const FP = {
@@ -43281,15 +43283,15 @@ const FP = {
           }).then((T) => {
             var le, W;
             let D = [];
-            y.request.rowGroupCols.length !== 0 && y.request.rowGroupCols.length !== y.request.groupKeys.length || (D = M.filter((U) => U.includes(".")).map((U) => U.split(".").at(0) ?? ""));
-            const _ = T.items.map((U) => (D.forEach((de) => {
-              U[de] = JSON.parse(U[de]);
-            }), U));
+            y.request.rowGroupCols.length !== 0 && y.request.rowGroupCols.length !== y.request.groupKeys.length || (D = M.filter((_) => _.includes(".")).map((_) => _.split(".").at(0) ?? ""));
+            const U = T.items.map((_) => (console.log(_ ?? "lsdfldsfl"), D.forEach((de) => {
+              _[de] = JSON.parse(_[de]);
+            }), _));
             I ? y.success({
-              rowData: _,
+              rowData: U,
               rowCount: T.length
             }) : y.success({
-              rowData: _
+              rowData: U
             }), I && T.length === 0 || !I && T.items.length === 0 ? (le = r.value) == null || le.showNoRowsOverlay() : (W = r.value) == null || W.hideOverlay();
           }).catch((T) => {
             y.fail(), console.error(T);

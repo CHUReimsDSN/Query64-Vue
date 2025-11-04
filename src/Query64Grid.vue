@@ -168,6 +168,7 @@ function setupRowData(): IServerSideDatasource<T> {
               }) as (keyof T)[];
           }
           const items = response.items.map((item) => {
+            console.log(item ?? 'lsdfldsfl')
             jsonKeysToParse.forEach((key) => {
               item[key] = JSON.parse(item[key] as string);
             });
