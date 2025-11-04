@@ -402,12 +402,15 @@ export class ColumnFactory {
         const colIdRelation = column.colId.split(".").at(0);
         if (!colIdRelation ||
             !baseValueGetter ||
-            typeof baseValueGetter !== "function")
+            typeof baseValueGetter !== "function") {
             return () => null;
+        }
         if (colIdMacro === "has_many" || colIdMacro === "has_and_belongs_to_many") {
             return (params) => {
-                if (!params.data || !params.data[colIdRelation])
+                if (!params.data ||
+                    !params.data[colIdRelation]) {
                     return "";
+                }
                 return params.data[colIdRelation].map((relation) => {
                     return baseValueGetter({ ...params, data: relation });
                 });
@@ -415,17 +418,19 @@ export class ColumnFactory {
         }
         if (colIdMacro === "belongs_to" || colIdMacro === "has_one") {
             return (params) => {
-                if (!params.data || !params.data[colIdRelation])
+                if (!params.data ||
+                    !params.data[colIdRelation] ||
+                    !Array.isArray(params.data[colIdRelation])) {
                     return "";
+                }
                 return baseValueGetter({
                     ...params,
-                    data: params.data[colIdRelation],
+                    data: params.data[colIdRelation][0],
                 });
             };
         }
         return () => null;
     }
-    // Avoid displaying cell for group mode
     generateSafeColDefStyle() {
         return (params) => {
             if (params.data.__id) {

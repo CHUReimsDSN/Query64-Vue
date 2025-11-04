@@ -153,19 +153,18 @@ function setupRowData(): IServerSideDatasource<T> {
           context: propsComponent.context,
         })
         .then((response) => {
-          let jsonKeysToParse: (keyof T)[] = [];
+          let jsonKeysToParse: Set<keyof T> = new Set();
           const isGroupMode =
             params.request.rowGroupCols.length !== 0 &&
             params.request.rowGroupCols.length !==
               params.request.groupKeys.length;
           if (!isGroupMode) {
-            jsonKeysToParse = displayedCols
-              .filter((col) => {
-                return col.includes(".");
-              })
-              .map((col) => {
-                return col.split(".").at(0) ?? "";
-              }) as (keyof T)[];
+            displayedCols.forEach((displayedCol) => {
+              if (!displayedCol.includes(".")) {
+                return
+              }
+              jsonKeysToParse.add((displayedCol.split('.')[0] ?? '') as keyof T)
+            })
           }
           const items = response.items.map((item) => {
             jsonKeysToParse.forEach((key) => {

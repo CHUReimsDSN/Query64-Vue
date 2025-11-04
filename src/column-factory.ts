@@ -485,11 +485,17 @@ export class ColumnFactory {
       !colIdRelation ||
       !baseValueGetter ||
       typeof baseValueGetter !== "function"
-    )
+    ) {
       return () => null;
+    }
     if (colIdMacro === "has_many" || colIdMacro === "has_and_belongs_to_many") {
       return (params) => {
-        if (!params.data || !params.data[colIdRelation]) return "";
+        if (
+          !params.data ||
+          !params.data[colIdRelation]
+        ) {
+          return "";
+        }
         return (params.data[colIdRelation] as Record<string, unknown>[]).map(
           (relation) => {
             return baseValueGetter({ ...params, data: relation as T });
@@ -499,16 +505,21 @@ export class ColumnFactory {
     }
     if (colIdMacro === "belongs_to" || colIdMacro === "has_one") {
       return (params) => {
-        if (!params.data || !params.data[colIdRelation]) return "";
+        if (
+          !params.data ||
+          !params.data[colIdRelation] ||
+          !Array.isArray(params.data[colIdRelation])
+        ) {
+          return "";
+        }
         return baseValueGetter({
           ...params,
-          data: params.data[colIdRelation] as T,
+          data: params.data[colIdRelation][0] as T,
         });
       };
     }
     return () => null;
   }
-  // Avoid displaying cell for group mode
   private generateSafeColDefStyle() {
     return (params: CellClassParams) => {
       if (params.data.__id) {
