@@ -167,6 +167,7 @@ function setupRowData(): IServerSideDatasource<T> {
                 return col.split(".").at(0) ?? "";
               }) as (keyof T)[];
           }
+          console.log(jsonKeysToParse)
           const items = response.items.map((item) => {
             console.log(item ?? 'lsdfldsfl')
             jsonKeysToParse.forEach((key) => {

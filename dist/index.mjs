@@ -43283,7 +43283,7 @@ const FP = {
           }).then((T) => {
             var le, W;
             let D = [];
-            y.request.rowGroupCols.length !== 0 && y.request.rowGroupCols.length !== y.request.groupKeys.length || (D = M.filter((_) => _.includes(".")).map((_) => _.split(".").at(0) ?? ""));
+            y.request.rowGroupCols.length !== 0 && y.request.rowGroupCols.length !== y.request.groupKeys.length || (D = M.filter((_) => _.includes(".")).map((_) => _.split(".").at(0) ?? "")), console.log(D);
             const U = T.items.map((_) => (console.log(_ ?? "lsdfldsfl"), D.forEach((de) => {
               _[de] = JSON.parse(_[de]);
             }), _));
