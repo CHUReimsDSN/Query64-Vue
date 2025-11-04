@@ -406,8 +406,8 @@ export class ColumnFactory {
             return () => null;
         if (colIdMacro === "has_many" || colIdMacro === "has_and_belongs_to_many") {
             return (params) => {
-                if (!params.data || !params.data[colIdRelation])
-                    return "";
+                if (!params.data || params.data[colIdRelation] === null || params.data[colIdRelation] === undefined)
+                    return "yo";
                 return params.data[colIdRelation].map((relation) => {
                     return baseValueGetter({ ...params, data: relation });
                 });
@@ -415,8 +415,8 @@ export class ColumnFactory {
         }
         if (colIdMacro === "belongs_to" || colIdMacro === "has_one") {
             return (params) => {
-                if (!params.data || !params.data[colIdRelation])
-                    return "";
+                if (!params.data || params.data[colIdRelation] === null || params.data[colIdRelation] === undefined)
+                    return "hab on";
                 return baseValueGetter({
                     ...params,
                     data: params.data[colIdRelation],
