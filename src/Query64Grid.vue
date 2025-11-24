@@ -1,5 +1,4 @@
 <script setup lang="ts" generic="T extends TRecord">
-import { themeAlpine } from "ag-grid-enterprise";
 import { AgGridVue } from "ag-grid-vue3";
 import { onMounted, ref } from "vue";
 import {
@@ -34,7 +33,7 @@ const propsComponent = withDefaults(defineProps<TQuery64GridProps<T>>(), {
     return { items: [], length: 0 };
   },
   showRowCount: true,
-  aggridTheme: themeAlpine,
+  aggridTheme: 'ag-theme-alpine-auto-dark',
   gridStyle:
     "box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2), 0 3px 4px rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.12);",
 });
@@ -325,8 +324,6 @@ defineExpose<TQuery64GridExpose<T>>({
   lastGetRowsParams,
   isLoadingSettingUpGrid,
 } as unknown as TQuery64GridExpose<T>);
-// VueJS automatically unwrap refs and reactive, meaning type system will be wrong if saying ref are Ref<> and acessing .value
-// https://vuejs.org/api/sfc-script-setup#defineexpose
 </script>
 
 <template>

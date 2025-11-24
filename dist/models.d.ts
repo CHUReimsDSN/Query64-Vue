@@ -59,7 +59,7 @@ export type TQuery64GridProps<T = unknown> = {
     getMetadata: (query64Params: TQuery64GetMetadataParams) => Promise<TResourceColumnMetaData[]>;
     getRows: (query64Params: TQuery64GetRowsParams) => Promise<TAggridGenericData<T>>;
     showRowCount?: boolean;
-    aggridTheme?: any;
+    aggridTheme?: string;
     gridStyle?: string;
     globalColumnSettings?: TGlobalColumnProps;
     hasManyColumnSettings?: THasManyColumnProps;
