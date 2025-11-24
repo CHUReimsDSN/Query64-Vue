@@ -43043,7 +43043,7 @@ class Hi {
         sortable: !1,
         pinned: "right",
         columnGroupShow: "open",
-        cellClass: "bg-grey-2 flex flex-center row no-wrap",
+        cellClass: "flex flex-center row no-wrap",
         mainMenuItems: ["columnChooser"]
       }
     };
