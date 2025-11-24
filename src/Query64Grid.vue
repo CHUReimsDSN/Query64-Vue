@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="T extends TRecord">
+import { themeAlpine } from "ag-grid-enterprise";
 import { AgGridVue } from "ag-grid-vue3";
 import { onMounted, ref } from "vue";
 import {
@@ -33,7 +34,7 @@ const propsComponent = withDefaults(defineProps<TQuery64GridProps<T>>(), {
     return { items: [], length: 0 };
   },
   showRowCount: true,
-  aggridTheme: 'ag-theme-alpine-auto-dark',
+  aggridTheme: themeAlpine,
   gridStyle:
     "box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2), 0 3px 4px rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.12);",
 });
@@ -87,6 +88,7 @@ const lastGetRowsParams = ref<IServerSideGetRowsParams<T>["request"] | null>(
   null
 );
 const lastDisplayedCols = ref<string[]>([]);
+const themeMode = ref<TQuery64GridProps<T>['aggridThemeMode']>('light')
 
 // functions
 async function setupResourceMetaData() {
@@ -306,6 +308,14 @@ function resetGridParams() {
   gridApi.value.resetColumnState();
   gridApi.value.setRowGroupColumns([]);
 }
+function setupThemeMode() {
+  if (propsComponent.aggridThemeMode) {
+    themeMode.value = propsComponent.aggridThemeMode
+  }
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    themeMode.value = 'dark'
+  }
+}
 
 // lifeCycle
 onMounted(async () => {
@@ -313,6 +323,7 @@ onMounted(async () => {
   await setupResourceMetaData();
   setupGridEvents();
   isLoadingSettingUpGrid.value = false;
+  setupThemeMode()
 });
 
 // Expose
@@ -330,6 +341,7 @@ defineExpose<TQuery64GridExpose<T>>({
   <div
     v-if="!isLoadingSettingUpGrid"
     style="display: flex; flex-direction: column; height: 100%"
+    :data-ag-theme-mode="themeMode"
   >
     <AgGridVue
       :gridOptions="(gridOptions as GridOptions<T>)"
