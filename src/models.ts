@@ -71,6 +71,7 @@ export type TQuery64GridProps<T = unknown> = {
   ) => Promise<TAggridGenericData<T>>;
   showRowCount?: boolean;
   aggridTheme?: any; // TODO
+  aggridThemeMode?: 'light' | 'dark' | 'dark-blue'
   gridStyle?: string;
   globalColumnSettings?: TGlobalColumnProps;
   hasManyColumnSettings?: THasManyColumnProps;

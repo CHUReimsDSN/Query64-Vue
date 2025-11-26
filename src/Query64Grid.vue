@@ -88,6 +88,7 @@ const lastGetRowsParams = ref<IServerSideGetRowsParams<T>["request"] | null>(
   null
 );
 const lastDisplayedCols = ref<string[]>([]);
+const themeMode = ref<TQuery64GridProps<T>['aggridThemeMode']>('light')
 
 // functions
 async function setupResourceMetaData() {
@@ -307,6 +308,14 @@ function resetGridParams() {
   gridApi.value.resetColumnState();
   gridApi.value.setRowGroupColumns([]);
 }
+function setupThemeMode() {
+  if (propsComponent.aggridThemeMode) {
+    themeMode.value = propsComponent.aggridThemeMode
+  }
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    themeMode.value = 'dark'
+  }
+}
 
 // lifeCycle
 onMounted(async () => {
@@ -314,6 +323,7 @@ onMounted(async () => {
   await setupResourceMetaData();
   setupGridEvents();
   isLoadingSettingUpGrid.value = false;
+  setupThemeMode()
 });
 
 // Expose
@@ -325,14 +335,13 @@ defineExpose<TQuery64GridExpose<T>>({
   lastGetRowsParams,
   isLoadingSettingUpGrid,
 } as unknown as TQuery64GridExpose<T>);
-// VueJS automatically unwrap refs and reactive, meaning type system will be wrong if saying ref are Ref<> and acessing .value
-// https://vuejs.org/api/sfc-script-setup#defineexpose
 </script>
 
 <template>
   <div
     v-if="!isLoadingSettingUpGrid"
     style="display: flex; flex-direction: column; height: 100%"
+    :data-ag-theme-mode="themeMode"
   >
     <AgGridVue
       :gridOptions="(gridOptions as GridOptions<T>)"

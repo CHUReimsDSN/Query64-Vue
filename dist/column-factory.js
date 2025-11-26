@@ -171,7 +171,7 @@ export class ColumnFactory {
                 sortable: false,
                 pinned: "right",
                 columnGroupShow: "open",
-                cellClass: "bg-grey-2 flex flex-center row no-wrap",
+                cellClass: "flex flex-center row no-wrap",
                 mainMenuItems: ["columnChooser"],
             },
         };
