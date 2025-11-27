@@ -6,13 +6,6 @@ title: Réference
 
 Il est possible de définir une référence sur le composant Query64Grid afin d'accèder à des méthodes ou données utilitaires.
 
-- `resetGridParams` Réinitialise les filtres, tris, ordre et groupes de la grille et re-alimente la grille en données  
-- `updateGridParams` Applique des filtres, tris, ordres et groupes à la grille et re-alimente la grille en données 
-- `gridOptions` Accès aux options de la grille
-- `gridApi` Accès à l'API de la grille  
-- `lastGetRowsParams` Dernier paramètre AgGrid envoyer au serveur  
-- `isLoadingSettingUpGrid` Référence de chargement de la grille
-
 Exemple d'accès à la gridApi :
 ```vue
 <script setup lang="ts">
@@ -24,7 +17,7 @@ const query64Grid = ref<TQuery64GridExpose>()
 function example() {
   if (!query64Grid.value) return
   gridApi = query64Grid.value.gridApi
-  // ... more code
+  // ... more code with the AgGrid api
 }
 </script>
 
@@ -32,3 +25,8 @@ function example() {
   <Query64Grid ref="query64Grid" />
 </template>
 ```
+
+{: .important }
+Consulter les [Définitions]({% link 120_definitions.md %}) pour les méthodes disponibles. 
+
+

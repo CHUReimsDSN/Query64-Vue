@@ -8,6 +8,7 @@ import {
   TResourceColumnMetaData,
   TQuery64GridProps,
   TQuery64GridExpose,
+  TQuery64GetRowsParams,
 } from "./models";
 import AgGridFrenchTranslate from "./locale.fr";
 import { ColumnFactory } from "./column-factory";
@@ -50,6 +51,12 @@ const columnFactory = new ColumnFactory(
   propsComponent.additionals
 );
 
+// vars
+let lastGetRowsAgGridParams: IServerSideGetRowsParams<T>["request"] | null =
+  null;
+let lastGetRowsParams: TQuery64GetRowsParams | null = null;
+let lastDisplayedCols: string[] = [];
+
 // refs
 const gridOptions = ref<GridOptions<T>>({
   localeText: AgGridFrenchTranslate,
@@ -84,11 +91,7 @@ const gridOptions = ref<GridOptions<T>>({
 const gridApi = ref<GridApi<T>>();
 const rowCountString = ref("0 ligne");
 const isLoadingSettingUpGrid = ref(true);
-const lastGetRowsParams = ref<IServerSideGetRowsParams<T>["request"] | null>(
-  null
-);
-const lastDisplayedCols = ref<string[]>([]);
-const themeMode = ref<TQuery64GridProps<T>['aggridThemeMode']>('light')
+const themeMode = ref<TQuery64GridProps<T>["aggridThemeMode"]>("light");
 
 // functions
 async function setupResourceMetaData() {
@@ -99,9 +102,9 @@ async function setupResourceMetaData() {
   resourceMetaDatas = response;
 }
 function getRowId(params: GetRowIdParams) {
-if (params.data.__id) {
-  return params.data.__id.toString(); // Group Mode usage, generate by the server
-}
+  if (params.data.__id) {
+    return params.data.__id.toString(); // Group Mode usage, generate by the server
+  }
   return params.data.id.toString();
 }
 function getChildCount(dataItem: GetRowIdParams["data"]) {
@@ -134,25 +137,26 @@ function setupRowData(): IServerSideDatasource<T> {
           sortModel: [],
         }) !==
           JSON.stringify({
-            ...lastGetRowsParams.value,
+            ...lastGetRowsAgGridParams,
             endRow: 0,
             startRow: 0,
             sortModel: [],
-          }) || lastDisplayedCols.value.join(", ") !== displayedCols.join(", ");
-      lastDisplayedCols.value = displayedCols;
-      lastGetRowsParams.value = params.request;
+          }) || lastDisplayedCols.join(", ") !== displayedCols.join(", ");
+      lastDisplayedCols = displayedCols;
+      lastGetRowsAgGridParams = params.request;
       const groupCols = params.api.getRowGroupColumns().map((groupColumn) => {
         return groupColumn.getColId();
       });
       displayedCols.push(...groupCols);
+      lastGetRowsParams = {
+        resourceName: propsComponent.resourceName,
+        agGridServerParams: { ...params.request },
+        columnsToDisplay: displayedCols,
+        shallReturnCount: shallReturnCount,
+        context: propsComponent.context,
+      };
       propsComponent
-        .getRows({
-          resourceName: propsComponent.resourceName,
-          agGridServerParams: { ...params.request },
-          columnsToDisplay: displayedCols,
-          shallReturnCount: shallReturnCount,
-          context: propsComponent.context,
-        })
+        .getRows(lastGetRowsParams)
         .then((response) => {
           let jsonKeysToParse: Set<keyof T> = new Set();
           const isGroupMode =
@@ -162,10 +166,12 @@ function setupRowData(): IServerSideDatasource<T> {
           if (!isGroupMode) {
             displayedCols.forEach((displayedCol) => {
               if (!displayedCol.includes(".")) {
-                return
+                return;
               }
-              jsonKeysToParse.add((displayedCol.split('.')[0] ?? '') as keyof T)
-            })
+              jsonKeysToParse.add(
+                (displayedCol.split(".")[0] ?? "") as keyof T
+              );
+            });
           }
           const items = response.items.map((item) => {
             jsonKeysToParse.forEach((key) => {
@@ -310,10 +316,10 @@ function resetGridParams() {
 }
 function setupThemeMode() {
   if (propsComponent.aggridThemeMode) {
-    themeMode.value = propsComponent.aggridThemeMode
+    themeMode.value = propsComponent.aggridThemeMode;
   }
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    themeMode.value = 'dark'
+  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    themeMode.value = "dark";
   }
 }
 
@@ -323,7 +329,7 @@ onMounted(async () => {
   await setupResourceMetaData();
   setupGridEvents();
   isLoadingSettingUpGrid.value = false;
-  setupThemeMode()
+  setupThemeMode();
 });
 
 // Expose
