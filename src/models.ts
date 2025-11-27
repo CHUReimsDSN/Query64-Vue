@@ -82,7 +82,7 @@ export type TQuery64GridProps<T = unknown> = {
     columnProfils?: TResourceColumnProfil[];
     filterModel?: IServerSideGetRowsRequest["filterModel"];
     sortModel?: IServerSideGetRowsRequest["sortModel"];
-    rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"];
+    rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"];
   };
   context?: Record<string, any>;
 };

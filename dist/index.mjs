@@ -43353,7 +43353,7 @@ const FP = ["data-ag-theme-mode"], DP = {
           (j = i.initialGridParams) == null ? void 0 : j.columnProfils,
           (G = i.initialGridParams) == null ? void 0 : G.filterModel,
           (X = i.initialGridParams) == null ? void 0 : X.sortModel,
-          (z = i.initialGridParams) == null ? void 0 : z.rowgroupCols
+          (z = i.initialGridParams) == null ? void 0 : z.rowGroupCols
         ), R && R(x);
       };
       const I = a.value.onModelUpdated;

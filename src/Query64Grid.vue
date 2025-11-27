@@ -23,7 +23,6 @@ import type {
   GridReadyEvent,
   ICellRendererParams,
   IServerSideDatasource,
-  IServerSideGetRowsParams,
   IServerSideGetRowsRequest,
   ModelUpdatedEvent,
 } from "ag-grid-community";
@@ -287,7 +286,7 @@ function setupGridEvents() {
       propsComponent.initialGridParams?.columnProfils,
       propsComponent.initialGridParams?.filterModel,
       propsComponent.initialGridParams?.sortModel,
-      propsComponent.initialGridParams?.rowgroupCols
+      propsComponent.initialGridParams?.rowGroupCols
     );
     if (baseOnGridReady) baseOnGridReady(params);
   };
