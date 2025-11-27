@@ -94,9 +94,8 @@ export type TQuery64GridExpose<T = object> = {
     sortModel?: IServerSideGetRowsRequest["sortModel"],
     rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"]
   ) => void;
-  updateRows: () => void;
   gridOptions: GridOptions<T>;
   gridApi: GridApi<T> | undefined;
-  lastGetRowsParams: TQuery64GetRowsParams | null;
+  getLastGetRowsParams: () => TQuery64GetRowsParams | null;
   isLoadingSettingUpGrid: boolean;
 };

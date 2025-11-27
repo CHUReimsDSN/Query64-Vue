@@ -79,9 +79,8 @@ export type TQuery64GridProps<T = unknown> = {
 export type TQuery64GridExpose<T = object> = {
     resetGridParams: () => void;
     updateGridParams: (columnProfils?: TResourceColumnProfil[], filterModel?: IServerSideGetRowsRequest["filterModel"], sortModel?: IServerSideGetRowsRequest["sortModel"], rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"]) => void;
-    updateRows: () => void;
     gridOptions: GridOptions<T>;
     gridApi: GridApi<T> | undefined;
-    lastGetRowsParams: TQuery64GetRowsParams | null;
+    getLastGetRowsParams: () => TQuery64GetRowsParams | null;
     isLoadingSettingUpGrid: boolean;
 };
