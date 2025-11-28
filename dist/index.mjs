@@ -43057,13 +43057,12 @@ class Hi {
       i
     );
     return n.forEach((r) => {
-      if (r.colId === "defaultActions") return;
       const a = t.find((l) => r.colId === l.field_name);
       a ? (r.hide = !a.visible, r.width = a.width, r.context.order = a.order) : r.hide = !0;
-    }), n = n.sort((r, a) => {
+    }), n = n.filter((r) => r), n = n.sort((r, a) => {
       var l, d;
       return Number((l = r.context) == null ? void 0 : l.order) - Number((d = a.context) == null ? void 0 : d.order);
-    }), n = n.filter((r) => r), n;
+    }), n;
   }
   getAllResourceColumns(t, s) {
     var o;
@@ -43089,14 +43088,14 @@ class Hi {
       }
       r.context || (r.context = {}), r.hide = n.association_type !== null, r.cellStyle = this.generateSafeColDefStyle(), n.raw_field_name === "id" && (r.enableRowGroup = !1), n.association_type !== null && (r.valueGetter = this.getGenericColumnValueGetterRelation(r), n.association_type === "has_many" && (r.autoHeight = !0, r.cellRenderer = this.hasManyColumnSettings.customComponent ?? Ra));
       const a = this.overloadSettings.find((l) => l.resourceColumnRegister.columnName === n.raw_field_name && (l.resourceColumnRegister.associationName === n.association_name || l.resourceColumnRegister.associationName === void 0 && n.association_name === null));
-      a && (r = a.colDef), i.push(r);
+      a && (r = a.colDef, r.colId || (r.colId = r.field ?? r.headerName)), i.push(r);
     }), (o = this.actionColumnSettings) != null && o.defaultComponent && i.push(
       this.getGenericColumnAction(
         s,
         this.actionColumnSettings.defaultComponent
       )
     ), this.additionalSettings.forEach((n) => {
-      n.colDef.cellStyle = this.generateSafeColDefStyle(), i.push(n.colDef);
+      n.colDef.cellStyle = this.generateSafeColDefStyle(), n.colDef.colId || (n.colDef.colId = n.colDef.field ?? n.colDef.headerName), i.push(n.colDef);
     }), i;
   }
   getGenericColumnAction(t, s) {
@@ -43209,8 +43208,8 @@ const FP = ["data-ag-theme-mode"], DP = {
       s.overloads,
       s.additionals
     );
-    let n = null, r = null, a = [];
-    const l = we({
+    let n = null, r = [];
+    const a = we({
       localeText: RP,
       suppressMiddleClickScrolls: !0,
       suppressNoRowsOverlay: !1,
@@ -43226,27 +43225,27 @@ const FP = ["data-ag-theme-mode"], DP = {
       },
       columnTypes: o.globalColumnSettings.columnTypeConfig,
       columnDefs: [],
-      serverSideDatasource: m(),
-      getRowId: p,
-      getChildCount: f,
+      serverSideDatasource: f(),
+      getRowId: g,
+      getChildCount: p,
       maxConcurrentDatasourceRequests: 1,
       cacheBlockSize: 50,
       maxBlocksInCache: 4,
       rowHeight: 35
-    }), d = we(), c = we("0 ligne"), u = we(!0), h = we("light");
-    async function g() {
+    }), l = we(), d = we("0 ligne"), c = we(!0), u = we("light");
+    async function h() {
       i = await s.getMetadata({
         resourceName: s.resourceName,
         context: s.context
       });
     }
-    function p(R) {
+    function g(R) {
       return R.data.__id ? R.data.__id.toString() : R.data.id.toString();
     }
-    function f(R) {
+    function p(R) {
       return R.__childCount;
     }
-    function m() {
+    function f() {
       return {
         getRows: (R) => {
           var j;
@@ -43264,20 +43263,20 @@ const FP = ["data-ag-theme-mode"], DP = {
             startRow: 0,
             sortModel: []
           }) !== JSON.stringify({
-            ...n,
+            ...(n == null ? void 0 : n.agGridServerParams) ?? {},
             endRow: 0,
             startRow: 0,
             sortModel: []
-          }) || a.join(", ") !== I.join(", ");
-          a = I, n = R.request;
+          }) || r.join(", ") !== I.join(", ");
+          r = I;
           const x = R.api.getRowGroupColumns().map((G) => G.getColId());
-          I.push(...x), r = {
+          I.push(...x), n = {
             resourceName: s.resourceName,
             agGridServerParams: { ...R.request },
             columnsToDisplay: I,
             shallReturnCount: L,
             context: s.context
-          }, s.getRows(r).then((G) => {
+          }, s.getRows(n).then((G) => {
             var de, _e;
             let X = /* @__PURE__ */ new Set();
             R.request.rowGroupCols.length !== 0 && R.request.rowGroupCols.length !== R.request.groupKeys.length || I.forEach((ge) => {
@@ -43293,15 +43292,15 @@ const FP = ["data-ag-theme-mode"], DP = {
               rowCount: G.length
             }) : R.success({
               rowData: $
-            }), L && G.length === 0 || !L && G.items.length === 0 ? (de = d.value) == null || de.showNoRowsOverlay() : (_e = d.value) == null || _e.hideOverlay();
+            }), L && G.length === 0 || !L && G.items.length === 0 ? (de = l.value) == null || de.showNoRowsOverlay() : (_e = l.value) == null || _e.hideOverlay();
           }).catch((G) => {
             R.fail(), console.error(G);
           });
         }
       };
     }
-    function v(R) {
-      if (!d.value || !i) return;
+    function m(R) {
+      if (!l.value || !i) return;
       let I;
       R ? I = o.getResourceColumnsByProfils(
         R,
@@ -43310,23 +43309,23 @@ const FP = ["data-ag-theme-mode"], DP = {
       ) : I = o.getResourceColumnsDefault(
         i,
         s.resourceName
-      ), d.value.setGridOption("columnDefs", I);
+      ), l.value.setGridOption("columnDefs", I);
     }
-    function C(R, I, L) {
-      if (d.value && (R && d.value.setFilterModel(R), I && d.value.applyColumnState({ state: I }), L)) {
-        const x = d.value.getAllGridColumns(), j = L.map((G) => x.find((X) => X.getColId() == G.field)).filter((G) => G !== void 0);
-        d.value.setRowGroupColumns(j);
+    function v(R, I, L) {
+      if (l.value && (R && l.value.setFilterModel(R), I && l.value.applyColumnState({ state: I }), L)) {
+        const x = l.value.getAllGridColumns(), j = L.map((G) => x.find((X) => X.getColId() == G.field)).filter((G) => G !== void 0);
+        l.value.setRowGroupColumns(j);
       }
     }
-    function w(R, I, L, x) {
-      d.value && (v(R), C(I, L, x));
+    function C(R, I, L, x) {
+      l.value && (m(R), v(I, L, x));
+    }
+    function w() {
+      if (!l.value) return;
+      const R = l.value.getDisplayedRowCount();
+      d.value = `${R} ligne${R > 0 ? "s" : ""}`;
     }
     function S() {
-      if (!d.value) return;
-      const R = d.value.getDisplayedRowCount();
-      c.value = `${R} ligne${R > 0 ? "s" : ""}`;
-    }
-    function D() {
       var I;
       if (!((I = s.initialGridParams) != null && I.gridOptions)) return;
       const R = [
@@ -43341,58 +43340,61 @@ const FP = ["data-ag-theme-mode"], DP = {
       Object.entries(s.initialGridParams.gridOptions).forEach(
         (L) => {
           const x = L;
-          R.includes(x[0]) || (l.value[x[0]] = L[1]);
+          R.includes(x[0]) || (a.value[x[0]] = L[1]);
         }
       );
     }
-    function P() {
-      const R = l.value.onGridReady;
-      l.value.onGridReady = (x) => {
+    function D() {
+      const R = a.value.onGridReady;
+      a.value.onGridReady = (x) => {
         var j, G, X, z;
-        d.value = x.api, w(
+        l.value = x.api, C(
           (j = s.initialGridParams) == null ? void 0 : j.columnProfils,
           (G = s.initialGridParams) == null ? void 0 : G.filterModel,
           (X = s.initialGridParams) == null ? void 0 : X.sortModel,
-          (z = s.initialGridParams) == null ? void 0 : z.rowgroupCols
+          (z = s.initialGridParams) == null ? void 0 : z.rowGroupCols
         ), R && R(x);
       };
-      const I = l.value.onModelUpdated;
-      l.value.onModelUpdated = (x) => {
+      const I = a.value.onModelUpdated;
+      a.value.onModelUpdated = (x) => {
         I && I(x), setTimeout(() => {
-          S();
+          w();
         }, 100);
       };
-      const L = l.value.onColumnVisible;
-      l.value.onColumnVisible = (x) => {
-        L && L(x), !(!x.column || !x.visible || !d.value) && d.value.refreshServerSide();
+      const L = a.value.onColumnVisible;
+      a.value.onColumnVisible = (x) => {
+        L && L(x), !(!x.column || !x.visible || !l.value) && l.value.refreshServerSide();
       };
     }
+    function P() {
+      l.value && (l.value.setFilterModel(null), l.value.resetColumnState(), l.value.setRowGroupColumns([]));
+    }
     function E() {
-      d.value && (d.value.setFilterModel(null), d.value.resetColumnState(), d.value.setRowGroupColumns([]));
+      s.aggridThemeMode && (u.value = s.aggridThemeMode), window.matchMedia("(prefers-color-scheme: dark)").matches && (u.value = "dark");
     }
     function A() {
-      s.aggridThemeMode && (h.value = s.aggridThemeMode), window.matchMedia("(prefers-color-scheme: dark)").matches && (h.value = "dark");
+      return n;
     }
     return Da(async () => {
-      D(), await g(), P(), u.value = !1, A();
+      S(), await h(), D(), c.value = !1, E();
     }), t({
-      resetGridParams: E,
-      updateGridParams: w,
-      gridOptions: l,
-      gridApi: d,
-      lastGetRowsParams: r,
-      isLoadingSettingUpGrid: u
-    }), (R, I) => u.value ? Cr("", !0) : (qt(), Kt("div", {
+      resetGridParams: P,
+      updateGridParams: C,
+      gridOptions: a,
+      gridApi: l,
+      getLastGetRowsParams: A,
+      isLoadingSettingUpGrid: c
+    }), (R, I) => c.value ? Cr("", !0) : (qt(), Kt("div", {
       key: 0,
       style: { display: "flex", "flex-direction": "column", height: "100%" },
-      "data-ag-theme-mode": h.value
+      "data-ag-theme-mode": u.value
     }, [
       Pa(bu(SP), {
-        gridOptions: l.value,
+        gridOptions: a.value,
         theme: s.aggridTheme,
         style: yu(`height: 100%; width: 100%; ${s.gridStyle}`)
       }, null, 8, ["gridOptions", "theme", "style"]),
-      s.showRowCount ? (qt(), Kt("div", DP, Ma(c.value), 1)) : Cr("", !0)
+      s.showRowCount ? (qt(), Kt("div", DP, Ma(d.value), 1)) : Cr("", !0)
     ], 8, FP));
   }
 });

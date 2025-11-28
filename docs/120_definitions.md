@@ -35,7 +35,7 @@ type TQuery64GridExpose<T = object> = {
   /*
   * Dernier paramètre envoyer au serveur pour obtenir les lignes
   */
-  lastGetRowsParams: TQuery64GetRowsParams | null;
+  getLastGetRowsParams: () => TQuery64GetRowsParams | null;
 
   /*
   * Référence de chargement de la grille

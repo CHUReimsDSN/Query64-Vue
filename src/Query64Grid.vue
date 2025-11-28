@@ -23,7 +23,6 @@ import type {
   GridReadyEvent,
   ICellRendererParams,
   IServerSideDatasource,
-  IServerSideGetRowsParams,
   IServerSideGetRowsRequest,
   ModelUpdatedEvent,
 } from "ag-grid-community";
@@ -52,8 +51,6 @@ const columnFactory = new ColumnFactory(
 );
 
 // vars
-let lastGetRowsAgGridParams: IServerSideGetRowsParams<T>["request"] | null =
-  null;
 let lastGetRowsParams: TQuery64GetRowsParams | null = null;
 let lastDisplayedCols: string[] = [];
 
@@ -137,13 +134,12 @@ function setupRowData(): IServerSideDatasource<T> {
           sortModel: [],
         }) !==
           JSON.stringify({
-            ...lastGetRowsAgGridParams,
+            ...lastGetRowsParams?.agGridServerParams ?? {},
             endRow: 0,
             startRow: 0,
             sortModel: [],
           }) || lastDisplayedCols.join(", ") !== displayedCols.join(", ");
       lastDisplayedCols = displayedCols;
-      lastGetRowsAgGridParams = params.request;
       const groupCols = params.api.getRowGroupColumns().map((groupColumn) => {
         return groupColumn.getColId();
       });
@@ -290,7 +286,7 @@ function setupGridEvents() {
       propsComponent.initialGridParams?.columnProfils,
       propsComponent.initialGridParams?.filterModel,
       propsComponent.initialGridParams?.sortModel,
-      propsComponent.initialGridParams?.rowgroupCols
+      propsComponent.initialGridParams?.rowGroupCols
     );
     if (baseOnGridReady) baseOnGridReady(params);
   };
@@ -322,6 +318,9 @@ function setupThemeMode() {
     themeMode.value = "dark";
   }
 }
+function getLastGetRowsParams() {
+  return lastGetRowsParams
+}
 
 // lifeCycle
 onMounted(async () => {
@@ -337,10 +336,10 @@ defineExpose<TQuery64GridExpose<T>>({
   resetGridParams,
   updateGridParams,
   gridOptions,
-  gridApi,
-  lastGetRowsParams,
-  isLoadingSettingUpGrid,
-} as unknown as TQuery64GridExpose<T>);
+  gridApi: gridApi as unknown as GridApi<T>,
+  getLastGetRowsParams,
+  isLoadingSettingUpGrid: isLoadingSettingUpGrid as unknown as boolean,
+} as TQuery64GridExpose<T>);
 </script>
 
 <template>
