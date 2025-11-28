@@ -236,7 +236,6 @@ export class ColumnFactory {
         let allColumnsInOrder = allColumns;
         allColumnsInOrder.forEach((resourceColumn) => {
             const foundedColumn = columnData.find((profilColumn) => {
-                console.log(resourceColumn.colId, profilColumn.field_name);
                 return resourceColumn.colId === profilColumn.field_name;
             });
             if (!foundedColumn) {
@@ -245,14 +244,19 @@ export class ColumnFactory {
             else {
                 resourceColumn.hide = !foundedColumn.visible;
                 resourceColumn.width = foundedColumn.width;
-                resourceColumn.context.order = foundedColumn.order;
+                if (resourceColumn.context) {
+                    resourceColumn.context.order = foundedColumn.order;
+                }
+                else {
+                    console.log(resourceColumn.field);
+                }
             }
-        });
-        allColumnsInOrder = allColumnsInOrder.sort((colA, colB) => {
-            return Number(colA.context?.order) - Number(colB.context?.order);
         });
         allColumnsInOrder = allColumnsInOrder.filter((columnInOrder) => {
             return columnInOrder;
+        });
+        allColumnsInOrder = allColumnsInOrder.sort((colA, colB) => {
+            return Number(colA.context?.order) - Number(colB.context?.order);
         });
         return allColumnsInOrder;
     }
@@ -277,8 +281,9 @@ export class ColumnFactory {
                     column = this.getGenericColumnObject(metadata);
                     break;
             }
-            if (!column.context)
+            if (!column.context) {
                 column.context = {};
+            }
             column.hide = metadata.association_type !== null;
             column.cellStyle = this.generateSafeColDefStyle();
             if (metadata.raw_field_name === "id")
@@ -305,6 +310,9 @@ export class ColumnFactory {
                 if (!column.colId) {
                     column.colId = column.field ?? column.headerName;
                 }
+                if (!column.context) {
+                    column.context = {};
+                }
             }
             columns.push(column);
         });
@@ -312,11 +320,15 @@ export class ColumnFactory {
             columns.push(this.getGenericColumnAction(resourceName, this.actionColumnSettings.defaultComponent));
         }
         this.additionalSettings.forEach((additionalSetting) => {
-            additionalSetting.colDef.cellStyle = this.generateSafeColDefStyle();
-            if (!additionalSetting.colDef.colId) {
-                additionalSetting.colDef.colId = additionalSetting.colDef.field ?? additionalSetting.colDef.headerName;
+            const colDef = additionalSetting.colDef;
+            colDef.cellStyle = this.generateSafeColDefStyle();
+            if (!colDef.colId) {
+                colDef.colId = colDef.field ?? colDef.headerName;
             }
-            columns.push(additionalSetting.colDef);
+            if (!colDef.context) {
+                colDef.context = {};
+            }
+            columns.push(colDef);
         });
         return columns;
     }
@@ -330,6 +342,7 @@ export class ColumnFactory {
                 resourceName,
             },
             width: 107,
+            context: {},
             cellStyle: this.generateSafeColDefStyle(),
         };
     }
@@ -412,8 +425,7 @@ export class ColumnFactory {
         }
         if (colIdMacro === "has_many" || colIdMacro === "has_and_belongs_to_many") {
             return (params) => {
-                if (!params.data ||
-                    !params.data[colIdRelation]) {
+                if (!params.data || !params.data[colIdRelation]) {
                     return "";
                 }
                 return params.data[colIdRelation].map((relation) => {
