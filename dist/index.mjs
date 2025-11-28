@@ -43057,12 +43057,12 @@ class Hi {
       i
     );
     return n.forEach((r) => {
-      const a = t.find((l) => (console.log(r.colId, l.field_name), r.colId === l.field_name));
+      const a = t.find((l) => r.colId === l.field_name);
       a ? (r.hide = !a.visible, r.width = a.width, r.context.order = a.order) : r.hide = !0;
-    }), n = n.sort((r, a) => {
+    }), n = n.filter((r) => r), n = n.sort((r, a) => {
       var l, d;
       return Number((l = r.context) == null ? void 0 : l.order) - Number((d = a.context) == null ? void 0 : d.order);
-    }), n = n.filter((r) => r), n;
+    }), n;
   }
   getAllResourceColumns(t, s) {
     var o;
@@ -43088,14 +43088,14 @@ class Hi {
       }
       r.context || (r.context = {}), r.hide = n.association_type !== null, r.cellStyle = this.generateSafeColDefStyle(), n.raw_field_name === "id" && (r.enableRowGroup = !1), n.association_type !== null && (r.valueGetter = this.getGenericColumnValueGetterRelation(r), n.association_type === "has_many" && (r.autoHeight = !0, r.cellRenderer = this.hasManyColumnSettings.customComponent ?? Ra));
       const a = this.overloadSettings.find((l) => l.resourceColumnRegister.columnName === n.raw_field_name && (l.resourceColumnRegister.associationName === n.association_name || l.resourceColumnRegister.associationName === void 0 && n.association_name === null));
-      a && (r = a.colDef, r.colId || (r.colId = r.field ?? r.headerName)), i.push(r);
+      a && (r = a.colDef, r.colId || (r.colId = r.field ?? r.headerName), r.context || (r.context = {})), i.push(r);
     }), (o = this.actionColumnSettings) != null && o.defaultComponent && i.push(
       this.getGenericColumnAction(
         s,
         this.actionColumnSettings.defaultComponent
       )
     ), this.additionalSettings.forEach((n) => {
-      n.colDef.cellStyle = this.generateSafeColDefStyle(), n.colDef.colId || (n.colDef.colId = n.colDef.field ?? n.colDef.headerName), i.push(n.colDef);
+      n.colDef.cellStyle = this.generateSafeColDefStyle(), n.colDef.colId || (n.colDef.colId = n.colDef.field ?? n.colDef.headerName), n.colDef.context || (n.colDef.context = {}), i.push(n.colDef);
     }), i;
   }
   getGenericColumnAction(t, s) {
@@ -43108,6 +43108,7 @@ class Hi {
         resourceName: t
       },
       width: 107,
+      context: {},
       cellStyle: this.generateSafeColDefStyle()
     };
   }
