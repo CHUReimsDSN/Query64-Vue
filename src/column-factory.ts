@@ -303,8 +303,6 @@ export class ColumnFactory {
         resourceColumn.width = foundedColumn.width;
         if (resourceColumn.context) {
           resourceColumn.context.order = foundedColumn.order;
-        } else {
-          console.log(resourceColumn.field)
         }
       }
     });
