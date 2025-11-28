@@ -235,8 +235,6 @@ export class ColumnFactory {
         const allColumns = this.getAllResourceColumns(resourceMetaDatas, resourceName);
         let allColumnsInOrder = allColumns;
         allColumnsInOrder.forEach((resourceColumn) => {
-            if (resourceColumn.colId === "defaultActions")
-                return;
             const foundedColumn = columnData.find((profilColumn) => {
                 return resourceColumn.colId === profilColumn.field_name;
             });
@@ -249,11 +247,11 @@ export class ColumnFactory {
                 resourceColumn.context.order = foundedColumn.order;
             }
         });
-        allColumnsInOrder = allColumnsInOrder.sort((colA, colB) => {
-            return Number(colA.context?.order) - Number(colB.context?.order);
-        });
         allColumnsInOrder = allColumnsInOrder.filter((columnInOrder) => {
             return columnInOrder;
+        });
+        allColumnsInOrder = allColumnsInOrder.sort((colA, colB) => {
+            return Number(colA.context?.order) - Number(colB.context?.order);
         });
         return allColumnsInOrder;
     }
@@ -303,6 +301,9 @@ export class ColumnFactory {
             });
             if (overload) {
                 column = overload.colDef;
+                if (!column.colId) {
+                    column.colId = column.field ?? column.headerName;
+                }
             }
             columns.push(column);
         });
@@ -311,6 +312,9 @@ export class ColumnFactory {
         }
         this.additionalSettings.forEach((additionalSetting) => {
             additionalSetting.colDef.cellStyle = this.generateSafeColDefStyle();
+            if (!additionalSetting.colDef.colId) {
+                additionalSetting.colDef.colId = additionalSetting.colDef.field ?? additionalSetting.colDef.headerName;
+            }
             columns.push(additionalSetting.colDef);
         });
         return columns;
