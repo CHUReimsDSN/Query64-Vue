@@ -301,7 +301,11 @@ export class ColumnFactory {
       } else {
         resourceColumn.hide = !foundedColumn.visible;
         resourceColumn.width = foundedColumn.width;
-        resourceColumn.context.order = foundedColumn.order;
+        if (resourceColumn.context) {
+          resourceColumn.context.order = foundedColumn.order;
+        } else {
+          console.log(resourceColumn.field)
+        }
       }
     });
     allColumnsInOrder = allColumnsInOrder.filter((columnInOrder) => {
@@ -382,15 +386,15 @@ export class ColumnFactory {
       );
     }
     this.additionalSettings.forEach((additionalSetting) => {
-      additionalSetting.colDef.cellStyle = this.generateSafeColDefStyle();
-      if (!additionalSetting.colDef.colId) {
-        additionalSetting.colDef.colId =
-          additionalSetting.colDef.field ?? additionalSetting.colDef.headerName;
+      const colDef = additionalSetting.colDef;
+      colDef.cellStyle = this.generateSafeColDefStyle();
+      if (!colDef.colId) {
+        colDef.colId = colDef.field ?? colDef.headerName;
       }
-      if (!additionalSetting.colDef.context) {
-        additionalSetting.colDef.context = {};
+      if (!colDef.context) {
+        colDef.context = {};
       }
-      columns.push(additionalSetting.colDef);
+      columns.push(colDef);
     });
     return columns;
   }
