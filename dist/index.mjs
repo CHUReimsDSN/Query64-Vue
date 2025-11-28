@@ -43057,7 +43057,7 @@ class Hi {
       i
     );
     return n.forEach((r) => {
-      const a = t.find((l) => r.colId === l.field_name);
+      const a = t.find((l) => (console.log(r.colId, l.field_name), r.colId === l.field_name));
       a ? (r.hide = !a.visible, r.width = a.width, r.context.order = a.order) : r.hide = !0;
     }), n = n.filter((r) => r), n = n.sort((r, a) => {
       var l, d;
