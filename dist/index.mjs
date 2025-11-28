@@ -43059,10 +43059,10 @@ class Hi {
     return n.forEach((r) => {
       const a = t.find((l) => (console.log(r.colId, l.field_name), r.colId === l.field_name));
       a ? (r.hide = !a.visible, r.width = a.width, r.context.order = a.order) : r.hide = !0;
-    }), n = n.filter((r) => r), n = n.sort((r, a) => {
+    }), n = n.sort((r, a) => {
       var l, d;
       return Number((l = r.context) == null ? void 0 : l.order) - Number((d = a.context) == null ? void 0 : d.order);
-    }), n;
+    }), n = n.filter((r) => r), n;
   }
   getAllResourceColumns(t, s) {
     var o;

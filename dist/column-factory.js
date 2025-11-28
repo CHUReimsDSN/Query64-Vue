@@ -248,11 +248,11 @@ export class ColumnFactory {
                 resourceColumn.context.order = foundedColumn.order;
             }
         });
-        allColumnsInOrder = allColumnsInOrder.filter((columnInOrder) => {
-            return columnInOrder;
-        });
         allColumnsInOrder = allColumnsInOrder.sort((colA, colB) => {
             return Number(colA.context?.order) - Number(colB.context?.order);
+        });
+        allColumnsInOrder = allColumnsInOrder.filter((columnInOrder) => {
+            return columnInOrder;
         });
         return allColumnsInOrder;
     }
