@@ -299,9 +299,21 @@ function setupGridEvents() {
   };
   const baseOnColumnVisible = gridOptions.value.onColumnVisible;
   gridOptions.value.onColumnVisible = (params: ColumnVisibleEvent) => {
-    if (baseOnColumnVisible) baseOnColumnVisible(params);
-    if (!params.column || !params.visible || !gridApi.value) return;
-    gridApi.value.refreshServerSide();
+    if (baseOnColumnVisible) {
+      baseOnColumnVisible(params);
+    } 
+    if (!params.column || !gridApi.value) {
+      return;
+    }
+    if (params.visible) {
+      gridApi.value.refreshServerSide();
+    } else {
+      if (lastGetRowsParams?.columnsToDisplay) {
+        lastGetRowsParams.columnsToDisplay = lastGetRowsParams.columnsToDisplay.filter((columnToDisplay) => {
+          return columnToDisplay !== params.column!.getColId()
+        })
+      }
+    }
   };
 }
 function resetGridParams() {

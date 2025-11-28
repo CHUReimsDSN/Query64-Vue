@@ -247,9 +247,6 @@ export class ColumnFactory {
                 if (resourceColumn.context) {
                     resourceColumn.context.order = foundedColumn.order;
                 }
-                else {
-                    console.log(resourceColumn.field);
-                }
             }
         });
         allColumnsInOrder = allColumnsInOrder.filter((columnInOrder) => {

@@ -43058,7 +43058,7 @@ class Hs {
     );
     return n.forEach((r) => {
       const a = t.find((l) => r.colId === l.field_name);
-      a ? (r.hide = !a.visible, r.width = a.width, r.context ? r.context.order = a.order : console.log(r.field)) : r.hide = !0;
+      a ? (r.hide = !a.visible, r.width = a.width, r.context && (r.context.order = a.order)) : r.hide = !0;
     }), n = n.filter((r) => r), n = n.sort((r, a) => {
       var l, d;
       return Number((l = r.context) == null ? void 0 : l.order) - Number((d = a.context) == null ? void 0 : d.order);
@@ -43365,7 +43365,7 @@ const FP = ["data-ag-theme-mode"], DP = {
       };
       const L = a.value.onColumnVisible;
       a.value.onColumnVisible = (x) => {
-        L && L(x), !(!x.column || !x.visible || !l.value) && l.value.refreshServerSide();
+        L && L(x), !(!x.column || !l.value) && (x.visible ? l.value.refreshServerSide() : n != null && n.columnsToDisplay && (n.columnsToDisplay = n.columnsToDisplay.filter((j) => j !== x.column.getColId())));
       };
     }
     function P() {
