@@ -294,6 +294,7 @@ export class ColumnFactory {
     let allColumnsInOrder = allColumns;
     allColumnsInOrder.forEach((resourceColumn) => {
       const foundedColumn = columnData.find((profilColumn) => {
+        console.log(resourceColumn.colId, profilColumn.field_name)
         return resourceColumn.colId === profilColumn.field_name;
       });
       if (!foundedColumn) {
