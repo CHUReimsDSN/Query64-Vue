@@ -1,7 +1,7 @@
 import type { ColDef } from "ag-grid-enterprise";
 import { TResourceColumnProfil, TResourceColumnMetaData, TAdditionalsProps, TOverloadsProps, TGlobalColumnProps, THasManyColumnProps, TActionColumnProps } from "./models";
 export declare class ColumnFactory {
-    private static getColumnTypesDefaultConfig;
+    static getColumnTypesDefaultConfig(): Record<string, ColDef>;
     resourceName: string;
     globalColumnSettings: TGlobalColumnProps & {
         columnTypeConfig: Record<string, ColDef>;

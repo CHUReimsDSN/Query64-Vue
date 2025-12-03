@@ -28,6 +28,8 @@ import {
   ServerSideRowModelApiModule,
   ServerSideRowModelModule,
 } from "ag-grid-enterprise";
+import { ColumnFactory } from "./column-factory";
+import AgGridFrenchTranslate from "./locale.fr";
 
 export type TResourceColumnOverload = {
   resourceName: string;
@@ -151,6 +153,14 @@ export class Query64 {
     ModuleRegistry.registerModules(modulesToRegister);
     LicenseManager.setLicenseKey(key);
     this._instance.hasRegisterKeyAndModule = true;
+  }
+
+  static getColumnTypesDefaultConfig() {
+    return ColumnFactory.getColumnTypesDefaultConfig()
+  }
+
+  static getAgGridFrenchTranslate() {
+    return AgGridFrenchTranslate as Record<string, string>
   }
 
   private constructor() {}
