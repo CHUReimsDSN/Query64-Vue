@@ -1,5 +1,4 @@
 <script setup lang="ts" generic="T extends TRecord">
-import { themeAlpine } from "ag-grid-enterprise";
 import { AgGridVue } from "ag-grid-vue3";
 import { onMounted, ref } from "vue";
 import {
@@ -12,19 +11,20 @@ import {
 } from "./models";
 import AgGridFrenchTranslate from "./locale.fr";
 import { ColumnFactory } from "./column-factory";
-import type {
-  ColDef,
-  ColTypeDef,
-  Column,
-  ColumnVisibleEvent,
-  GetRowIdParams,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  ICellRendererParams,
-  IServerSideDatasource,
-  IServerSideGetRowsRequest,
-  ModelUpdatedEvent,
+import {
+  themeAlpine,
+  type ColDef,
+  type ColTypeDef,
+  type Column,
+  type ColumnVisibleEvent,
+  type GetRowIdParams,
+  type GridApi,
+  type GridOptions,
+  type GridReadyEvent,
+  type ICellRendererParams,
+  type IServerSideDatasource,
+  type IServerSideGetRowsRequest,
+  type ModelUpdatedEvent,
 } from "ag-grid-community";
 
 // props
