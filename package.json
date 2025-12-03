@@ -29,7 +29,7 @@
     "vue": "^3.0.0",
     "ag-grid-community": "34.0.0",
     "ag-grid-enterprise": "34.0.0",
-    "ag-grid-vue3": "34.0.0"
+    "ag-grid-vue3": "^34.0.0"
   },
   "keywords": [],
   "author": "",
