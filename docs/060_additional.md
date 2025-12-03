@@ -51,10 +51,13 @@ Exemple :
 import { Query64Grid } from 'query64-vue';
 
 const userColumnAdditionals = [
-  {
-    colId: 'myAdditionalColumn',
-    width: 200,
+  { 
+    colDef: {
+      colId: 'myAdditionalColumn',
+      width: 200,
+    }
   }
+  
 ]
 </script>
 
