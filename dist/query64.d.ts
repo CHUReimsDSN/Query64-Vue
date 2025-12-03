@@ -43,7 +43,9 @@ export declare class Query64 {
      * @param envMode
      */
     static registerAgGridKeyAndModules(key: string, devMode?: boolean): void;
-    static getColumnTypesDefaultConfig(): Record<string, ColDef<any, any>>;
+    static getColumnTypesDefaultConfig(): {
+        [key: string]: import("ag-grid-community").ColTypeDef;
+    };
     static getAgGridFrenchTranslate(): Record<string, string>;
     private constructor();
 }

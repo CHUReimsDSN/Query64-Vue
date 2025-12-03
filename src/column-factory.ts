@@ -2,6 +2,7 @@ import type {
   CellClassParams,
   CellStyle,
   ColDef,
+  ColTypeDef,
   IDateFilterParams,
   INumberFilterParams,
   ITextFilterParams,
@@ -22,7 +23,7 @@ import { Component } from "vue";
 import CellDefaultListValue from "./CellDefaultListValue.vue";
 
 export class ColumnFactory {
-  static getColumnTypesDefaultConfig(): Record<string, ColDef> {
+  static getColumnTypesDefaultConfig(): {[key: string]: ColTypeDef} {
     return {
       textColumn: {
         floatingFilter: true,
