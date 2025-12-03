@@ -22,7 +22,7 @@ import { Component } from "vue";
 import CellDefaultListValue from "./CellDefaultListValue.vue";
 
 export class ColumnFactory {
-  private static getColumnTypesDefaultConfig(): Record<string, ColDef> {
+  static getColumnTypesDefaultConfig(): Record<string, ColDef> {
     return {
       textColumn: {
         floatingFilter: true,
