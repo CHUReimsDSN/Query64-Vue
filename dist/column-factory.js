@@ -184,14 +184,8 @@ export class ColumnFactory {
     additionalSettings;
     constructor(resourceName, globalColumnProps, hasManyColumnProps, actionColumnProps, overloadProps, additionalProps) {
         this.resourceName = resourceName;
-        if (globalColumnProps &&
-            globalColumnProps?.columnTypeConfig === undefined) {
-            globalColumnProps.columnTypeConfig =
-                ColumnFactory.getColumnTypesDefaultConfig();
-        }
         this.globalColumnSettings = {
-            columnTypeConfig: globalColumnProps?.columnTypeConfig ??
-                ColumnFactory.getColumnTypesDefaultConfig(),
+            columnTypeConfig: globalColumnProps?.columnTypeConfig ?? Query64.getColumnTypesGlobalConfig(),
             columnDateFormater: globalColumnProps?.columnDateFormater ??
                 ((dateValue) => {
                     const date = new Date(dateValue);

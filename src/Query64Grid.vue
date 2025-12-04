@@ -9,7 +9,6 @@ import {
   TQuery64GridExpose,
   TQuery64GetRowsParams,
 } from "./models";
-import AgGridFrenchTranslate from "./locale.fr";
 import { ColumnFactory } from "./column-factory";
 import {
   themeAlpine,
@@ -26,6 +25,7 @@ import {
   type IServerSideGetRowsRequest,
   type ModelUpdatedEvent,
 } from "ag-grid-community";
+import { Query64 } from "./query64";
 
 // props
 const propsComponent = withDefaults(defineProps<TQuery64GridProps<T>>(), {
@@ -56,7 +56,7 @@ let lastDisplayedCols: string[] = [];
 
 // refs
 const gridOptions = ref<GridOptions<T>>({
-  localeText: AgGridFrenchTranslate,
+  localeText: Query64.getAgGridGlobalTranslate(),
   suppressMiddleClickScrolls: true,
   suppressNoRowsOverlay: false,
   rowSelection: "multiple",

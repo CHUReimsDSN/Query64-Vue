@@ -1,4 +1,4 @@
-import { ColDef } from "ag-grid-community";
+import type { ColDef, ColTypeDef } from "ag-grid-community";
 import {
   CellStyleModule,
   ClientSideRowModelApiModule,
@@ -51,6 +51,10 @@ export class Query64 {
   private static _instance: Query64 = new Query64();
   private overloads: TColumnOverload[] = [];
   private additionals: TColumnAdditional[] = [];
+  private columnTypeConfig: {
+    [key: string]: ColTypeDef;
+  } = ColumnFactory.getColumnTypesDefaultConfig();
+  private translate: Record<string, string> = AgGridFrenchTranslate;
   private hasRegisterKeyAndModule = false;
 
   static getColumnOverloadsByResourceName(
@@ -149,18 +153,27 @@ export class Query64 {
     ];
     if (devMode) {
       modulesToRegister.push(ValidationModule);
-    } 
+    }
     ModuleRegistry.registerModules(modulesToRegister);
     LicenseManager.setLicenseKey(key);
     this._instance.hasRegisterKeyAndModule = true;
   }
 
-  static getColumnTypesDefaultConfig() {
-    return ColumnFactory.getColumnTypesDefaultConfig()
+  static getAgGridGlobalTranslate() {
+    return this._instance.translate;
   }
 
-  static getAgGridFrenchTranslate() {
-    return AgGridFrenchTranslate as Record<string, string>
+  static registerAgGridBlobalTranslate(translate: Record<string, string>) {
+    this._instance.translate = translate;
+  }
+
+  static getColumnTypesGlobalConfig() {
+    return this._instance.columnTypeConfig;
+  }
+  static registerColumnTypesConfig(columnTypeConfig: {
+    [key: string]: ColTypeDef;
+  }) {
+    this._instance.columnTypeConfig = columnTypeConfig;
   }
 
   private constructor() {}

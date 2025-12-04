@@ -6,6 +6,8 @@ export class Query64 {
     static _instance = new Query64();
     overloads = [];
     additionals = [];
+    columnTypeConfig = ColumnFactory.getColumnTypesDefaultConfig();
+    translate = AgGridFrenchTranslate;
     hasRegisterKeyAndModule = false;
     static getColumnOverloadsByResourceName(resourceName) {
         return this._instance.overloads.filter((overload) => {
@@ -98,11 +100,17 @@ export class Query64 {
         LicenseManager.setLicenseKey(key);
         this._instance.hasRegisterKeyAndModule = true;
     }
-    static getColumnTypesDefaultConfig() {
-        return ColumnFactory.getColumnTypesDefaultConfig();
+    static getAgGridGlobalTranslate() {
+        return this._instance.translate;
     }
-    static getAgGridFrenchTranslate() {
-        return AgGridFrenchTranslate;
+    static registerAgGridBlobalTranslate(translate) {
+        this._instance.translate = translate;
+    }
+    static getColumnTypesGlobalConfig() {
+        return this._instance.columnTypeConfig;
+    }
+    static registerColumnTypesConfig(columnTypeConfig) {
+        this._instance.columnTypeConfig = columnTypeConfig;
     }
     constructor() { }
 }
