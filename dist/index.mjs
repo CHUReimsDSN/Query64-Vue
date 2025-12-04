@@ -44855,6 +44855,7 @@ const tI = { ref: "root" }, sI = /* @__PURE__ */ io({
       rowModelType: "serverSide",
       rowGroupPanelShow: "onlyWhenGrouping",
       groupDisplayType: "singleColumn",
+      theme: s.aggridTheme,
       autoGroupColumnDef: {
         minWidth: 200,
         cellRendererParams: {
@@ -45008,7 +45009,11 @@ const tI = { ref: "root" }, sI = /* @__PURE__ */ io({
       l.value && (l.value.setFilterModel(null), l.value.resetColumnState(), l.value.setRowGroupColumns([]));
     }
     function I() {
-      s.aggridThemeMode && (u.value = s.aggridThemeMode), window.matchMedia("(prefers-color-scheme: dark)").matches && (u.value = "dark");
+      if (s.aggridThemeMode) {
+        u.value = s.aggridThemeMode;
+        return;
+      }
+      window.matchMedia("(prefers-color-scheme: dark)").matches && (u.value = "dark");
     }
     function T() {
       return n;
@@ -45029,9 +45034,8 @@ const tI = { ref: "root" }, sI = /* @__PURE__ */ io({
     }, [
       vl(ah(sI), {
         gridOptions: a.value,
-        theme: s.aggridTheme,
         style: lh(`height: 100%; width: 100%; ${s.gridStyle}`)
-      }, null, 8, ["gridOptions", "theme", "style"]),
+      }, null, 8, ["gridOptions", "style"]),
       s.showRowCount ? (rs(), ns("div", oI, ml(d.value), 1)) : Kr("", !0)
     ], 8, iI));
   }

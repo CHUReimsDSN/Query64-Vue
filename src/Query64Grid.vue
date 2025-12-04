@@ -63,6 +63,7 @@ const gridOptions = ref<GridOptions<T>>({
   rowModelType: "serverSide",
   rowGroupPanelShow: "onlyWhenGrouping",
   groupDisplayType: "singleColumn",
+  theme: propsComponent.aggridTheme,
   autoGroupColumnDef: {
     minWidth: 200,
     cellRendererParams: {
@@ -325,6 +326,7 @@ function resetGridParams() {
 function setupThemeMode() {
   if (propsComponent.aggridThemeMode) {
     themeMode.value = propsComponent.aggridThemeMode;
+    return
   }
   if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
     themeMode.value = "dark";
@@ -362,7 +364,6 @@ defineExpose<TQuery64GridExpose<T>>({
   >
     <AgGridVue
       :gridOptions="(gridOptions as GridOptions<T>)"
-      :theme="propsComponent.aggridTheme"
       :style="`height: 100%; width: 100%; ${propsComponent.gridStyle}`"
     />
     <div
