@@ -1,4 +1,4 @@
-import { ColDef } from "ag-grid-community";
+import type { ColDef, ColTypeDef } from "ag-grid-community";
 export type TResourceColumnOverload = {
     resourceName: string;
     columnName: string;
@@ -18,6 +18,8 @@ export declare class Query64 {
     private static _instance;
     private overloads;
     private additionals;
+    private columnTypeConfig;
+    private translate;
     private hasRegisterKeyAndModule;
     static getColumnOverloadsByResourceName(resourceName: string): TColumnOverload[];
     static getColumnAdditionalsByResourceName(resourceName: string): TColumnAdditional[];
@@ -43,9 +45,13 @@ export declare class Query64 {
      * @param envMode
      */
     static registerAgGridKeyAndModules(key: string, devMode?: boolean): void;
-    static getColumnTypesDefaultConfig(): {
-        [key: string]: import("ag-grid-community").ColTypeDef;
+    static getAgGridGlobalTranslate(): Record<string, string>;
+    static registerAgGridBlobalTranslate(translate: Record<string, string>): void;
+    static getColumnTypesGlobalConfig(): {
+        [key: string]: ColTypeDef;
     };
-    static getAgGridFrenchTranslate(): Record<string, string>;
+    static registerColumnTypesConfig(columnTypeConfig: {
+        [key: string]: ColTypeDef;
+    }): void;
     private constructor();
 }

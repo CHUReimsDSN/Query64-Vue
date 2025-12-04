@@ -222,17 +222,10 @@ export class ColumnFactory {
     additionalProps?: TAdditionalsProps[]
   ) {
     this.resourceName = resourceName;
-    if (
-      globalColumnProps &&
-      globalColumnProps?.columnTypeConfig === undefined
-    ) {
-      globalColumnProps.columnTypeConfig =
-        ColumnFactory.getColumnTypesDefaultConfig();
-    }
+
     this.globalColumnSettings = {
       columnTypeConfig:
-        globalColumnProps?.columnTypeConfig ??
-        ColumnFactory.getColumnTypesDefaultConfig(),
+        globalColumnProps?.columnTypeConfig ?? Query64.getColumnTypesGlobalConfig(),
       columnDateFormater:
         globalColumnProps?.columnDateFormater ??
         ((dateValue: string | Date) => {
