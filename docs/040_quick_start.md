@@ -12,6 +12,7 @@ Il est préferable d'utiliser cette méthode une unique fois dans le client.
 ```ts
 // src/boot/query64.ts
 import { Query64 } from 'query64-vue'
+import { getMetadataQuery64, getRowsQuery64 } from 'query64.api'
 
 Query64.registerAgGridKeyAndModules('myAgGridKey')
 ```
@@ -35,6 +36,7 @@ import { Query64Grid } from 'query64-vue';
 
 Obtenir les informations via HTTP (ici avec Axios) :
 ```ts
+// query64.api.ts
 import type { 
   TAggridGenericData,   
   TQuery64GetMetadataParams,
