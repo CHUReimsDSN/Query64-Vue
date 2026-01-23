@@ -138,17 +138,8 @@ export class ColumnFactory {
                         if (params.value === false) {
                             return "Non";
                         }
-                        return "Vide";
+                        return "";
                     },
-                },
-                valueFormatter: (params) => {
-                    if (params.value === true) {
-                        return "Oui";
-                    }
-                    if (params.value === false) {
-                        return "Non";
-                    }
-                    return "Vide";
                 },
                 mainMenuItems: [
                     "sortAscending",
