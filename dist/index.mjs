@@ -44865,7 +44865,7 @@ class nh {
         filter: "agSetColumnFilter",
         filterParams: {
           values: [!0, !1, null],
-          valueFormatter: (t) => t.value === !0 ? "Oui" : t.value === !1 ? "Non" : ""
+          valueFormatter: (t) => t.value === !0 ? "Oui" : t.value === !1 ? "Non" : "Vide"
         },
         mainMenuItems: [
           "sortAscending",
