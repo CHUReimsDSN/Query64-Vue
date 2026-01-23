@@ -43227,16 +43227,7 @@ class ju {
         sortable: !0,
         enableRowGroup: !0,
         columnGroupShow: "open",
-        filter: "agTextColumnFilter",
-        filterParams: {
-          filterOptions: ["equals"],
-          suppressAndOrCondition: !0,
-          textMatcher: (t) => {
-            if (!t.filterText) return !0;
-            const s = t.filterText.trim().toLowerCase(), i = ["oui", "ou", "o", "true"], o = ["non", "no", "n", "false"];
-            return i.includes(s) ? t.value === !0 : o.includes(s) ? t.value === !1 : !1;
-          }
-        },
+        filter: "agBooleanColumnFilter",
         mainMenuItems: [
           "sortAscending",
           "sortDescending",
