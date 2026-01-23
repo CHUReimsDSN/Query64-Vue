@@ -130,13 +130,25 @@ export class ColumnFactory {
                 columnGroupShow: "open",
                 filter: "agSetColumnFilter",
                 filterParams: {
-                    values: [true, false],
+                    values: [true, false, null],
                     valueFormatter: (params) => {
-                        return params.value === true ? "Oui" : "Non";
+                        if (params.value === true) {
+                            return "Oui";
+                        }
+                        if (params.value === false) {
+                            return "Non";
+                        }
+                        return "Vide";
                     },
                 },
                 valueFormatter: (params) => {
-                    return params.value === true ? "Oui" : "Non";
+                    if (params.value === true) {
+                        return "Oui";
+                    }
+                    if (params.value === false) {
+                        return "Non";
+                    }
+                    return "Vide";
                 },
                 mainMenuItems: [
                     "sortAscending",
