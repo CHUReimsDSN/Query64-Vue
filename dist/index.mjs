@@ -43227,7 +43227,12 @@ class ju {
         sortable: !0,
         enableRowGroup: !0,
         columnGroupShow: "open",
-        filter: "agBooleanColumnFilter",
+        filter: "agSetColumnFilter",
+        filterParams: {
+          values: [!0, !1],
+          valueFormatter: (t) => t.value ? "Oui" : "Non"
+        },
+        valueFormatter: (t) => t.value ? "Oui" : "Non",
         mainMenuItems: [
           "sortAscending",
           "sortDescending",

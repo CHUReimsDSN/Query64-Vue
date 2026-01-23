@@ -128,7 +128,16 @@ export class ColumnFactory {
                 sortable: true,
                 enableRowGroup: true,
                 columnGroupShow: "open",
-                filter: "agBooleanColumnFilter",
+                filter: "agSetColumnFilter",
+                filterParams: {
+                    values: [true, false],
+                    valueFormatter: (params) => {
+                        return params.value ? "Oui" : "Non";
+                    },
+                },
+                valueFormatter: (params) => {
+                    return params.value ? "Oui" : "Non";
+                },
                 mainMenuItems: [
                     "sortAscending",
                     "sortDescending",
@@ -169,7 +178,8 @@ export class ColumnFactory {
     constructor(resourceName, globalColumnProps, hasManyColumnProps, actionColumnProps, overloadProps, additionalProps) {
         this.resourceName = resourceName;
         this.globalColumnSettings = {
-            columnTypeConfig: globalColumnProps?.columnTypeConfig ?? Query64.getColumnTypesGlobalConfig(),
+            columnTypeConfig: globalColumnProps?.columnTypeConfig ??
+                Query64.getColumnTypesGlobalConfig(),
             columnDateFormater: globalColumnProps?.columnDateFormater ??
                 ((dateValue) => {
                     const date = new Date(dateValue);
