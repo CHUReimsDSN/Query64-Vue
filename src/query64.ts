@@ -27,6 +27,7 @@ import {
   LicenseManager,
   ServerSideRowModelApiModule,
   ServerSideRowModelModule,
+  SetFilterModule,
 } from "ag-grid-enterprise";
 import { ColumnFactory } from "./column-factory";
 import AgGridFrenchTranslate from "./locale.fr";
@@ -150,6 +151,7 @@ export class Query64 {
       ColumnAutoSizeModule,
       RowAutoHeightModule,
       RowGroupingPanelModule,
+      SetFilterModule
     ];
     if (devMode) {
       modulesToRegister.push(ValidationModule);

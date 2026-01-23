@@ -1,5 +1,5 @@
 import { CellStyleModule, ClientSideRowModelApiModule, ClientSideRowModelModule, ColumnApiModule, ColumnAutoSizeModule, DateFilterModule, EventApiModule, InfiniteRowModelModule, LocaleModule, ModuleRegistry, NumberFilterModule, PaginationModule, RenderApiModule, RowAutoHeightModule, RowDragModule, RowStyleModule, TextFilterModule, ValidationModule, } from "ag-grid-community";
-import { ColumnMenuModule, ContextMenuModule, MasterDetailModule, RowGroupingPanelModule, LicenseManager, ServerSideRowModelApiModule, ServerSideRowModelModule, } from "ag-grid-enterprise";
+import { ColumnMenuModule, ContextMenuModule, MasterDetailModule, RowGroupingPanelModule, LicenseManager, ServerSideRowModelApiModule, ServerSideRowModelModule, SetFilterModule, } from "ag-grid-enterprise";
 import { ColumnFactory } from "./column-factory";
 import AgGridFrenchTranslate from "./locale.fr";
 export class Query64 {
@@ -92,6 +92,7 @@ export class Query64 {
             ColumnAutoSizeModule,
             RowAutoHeightModule,
             RowGroupingPanelModule,
+            SetFilterModule
         ];
         if (devMode) {
             modulesToRegister.push(ValidationModule);
