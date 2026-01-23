@@ -160,11 +160,11 @@ export class ColumnFactory {
         filterParams: {
           values: [true, false],
           valueFormatter: (params: any) => {
-            return params.value ? "Oui" : "Non";
+            return params.value === true ? "Oui" : "Non";
           },
         },
         valueFormatter: (params: any) => {
-          return params.value ? "Oui" : "Non";
+          return params.value === true ? "Oui" : "Non";
         },
         mainMenuItems: [
           "sortAscending",
