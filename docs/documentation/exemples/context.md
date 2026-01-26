@@ -1,8 +1,5 @@
 ---
 title: Context
-layout: default
-parent: Exemples
-nav_order: 1
 ---
 
 # Exemple de définition de contexte : 

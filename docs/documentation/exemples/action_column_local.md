@@ -1,8 +1,5 @@
 ---
 title: Colonne d'action
-layout: default
-parent: Exemples
-nav_order: 1
 ---
 
 # Exemple pour définir une colonne d'action sur une grille précise :

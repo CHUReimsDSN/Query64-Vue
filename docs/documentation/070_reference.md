@@ -26,7 +26,8 @@ function example() {
 </template>
 ```
 
-{: .important }
-Consulter les [Définitions]({% link 120_definitions.md %}) pour les méthodes disponibles. 
+::: warning Important 
+Consulter la [Définition API](/api-definition/models.md#TQuery64GridExpose) pour connaitre les méthodes disponibles. 
+:::
 
 

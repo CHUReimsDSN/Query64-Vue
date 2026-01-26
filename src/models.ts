@@ -49,10 +49,18 @@ export type TOverloadsProps = {
 export type TAdditionalsProps = {
   colDef: ColDef;
 };
+
+/**
+ * @exportToDoc
+ */
 export type TQuery64GetMetadataParams = {
   resourceName: string;
   context?: Record<string, any>;
 };
+
+/**
+ * @exportToDoc
+ */
 export type TQuery64GetRowsParams = {
   resourceName: string;
   agGridServerParams: IServerSideGetRowsRequest;
@@ -60,7 +68,11 @@ export type TQuery64GetRowsParams = {
   shallReturnCount: boolean;
   context?: Record<string, any>;
 };
-export type TQuery64GridProps<T = unknown> = {
+
+/**
+ * @exportToDoc
+ */
+export type TQuery64GridProps<T = object> = {
   resourceName: string;
   getMetadata: (
     query64Params: TQuery64GetMetadataParams
@@ -70,7 +82,7 @@ export type TQuery64GridProps<T = unknown> = {
   ) => Promise<TAggridGenericData<T>>;
   showRowCount?: boolean;
   aggridTheme?: any; // TODO
-  aggridThemeMode?: 'light' | 'dark' | 'dark-blue'
+  aggridThemeMode?: "light" | "dark" | "dark-blue";
   gridStyle?: string;
   globalColumnSettings?: TGlobalColumnProps;
   hasManyColumnSettings?: THasManyColumnProps;
@@ -84,18 +96,45 @@ export type TQuery64GridProps<T = unknown> = {
     sortModel?: IServerSideGetRowsRequest["sortModel"];
     rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"];
   };
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
 };
+
+/**
+ * @exportToDoc
+ */
 export type TQuery64GridExpose<T = object> = {
+  /*
+   * Réinitialise les filtres, tris, ordre et groupes de la grille et re-alimente la grille en données
+   */
   resetGridParams: () => void;
+
+  /*
+   * Applique des filtres, tris, ordres et groupes à la grille et re-alimente la grille en données
+   */
   updateGridParams: (
     columnProfils?: TResourceColumnProfil[],
     filterModel?: IServerSideGetRowsRequest["filterModel"],
     sortModel?: IServerSideGetRowsRequest["sortModel"],
     rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"]
   ) => void;
+
+  /*
+   *  Accès aux options de la grille
+   */
   gridOptions: GridOptions<T>;
+
+  /*
+   * Accès à l'API de la grille
+   */
   gridApi: GridApi<T> | undefined;
+
+  /*
+   * Dernier paramètre envoyer au serveur pour obtenir les lignes
+   */
   getLastGetRowsParams: () => TQuery64GetRowsParams | null;
+
+  /*
+   * Référence de chargement de la grille
+   */
   isLoadingSettingUpGrid: boolean;
 };

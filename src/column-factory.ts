@@ -23,7 +23,7 @@ import { Component } from "vue";
 import CellDefaultListValue from "./CellDefaultListValue.vue";
 
 export class ColumnFactory {
-  static getColumnTypesDefaultConfig(): {[key: string]: ColTypeDef} {
+  static getColumnTypesDefaultConfig(): { [key: string]: ColTypeDef } {
     return {
       textColumn: {
         floatingFilter: true,
@@ -61,7 +61,7 @@ export class ColumnFactory {
               displayName: "Vide",
               predicate: function (
                 _: null,
-                cellValue: string | null | undefined
+                cellValue: string | null | undefined,
               ) {
                 return String(cellValue).length === 0;
               },
@@ -72,7 +72,7 @@ export class ColumnFactory {
               displayName: "Non vide",
               predicate: function (
                 _: null,
-                cellValue: string | null | undefined
+                cellValue: string | null | undefined,
               ) {
                 return String(cellValue).length > 0;
               },
@@ -156,20 +156,17 @@ export class ColumnFactory {
         sortable: true,
         enableRowGroup: true,
         columnGroupShow: "open",
-        filter: "agTextColumnFilter",
-        filterParams: <ITextFilterParams>{
-          filterOptions: ["equals"],
-          suppressAndOrCondition: true,
-          textMatcher: (params: TextMatcherParams) => {
-            if (!params.filterText) return true;
-            const normalizedFilter = params.filterText.trim().toLowerCase();
-            const ouiVariants = ["oui", "ou", "o", "true"];
-            const nonVariants = ["non", "no", "n", "false"];
-            if (ouiVariants.includes(normalizedFilter))
-              return params.value === true;
-            if (nonVariants.includes(normalizedFilter))
-              return params.value === false;
-            return false;
+        filter: "agSetColumnFilter",
+        filterParams: {
+          values: [true, false, null],
+          valueFormatter: (params: any) => {
+            if (params.value === true) {
+              return "Oui";
+            }
+            if (params.value === false) {
+              return "Non";
+            }
+            return "Vide";
           },
         },
         mainMenuItems: [
@@ -219,13 +216,14 @@ export class ColumnFactory {
     hasManyColumnProps?: THasManyColumnProps,
     actionColumnProps?: TActionColumnProps,
     overloadProps?: TOverloadsProps[],
-    additionalProps?: TAdditionalsProps[]
+    additionalProps?: TAdditionalsProps[],
   ) {
     this.resourceName = resourceName;
 
     this.globalColumnSettings = {
       columnTypeConfig:
-        globalColumnProps?.columnTypeConfig ?? Query64.getColumnTypesGlobalConfig(),
+        globalColumnProps?.columnTypeConfig ??
+        Query64.getColumnTypesGlobalConfig(),
       columnDateFormater:
         globalColumnProps?.columnDateFormater ??
         ((dateValue: string | Date) => {
@@ -260,30 +258,30 @@ export class ColumnFactory {
     Query64.getColumnOverloadsByResourceName(this.resourceName).forEach(
       (overload) => {
         this.overloadSettings.push(overload);
-      }
+      },
     );
     this.additionalSettings = additionalProps ?? [];
     Query64.getColumnAdditionalsByResourceName(this.resourceName).forEach(
       (additional) => {
         this.additionalSettings.push(additional);
-      }
+      },
     );
   }
 
   getResourceColumnsDefault<T>(
     resourceMetaDatas: TResourceColumnMetaData[],
-    resourceName: string
+    resourceName: string,
   ): ColDef<T>[] {
     return this.getAllResourceColumns(resourceMetaDatas, resourceName);
   }
   getResourceColumnsByProfils<T>(
     columnData: TResourceColumnProfil[],
     resourceMetaDatas: TResourceColumnMetaData[],
-    resourceName: string
+    resourceName: string,
   ): ColDef<T>[] {
     const allColumns = this.getAllResourceColumns<T>(
       resourceMetaDatas,
-      resourceName
+      resourceName,
     );
     let allColumnsInOrder = allColumns;
     allColumnsInOrder.forEach((resourceColumn) => {
@@ -311,7 +309,7 @@ export class ColumnFactory {
 
   private getAllResourceColumns<T>(
     resourceMetaDatas: TResourceColumnMetaData[],
-    resourceName: string
+    resourceName: string,
   ): ColDef<T>[] {
     const columns: ColDef<T>[] = [];
     resourceMetaDatas.forEach((metadata) => {
@@ -373,8 +371,8 @@ export class ColumnFactory {
       columns.push(
         this.getGenericColumnAction(
           resourceName,
-          this.actionColumnSettings.defaultComponent
-        )
+          this.actionColumnSettings.defaultComponent,
+        ),
       );
     }
     this.additionalSettings.forEach((additionalSetting) => {
@@ -392,7 +390,7 @@ export class ColumnFactory {
   }
   private getGenericColumnAction<T>(
     resourceName: string,
-    cellComponent: Component
+    cellComponent: Component,
   ): ColDef<T> {
     return {
       headerName: "Actions",
@@ -408,7 +406,7 @@ export class ColumnFactory {
     };
   }
   private getGenericColumnString<T>(
-    metaData: TResourceColumnMetaData
+    metaData: TResourceColumnMetaData,
   ): ColDef<T> {
     return {
       headerName: metaData.label_name,
@@ -422,7 +420,7 @@ export class ColumnFactory {
     };
   }
   private getGenericColumnNumber<T>(
-    metaData: TResourceColumnMetaData
+    metaData: TResourceColumnMetaData,
   ): ColDef<T> {
     return {
       headerName: metaData.label_name,
@@ -436,7 +434,7 @@ export class ColumnFactory {
     };
   }
   private getGenericColumnDate<T>(
-    metaData: TResourceColumnMetaData
+    metaData: TResourceColumnMetaData,
   ): ColDef<T> {
     return {
       headerName: metaData.label_name,
@@ -447,14 +445,14 @@ export class ColumnFactory {
         if (!params.data || !params.data[metaData.raw_field_name as keyof T])
           return "";
         return this.globalColumnSettings.columnDateFormater!(
-          params.data[metaData.raw_field_name as keyof T] as string
+          params.data[metaData.raw_field_name as keyof T] as string,
         );
       },
       width: 150,
     };
   }
   private getGenericColumnBoolean<T>(
-    metaData: TResourceColumnMetaData
+    metaData: TResourceColumnMetaData,
   ): ColDef<T> {
     return {
       headerName: metaData.label_name,
@@ -472,7 +470,7 @@ export class ColumnFactory {
     };
   }
   private getGenericColumnObject<T>(
-    metaData: TResourceColumnMetaData
+    metaData: TResourceColumnMetaData,
   ): ColDef<T> {
     return {
       headerName: metaData.label_name,
@@ -486,7 +484,7 @@ export class ColumnFactory {
     };
   }
   private getGenericColumnValueGetterRelation<T>(
-    column: ColDef<T>
+    column: ColDef<T>,
   ): ValueGetterFunc<T> {
     if (!column.colId) return () => null;
     const baseValueGetter = column.valueGetter;
@@ -507,7 +505,7 @@ export class ColumnFactory {
         return (params.data[colIdRelation] as Record<string, unknown>[]).map(
           (relation) => {
             return baseValueGetter({ ...params, data: relation as T });
-          }
+          },
         );
       };
     }

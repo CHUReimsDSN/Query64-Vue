@@ -128,21 +128,17 @@ export class ColumnFactory {
                 sortable: true,
                 enableRowGroup: true,
                 columnGroupShow: "open",
-                filter: "agTextColumnFilter",
+                filter: "agSetColumnFilter",
                 filterParams: {
-                    filterOptions: ["equals"],
-                    suppressAndOrCondition: true,
-                    textMatcher: (params) => {
-                        if (!params.filterText)
-                            return true;
-                        const normalizedFilter = params.filterText.trim().toLowerCase();
-                        const ouiVariants = ["oui", "ou", "o", "true"];
-                        const nonVariants = ["non", "no", "n", "false"];
-                        if (ouiVariants.includes(normalizedFilter))
-                            return params.value === true;
-                        if (nonVariants.includes(normalizedFilter))
-                            return params.value === false;
-                        return false;
+                    values: [true, false, null],
+                    valueFormatter: (params) => {
+                        if (params.value === true) {
+                            return "Oui";
+                        }
+                        if (params.value === false) {
+                            return "Non";
+                        }
+                        return "Vide";
                     },
                 },
                 mainMenuItems: [
@@ -185,7 +181,8 @@ export class ColumnFactory {
     constructor(resourceName, globalColumnProps, hasManyColumnProps, actionColumnProps, overloadProps, additionalProps) {
         this.resourceName = resourceName;
         this.globalColumnSettings = {
-            columnTypeConfig: globalColumnProps?.columnTypeConfig ?? Query64.getColumnTypesGlobalConfig(),
+            columnTypeConfig: globalColumnProps?.columnTypeConfig ??
+                Query64.getColumnTypesGlobalConfig(),
             columnDateFormater: globalColumnProps?.columnDateFormater ??
                 ((dateValue) => {
                     const date = new Date(dateValue);
