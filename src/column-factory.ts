@@ -158,15 +158,19 @@ export class ColumnFactory {
         columnGroupShow: "open",
         filter: "agSetColumnFilter",
         filterParams: {
-          values: [true, false, null],
-          valueFormatter: (params: any) => {
+          values: [true, false, "null"],
+          suppressSorting: true,
+          valueFormatter: (params: { value: string | boolean }) => {
             if (params.value === true) {
               return "Oui";
             }
             if (params.value === false) {
               return "Non";
             }
-            return "Vide";
+            if (params.value === "null") {
+              return "Vide";
+            }
+            return "???";
           },
         },
         mainMenuItems: [

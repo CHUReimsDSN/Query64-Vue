@@ -130,7 +130,8 @@ export class ColumnFactory {
                 columnGroupShow: "open",
                 filter: "agSetColumnFilter",
                 filterParams: {
-                    values: [true, false, null],
+                    values: [true, false, "null"],
+                    suppressSorting: true,
                     valueFormatter: (params) => {
                         if (params.value === true) {
                             return "Oui";
@@ -138,7 +139,10 @@ export class ColumnFactory {
                         if (params.value === false) {
                             return "Non";
                         }
-                        return "Vide";
+                        if (params.value === "null") {
+                            return "Vide";
+                        }
+                        return "???";
                     },
                 },
                 mainMenuItems: [

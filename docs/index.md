@@ -18,7 +18,7 @@ features:
     details: Définition par interopérabilité interne ou externe
     icon: ⚙️
   - title: Basé sur AgGrid Server Side
-    details: Systèmes de filtres, groupements, tris
+    details: Système de filtres, groupements, tris
     icon: 📡
   - title: Customisation
     details: Surcharge de logique et composant
