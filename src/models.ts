@@ -49,10 +49,18 @@ export type TOverloadsProps = {
 export type TAdditionalsProps = {
   colDef: ColDef;
 };
+
+/**
+ * @exportToDoc
+ */
 export type TQuery64GetMetadataParams = {
   resourceName: string;
   context?: Record<string, any>;
 };
+
+/**
+ * @exportToDoc
+ */
 export type TQuery64GetRowsParams = {
   resourceName: string;
   agGridServerParams: IServerSideGetRowsRequest;
@@ -60,7 +68,11 @@ export type TQuery64GetRowsParams = {
   shallReturnCount: boolean;
   context?: Record<string, any>;
 };
-export type TQuery64GridProps<T = unknown> = {
+
+/**
+ * @exportToDoc
+ */
+export type TQuery64GridProps<T = object> = {
   resourceName: string;
   getMetadata: (
     query64Params: TQuery64GetMetadataParams
@@ -84,8 +96,12 @@ export type TQuery64GridProps<T = unknown> = {
     sortModel?: IServerSideGetRowsRequest["sortModel"];
     rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"];
   };
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
 };
+
+/**
+ * @exportToDoc
+ */
 export type TQuery64GridExpose<T = object> = {
   /*
    * Réinitialise les filtres, tris, ordre et groupes de la grille et re-alimente la grille en données

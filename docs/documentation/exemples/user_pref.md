@@ -1,8 +1,5 @@
 ---
 title: Préferences utilisateur
-layout: default
-parent: Exemples
-nav_order: 1
 ---
 
 # Exemple système de préferences utilisateur : 

@@ -31,5 +31,8 @@ export async function getRowsQuery64(
 }
 ```
 
-{: .important }
+::: warning Important 
 Les appels doivent utiliser les méthodes POST / PUT / PATCH pour pouvoir envoyer les données au serveur.
+:::
+
+
