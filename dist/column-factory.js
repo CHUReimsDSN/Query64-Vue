@@ -130,7 +130,7 @@ export class ColumnFactory {
                 columnGroupShow: "open",
                 filter: "agSetColumnFilter",
                 filterParams: {
-                    values: [true, false, null],
+                    values: [true, false, "null"],
                     valueFormatter: (params) => {
                         if (params.value === true) {
                             return "Oui";
