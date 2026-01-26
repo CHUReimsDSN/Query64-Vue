@@ -131,6 +131,7 @@ export class ColumnFactory {
                 filter: "agSetColumnFilter",
                 filterParams: {
                     values: [true, false, "null"],
+                    suppressSorting: true,
                     valueFormatter: (params) => {
                         if (params.value === true) {
                             return "Oui";
