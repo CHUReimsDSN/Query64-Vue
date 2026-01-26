@@ -138,7 +138,10 @@ export class ColumnFactory {
                         if (params.value === false) {
                             return "Non";
                         }
-                        return "Vide";
+                        if (params.value === "null") {
+                            return "Vide";
+                        }
+                        return "???";
                     },
                 },
                 mainMenuItems: [
