@@ -1,12 +1,8 @@
 import { ColDef, GridApi, GridOptions, IServerSideGetRowsRequest } from "ag-grid-community";
 import { Component } from "vue";
 import { TResourceColumnOverload } from "./query64";
-export type TRecord = {
-    id: number;
-    created_at: string;
-    updated_at: string;
-};
-export type TAggridGenericData<T = unknown> = {
+import type { TRecord } from "./private-models";
+export type TAggridGenericData<T = TRecord> = {
     items: T[];
     length: number;
 };
@@ -48,7 +44,7 @@ export type TAdditionalsProps = {
  */
 export type TQuery64GetMetadataParams = {
     resourceName: string;
-    context?: Record<string, any>;
+    context?: Record<string, unknown>;
 };
 /**
  * @exportToDoc
@@ -58,12 +54,13 @@ export type TQuery64GetRowsParams = {
     agGridServerParams: IServerSideGetRowsRequest;
     columnsToDisplay: string[];
     shallReturnCount: boolean;
-    context?: Record<string, any>;
+    quickSearch: string | null;
+    context?: Record<string, unknown>;
 };
 /**
  * @exportToDoc
  */
-export type TQuery64GridProps<T = object> = {
+export type TQuery64GridProps<T = TRecord> = {
     resourceName: string;
     getMetadata: (query64Params: TQuery64GetMetadataParams) => Promise<TResourceColumnMetaData[]>;
     getRows: (query64Params: TQuery64GetRowsParams) => Promise<TAggridGenericData<T>>;
@@ -88,11 +85,12 @@ export type TQuery64GridProps<T = object> = {
 /**
  * @exportToDoc
  */
-export type TQuery64GridExpose<T = object> = {
+export type TQuery64GridExpose<T = TRecord> = {
     resetGridParams: () => void;
     updateGridParams: (columnProfils?: TResourceColumnProfil[], filterModel?: IServerSideGetRowsRequest["filterModel"], sortModel?: IServerSideGetRowsRequest["sortModel"], rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"]) => void;
     gridOptions: GridOptions<T>;
     gridApi: GridApi<T> | undefined;
     getLastGetRowsParams: () => TQuery64GetRowsParams | null;
     isLoadingSettingUpGrid: boolean;
+    triggerQuickFilter: (search: string) => void | Promise<void>;
 };

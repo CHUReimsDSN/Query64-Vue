@@ -6,13 +6,9 @@ import {
 } from "ag-grid-community";
 import { Component } from "vue";
 import { TResourceColumnOverload } from "./query64";
+import type { TRecord } from "./private-models";
 
-export type TRecord = {
-  id: number;
-  created_at: string;
-  updated_at: string;
-};
-export type TAggridGenericData<T = unknown> = {
+export type TAggridGenericData<T = TRecord> = {
   items: T[];
   length: number;
 };
@@ -55,7 +51,7 @@ export type TAdditionalsProps = {
  */
 export type TQuery64GetMetadataParams = {
   resourceName: string;
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
 };
 
 /**
@@ -66,13 +62,14 @@ export type TQuery64GetRowsParams = {
   agGridServerParams: IServerSideGetRowsRequest;
   columnsToDisplay: string[];
   shallReturnCount: boolean;
-  context?: Record<string, any>;
+  quickSearch: string | null;
+  context?: Record<string, unknown>;
 };
 
 /**
  * @exportToDoc
  */
-export type TQuery64GridProps<T = object> = {
+export type TQuery64GridProps<T = TRecord> = {
   resourceName: string;
   getMetadata: (
     query64Params: TQuery64GetMetadataParams
@@ -102,7 +99,7 @@ export type TQuery64GridProps<T = object> = {
 /**
  * @exportToDoc
  */
-export type TQuery64GridExpose<T = object> = {
+export type TQuery64GridExpose<T = TRecord> = {
   /*
    * Réinitialise les filtres, tris, ordre et groupes de la grille et re-alimente la grille en données
    */
@@ -137,4 +134,9 @@ export type TQuery64GridExpose<T = object> = {
    * Référence de chargement de la grille
    */
   isLoadingSettingUpGrid: boolean;
+
+  /*
+  * Déclenche le filtre rapide (filtre sur toutes les colonnes)
+  */
+  triggerQuickFilter: (search: string) => void | Promise<void>;
 };

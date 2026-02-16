@@ -99,6 +99,7 @@ export class Query64 {
       id,
     });
   }
+  
   /**
    * Enregistre une colonne additionnelle
    * Un identifiant unique est créer par enregistrement, basé sur la propriété colId de la colonne
