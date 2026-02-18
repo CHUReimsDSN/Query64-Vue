@@ -2,7 +2,6 @@
 import { AgGridVue } from "ag-grid-vue3";
 import { onMounted, ref } from "vue";
 import {
-  TRecord,
   TResourceColumnProfil,
   TResourceColumnMetaData,
   TQuery64GridProps,
@@ -26,6 +25,7 @@ import {
   type ModelUpdatedEvent,
 } from "ag-grid-community";
 import { Query64 } from "./query64";
+import type { TRecord } from "./private-models";
 
 // props
 const propsComponent = withDefaults(defineProps<TQuery64GridProps<T>>(), {
@@ -53,6 +53,7 @@ const columnFactory = new ColumnFactory(
 // vars
 let lastGetRowsParams: TQuery64GetRowsParams | null = null;
 let lastDisplayedCols: string[] = [];
+let quickSearch: string | null = null
 
 // refs
 const gridOptions = ref<GridOptions<T>>({
@@ -150,6 +151,7 @@ function setupRowData(): IServerSideDatasource<T> {
         agGridServerParams: { ...params.request },
         columnsToDisplay: displayedCols,
         shallReturnCount: shallReturnCount,
+        quickSearch: quickSearch,
         context: propsComponent.context,
       };
       propsComponent
@@ -335,6 +337,13 @@ function setupThemeMode() {
 function getLastGetRowsParams() {
   return lastGetRowsParams
 }
+async function triggerQuickFilter(search: string) {
+  if (!gridApi.value) {
+    return
+  }
+  quickSearch = search
+  gridApi.value.refreshServerSide()
+}
 
 // lifeCycle
 onMounted(async () => {
@@ -352,6 +361,7 @@ defineExpose<TQuery64GridExpose<T>>({
   gridOptions,
   gridApi: gridApi as unknown as GridApi<T>,
   getLastGetRowsParams,
+  triggerQuickFilter,
   isLoadingSettingUpGrid: isLoadingSettingUpGrid as unknown as boolean,
 } as TQuery64GridExpose<T>);
 </script>

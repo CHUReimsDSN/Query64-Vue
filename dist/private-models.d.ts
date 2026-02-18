@@ -1,0 +1,5 @@
+export type TRecord = {
+    id: number;
+    created_at: string;
+    updated_at: string;
+};

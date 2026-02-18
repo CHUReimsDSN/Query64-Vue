@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends TRecord">
 import type { ICellRendererParams } from "ag-grid-enterprise";
-import type { TRecord } from "./models";
+import type { TRecord } from "./private-models";
 
 // props
 const propsComponents = defineProps<{
