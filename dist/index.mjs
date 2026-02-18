@@ -46546,7 +46546,7 @@ const DI = { ref: "root" }, PI = /* @__PURE__ */ co({
             endRow: 0,
             startRow: 0,
             sortModel: []
-          }) || r.join(", ") !== P.join(", ");
+          }) || r.join(", ") !== P.join(", ") || n !== null && n.quickSearch !== a;
           r = P;
           const V = A.api.getRowGroupColumns().map((k) => k.getColId());
           P.push(...V), n = {

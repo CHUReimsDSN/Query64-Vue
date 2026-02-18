@@ -4,7 +4,7 @@ title: Recherche rapide
 
 # Recherche rapide
 
-Il est possible d'effectuer une recherche rapide à travers toutes les colonnes d'une grille (hors association).
+Il est possible d'effectuer une recherche rapide à travers toutes les colonnes d'une grille.
 
 ```vue
 <script setup lang="ts">
@@ -15,11 +15,11 @@ import type { TQuery64GridExpose } from 'query64-vue';
 const query64Grid = ref<TQuery64GridExpose>()
 const quickSearch = ref('')
 
-watch(quicSearch, (newValue) => {
+watch(quickSearch, (newValue) => {
     if (!query64Grid.value) {
         return
     }
-    query64Grid.triggerQuickFilter(newValue)
+    query64Grid.value.triggerQuickFilter(newValue)
 })
 </script>
 
@@ -28,3 +28,8 @@ watch(quicSearch, (newValue) => {
   <Query64Grid ref="query64Grid" />
 </template>
 ```
+
+## Configuration
+
+La configuration de la recherche rapide permet de sélectionner les colonnes sur lesquelles le filtre sera appliqué.
+
