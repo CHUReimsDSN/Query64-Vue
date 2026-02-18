@@ -135,12 +135,12 @@ function setupRowData(): IServerSideDatasource<T> {
           startRow: 0,
           sortModel: [],
         }) !==
-          JSON.stringify({
-            ...lastGetRowsParams?.agGridServerParams ?? {},
-            endRow: 0,
-            startRow: 0,
-            sortModel: [],
-          }) || lastDisplayedCols.join(", ") !== displayedCols.join(", ");
+        JSON.stringify({
+          ...lastGetRowsParams?.agGridServerParams ?? {},
+          endRow: 0,
+          startRow: 0,
+          sortModel: [],
+        }) || (lastDisplayedCols.join(", ") !== displayedCols.join(", ")) || (lastGetRowsParams !== null && (lastGetRowsParams.quickSearch !== quickSearch));
       lastDisplayedCols = displayedCols;
       const groupCols = params.api.getRowGroupColumns().map((groupColumn) => {
         return groupColumn.getColId();
@@ -161,7 +161,7 @@ function setupRowData(): IServerSideDatasource<T> {
           const isGroupMode =
             params.request.rowGroupCols.length !== 0 &&
             params.request.rowGroupCols.length !==
-              params.request.groupKeys.length;
+            params.request.groupKeys.length;
           if (!isGroupMode) {
             displayedCols.forEach((displayedCol) => {
               if (!displayedCol.includes(".")) {
@@ -304,7 +304,7 @@ function setupGridEvents() {
   gridOptions.value.onColumnVisible = (params: ColumnVisibleEvent) => {
     if (baseOnColumnVisible) {
       baseOnColumnVisible(params);
-    } 
+    }
     if (!params.column || !gridApi.value) {
       return;
     }
@@ -367,26 +367,18 @@ defineExpose<TQuery64GridExpose<T>>({
 </script>
 
 <template>
-  <div
-    v-if="!isLoadingSettingUpGrid"
-    style="display: flex; flex-direction: column; height: 100%"
-    :data-ag-theme-mode="themeMode"
-  >
-    <AgGridVue
-      :gridOptions="(gridOptions as GridOptions<T>)"
-      :style="`height: 100%; width: 100%; ${propsComponent.gridStyle}`"
-    />
-    <div
-      v-if="propsComponent.showRowCount"
-      style="
+  <div v-if="!isLoadingSettingUpGrid" style="display: flex; flex-direction: column; height: 100%"
+    :data-ag-theme-mode="themeMode">
+    <AgGridVue :gridOptions="(gridOptions as GridOptions<T>)"
+      :style="`height: 100%; width: 100%; ${propsComponent.gridStyle}`" />
+    <div v-if="propsComponent.showRowCount" style="
         display: flex;
         flex-direction: row;
         justify-content: end;
         align-items: center;
         padding: 4px 4px;
         padding-right: 8px;
-      "
-    >
+      ">
       {{ rowCountString }}
     </div>
   </div>
