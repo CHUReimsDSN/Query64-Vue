@@ -92,5 +92,6 @@ export type TQuery64GridExpose<T = TRecord> = {
     gridApi: GridApi<T> | undefined;
     getLastGetRowsParams: () => TQuery64GetRowsParams | null;
     isLoadingSettingUpGrid: boolean;
+    isLoadingServer: boolean;
     triggerQuickFilter: (search: string) => void | Promise<void>;
 };

@@ -90,6 +90,7 @@ const gridOptions = ref<GridOptions<T>>({
 const gridApi = ref<GridApi<T>>();
 const rowCountString = ref("0 ligne");
 const isLoadingSettingUpGrid = ref(true);
+const isLoadingServer = ref(true);
 const themeMode = ref<TQuery64GridProps<T>["aggridThemeMode"]>("light");
 
 // functions
@@ -154,9 +155,11 @@ function setupRowData(): IServerSideDatasource<T> {
         quickSearch: quickSearch,
         context: propsComponent.context,
       };
+      isLoadingServer.value = true
       propsComponent
         .getRows(lastGetRowsParams)
         .then((response) => {
+          isLoadingServer.value = false
           let jsonKeysToParse: Set<keyof T> = new Set();
           const isGroupMode =
             params.request.rowGroupCols.length !== 0 &&
@@ -200,6 +203,7 @@ function setupRowData(): IServerSideDatasource<T> {
         .catch((error) => {
           params.fail();
           console.error(error);
+          isLoadingServer.value = false
         });
     },
   };
@@ -363,6 +367,7 @@ defineExpose<TQuery64GridExpose<T>>({
   getLastGetRowsParams,
   triggerQuickFilter,
   isLoadingSettingUpGrid: isLoadingSettingUpGrid as unknown as boolean,
+  isLoadingServer: isLoadingServer as unknown as boolean
 } as TQuery64GridExpose<T>);
 </script>
 

@@ -136,6 +136,11 @@ export type TQuery64GridExpose<T = TRecord> = {
   isLoadingSettingUpGrid: boolean;
 
   /*
+  * Référence de chargement du serveur
+  */
+  isLoadingServer: boolean;
+
+  /*
   * Déclenche le filtre rapide (filtre sur toutes les colonnes)
   */
   triggerQuickFilter: (search: string) => void | Promise<void>;
