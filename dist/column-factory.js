@@ -122,6 +122,32 @@ export class ColumnFactory {
                     "pinSubMenu",
                 ],
             },
+            datetimeColumn: {
+                floatingFilter: true,
+                resizable: true,
+                sortable: true,
+                enableRowGroup: true,
+                columnGroupShow: "open",
+                filter: "agDateColumnFilter",
+                filterParams: {
+                    buttons: ["reset"],
+                    browserDatePicker: true,
+                    filterOptions: [
+                        "equals",
+                        "notEqual",
+                        "inRange",
+                        "greaterThan",
+                        "lessThan",
+                    ],
+                },
+                mainMenuItems: [
+                    "sortAscending",
+                    "sortDescending",
+                    "columnChooser",
+                    "rowGroup",
+                    "pinSubMenu",
+                ],
+            },
             booleanColumn: {
                 floatingFilter: true,
                 resizable: true,
@@ -188,6 +214,20 @@ export class ColumnFactory {
             columnTypeConfig: globalColumnProps?.columnTypeConfig ??
                 Query64.getColumnTypesGlobalConfig(),
             columnDateFormater: globalColumnProps?.columnDateFormater ??
+                ((dateValue) => {
+                    const date = new Date(dateValue);
+                    const day = date.getDate();
+                    const month = date.getMonth() + 1;
+                    const year = date.getFullYear();
+                    return ((day < 10 ? "0" : "") +
+                        day +
+                        "/" +
+                        (month < 10 ? "0" : "") +
+                        month +
+                        "/" +
+                        year);
+                }),
+            columnDatetimeFormater: globalColumnProps?.columnDatetimeFormater ??
                 ((dateValue) => {
                     const date = new Date(dateValue);
                     const day = date.getDate();
@@ -268,6 +308,9 @@ export class ColumnFactory {
                     break;
                 case "date":
                     column = this.getGenericColumnDate(metadata);
+                    break;
+                case "datetime":
+                    column = this.getGenericColumnDatetime(metadata);
                     break;
                 case "object":
                     column = this.getGenericColumnObject(metadata);
@@ -374,6 +417,20 @@ export class ColumnFactory {
                 if (!params.data || !params.data[metaData.raw_field_name])
                     return "";
                 return this.globalColumnSettings.columnDateFormater(params.data[metaData.raw_field_name]);
+            },
+            width: 150,
+        };
+    }
+    getGenericColumnDatetime(metaData) {
+        return {
+            headerName: metaData.label_name,
+            colId: metaData.field_name,
+            type: "dateColumn",
+            filter: "agDateColumnFilter",
+            valueGetter: (params) => {
+                if (!params.data || !params.data[metaData.raw_field_name])
+                    return "";
+                return this.globalColumnSettings.columnDatetimeFormater(params.data[metaData.raw_field_name]);
             },
             width: 150,
         };

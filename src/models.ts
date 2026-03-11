@@ -16,7 +16,7 @@ export type TResourceColumnMetaData = {
   raw_field_name: string;
   field_name: string;
   label_name: string;
-  field_type: "string" | "number" | "date" | "boolean" | "object";
+  field_type: "string" | "number" | "date" | "datetime" | "boolean" | "object";
   association_name: string | null;
   association_type: string | null;
   association_class_name: string | null;
@@ -30,6 +30,7 @@ export type TResourceColumnProfil = {
 export type TGlobalColumnProps = {
   columnTypeConfig?: Record<string, ColDef>;
   columnDateFormater?: (dateValue: string | Date) => string;
+  columnDatetimeFormater?: (dateValue: string | Date) => string;
 };
 export type TActionColumnProps = {
   defaultComponent: Component;
