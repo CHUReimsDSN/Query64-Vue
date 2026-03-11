@@ -44719,6 +44719,10 @@ class nh {
     this.resourceName = t, this.globalColumnSettings = {
       columnTypeConfig: (s == null ? void 0 : s.columnTypeConfig) ?? Rs.getColumnTypesGlobalConfig(),
       columnDateFormater: (s == null ? void 0 : s.columnDateFormater) ?? ((a) => {
+        const l = new Date(a), d = l.getDate(), c = l.getMonth() + 1, u = l.getFullYear();
+        return (d < 10 ? "0" : "") + d + "/" + (c < 10 ? "0" : "") + c + "/" + u;
+      }),
+      columnDatetimeFormater: (s == null ? void 0 : s.columnDatetimeFormater) ?? ((a) => {
         const l = new Date(a), d = l.getDate(), c = l.getMonth() + 1, u = l.getFullYear(), h = l.getHours(), g = l.getMinutes();
         return (d < 10 ? "0" : "") + d + "/" + (c < 10 ? "0" : "") + c + "/" + u + " " + ((h < 10 ? "0" : "") + h + ":" + ((g < 10 ? "0" : "") + g));
       })
@@ -44856,6 +44860,32 @@ class nh {
           "pinSubMenu"
         ]
       },
+      datetimeColumn: {
+        floatingFilter: !0,
+        resizable: !0,
+        sortable: !0,
+        enableRowGroup: !0,
+        columnGroupShow: "open",
+        filter: "agDateColumnFilter",
+        filterParams: {
+          buttons: ["reset"],
+          browserDatePicker: !0,
+          filterOptions: [
+            "equals",
+            "notEqual",
+            "inRange",
+            "greaterThan",
+            "lessThan"
+          ]
+        },
+        mainMenuItems: [
+          "sortAscending",
+          "sortDescending",
+          "columnChooser",
+          "rowGroup",
+          "pinSubMenu"
+        ]
+      },
       booleanColumn: {
         floatingFilter: !0,
         resizable: !0,
@@ -44933,6 +44963,9 @@ class nh {
         case "date":
           r = this.getGenericColumnDate(n);
           break;
+        case "datetime":
+          r = this.getGenericColumnDatetime(n);
+          break;
         case "object":
           r = this.getGenericColumnObject(n);
           break;
@@ -44989,6 +45022,18 @@ class nh {
       type: "dateColumn",
       filter: "agDateColumnFilter",
       valueGetter: (s) => !s.data || !s.data[t.raw_field_name] ? "" : this.globalColumnSettings.columnDateFormater(
+        s.data[t.raw_field_name]
+      ),
+      width: 150
+    };
+  }
+  getGenericColumnDatetime(t) {
+    return {
+      headerName: t.label_name,
+      colId: t.field_name,
+      type: "dateColumn",
+      filter: "agDateColumnFilter",
+      valueGetter: (s) => !s.data || !s.data[t.raw_field_name] ? "" : this.globalColumnSettings.columnDatetimeFormater(
         s.data[t.raw_field_name]
       ),
       width: 150

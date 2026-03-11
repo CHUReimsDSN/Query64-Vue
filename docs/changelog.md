@@ -4,6 +4,10 @@ title: Changelog
 
 # Changelog
 
+## 1.4.4
+
+- Prise en compte de l'affichage du type 'date'
+
 ## 1.4.3
 
 - Ajout d'une référence de chargement du serveur

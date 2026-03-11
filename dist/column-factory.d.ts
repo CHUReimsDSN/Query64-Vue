@@ -20,6 +20,7 @@ export declare class ColumnFactory {
     private getGenericColumnString;
     private getGenericColumnNumber;
     private getGenericColumnDate;
+    private getGenericColumnDatetime;
     private getGenericColumnBoolean;
     private getGenericColumnObject;
     private getGenericColumnValueGetterRelation;
