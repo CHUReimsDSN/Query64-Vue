@@ -4,6 +4,10 @@ title: Changelog
 
 # Changelog
 
+## 1.4.5
+
+- Ajout d'un paramètre optionnel à `updateGridParams` pour forcer la réinitialiser des états concernés
+
 ## 1.4.4
 
 - Prise en compte de l'affichage du type 'date'

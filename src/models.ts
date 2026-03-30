@@ -113,7 +113,8 @@ export type TQuery64GridExpose<T = TRecord> = {
     columnProfils?: TResourceColumnProfil[],
     filterModel?: IServerSideGetRowsRequest["filterModel"],
     sortModel?: IServerSideGetRowsRequest["sortModel"],
-    rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"]
+    rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"],
+    forceReset?: boolean // default = false
   ) => void;
 
   /*
