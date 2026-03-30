@@ -46638,7 +46638,7 @@ const DI = { ref: "root" }, PI = /* @__PURE__ */ co({
       ), d.value.setGridOption("columnDefs", _);
     }
     function b(D, _, W, q = !1) {
-      if (d.value && (D && (q && d.value.setFilterModel(null), d.value.setFilterModel(D)), _ && (q && d.value.applyColumnState({ state: [] }), d.value.applyColumnState({ state: _ })), W)) {
+      if (d.value && (D && (q && d.value.setFilterModel(null), d.value.setFilterModel(D)), _ && (q && d.value.resetColumnState(), d.value.applyColumnState({ state: _ })), W)) {
         const B = d.value.getAllGridColumns(), z = W.map((Q) => B.find((Se) => Se.getColId() == Q.field)).filter((Q) => Q !== void 0);
         q && d.value.setRowGroupColumns([]), d.value.setRowGroupColumns(z);
       }
