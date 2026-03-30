@@ -240,7 +240,7 @@ function setupGridFiltersSortsAndGroups(
   }
   if (sortModel) {
     if (forceReset) {
-      gridApi.value.applyColumnState({ state: [] })
+      gridApi.value.resetColumnState()
     }
     gridApi.value.applyColumnState({ state: sortModel });
   }
