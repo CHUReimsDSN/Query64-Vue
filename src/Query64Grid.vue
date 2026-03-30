@@ -228,13 +228,20 @@ function setupGridColumns(columnProfils?: TResourceColumnProfil[]) {
 function setupGridFiltersSortsAndGroups(
   filterModel?: IServerSideGetRowsRequest["filterModel"],
   sortModel?: IServerSideGetRowsRequest["sortModel"],
-  rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"]
+  rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"],
+  forceReset = false
 ) {
   if (!gridApi.value) return;
   if (filterModel) {
+    if (forceReset) {
+      gridApi.value.setFilterModel(null)
+    }
     gridApi.value.setFilterModel(filterModel);
   }
   if (sortModel) {
+    if (forceReset) {
+      gridApi.value.applyColumnState({ state: [] })
+    }
     gridApi.value.applyColumnState({ state: sortModel });
   }
   if (rowgroupCols) {
@@ -248,6 +255,9 @@ function setupGridFiltersSortsAndGroups(
       .filter((rowGroup) => {
         return rowGroup !== undefined;
       });
+    if (forceReset) {
+      gridApi.value.setRowGroupColumns([])
+    }
     gridApi.value.setRowGroupColumns(rowsGroup);
   }
 }
@@ -255,11 +265,14 @@ function updateGridParams(
   columnProfils?: TResourceColumnProfil[],
   filterModel?: IServerSideGetRowsRequest["filterModel"],
   sortModel?: IServerSideGetRowsRequest["sortModel"],
-  rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"]
+  rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"],
+  forceReset = false
 ) {
-  if (!gridApi.value) return;
+  if (!gridApi.value) {
+    return;
+  }
   setupGridColumns(columnProfils);
-  setupGridFiltersSortsAndGroups(filterModel, sortModel, rowGroupCols);
+  setupGridFiltersSortsAndGroups(filterModel, sortModel, rowGroupCols, forceReset);
 }
 function setRowCountString() {
   if (!gridApi.value) return;

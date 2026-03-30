@@ -88,7 +88,7 @@ export type TQuery64GridProps<T = TRecord> = {
  */
 export type TQuery64GridExpose<T = TRecord> = {
     resetGridParams: () => void;
-    updateGridParams: (columnProfils?: TResourceColumnProfil[], filterModel?: IServerSideGetRowsRequest["filterModel"], sortModel?: IServerSideGetRowsRequest["sortModel"], rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"]) => void;
+    updateGridParams: (columnProfils?: TResourceColumnProfil[], filterModel?: IServerSideGetRowsRequest["filterModel"], sortModel?: IServerSideGetRowsRequest["sortModel"], rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"], forceReset?: boolean) => void;
     gridOptions: GridOptions<T>;
     gridApi: GridApi<T> | undefined;
     getLastGetRowsParams: () => TQuery64GetRowsParams | null;
