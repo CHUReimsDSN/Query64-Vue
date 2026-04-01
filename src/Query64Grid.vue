@@ -315,7 +315,7 @@ function setupGridEvents() {
     if (baseOnModeleUpdated) baseOnModeleUpdated(params);
     setTimeout(() => {
       setRowCountString();
-    }, 100);
+    }, 100); // TODO try with nextTick
   };
   const baseOnColumnVisible = gridOptions.value.onColumnVisible;
   gridOptions.value.onColumnVisible = (params: ColumnVisibleEvent) => {

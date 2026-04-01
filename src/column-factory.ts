@@ -6,7 +6,6 @@ import type {
   IDateFilterParams,
   INumberFilterParams,
   ITextFilterParams,
-  TextMatcherParams,
   ValueGetterFunc,
 } from "ag-grid-enterprise";
 import {
@@ -348,8 +347,8 @@ export class ColumnFactory {
     allColumnsInOrder = allColumnsInOrder.filter((columnInOrder) => {
       return columnInOrder;
     });
-    allColumnsInOrder = allColumnsInOrder.sort((colA, colB) => {
-      return Number(colA.context?.order) - Number(colB.context?.order);
+    allColumnsInOrder.sort((colA, colB) => {
+      return Number(colA.context?.order ?? 1000) - Number(colB.context?.order ?? 1000);
     });
     return allColumnsInOrder;
   }
@@ -407,7 +406,10 @@ export class ColumnFactory {
         );
       });
       if (overload) {
-        column = overload.colDef;
+        column = {
+          ...column,
+          ...overload.colDef as ColDef<T, any>
+        } 
         if (!column.colId) {
           column.colId = column.field ?? column.headerName;
         }
