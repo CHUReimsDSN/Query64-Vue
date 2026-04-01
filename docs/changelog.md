@@ -4,6 +4,10 @@ title: Changelog
 
 # Changelog
 
+## 1.4.6
+
+- Correction d'un problème où l'ordre des colonnes de la props `initialGridParams` était ignoré
+
 ## 1.4.5
 
 - Ajout d'un paramètre optionnel à `updateGridParams` pour forcer la réinitialiser des états concernés

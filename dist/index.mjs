@@ -44939,12 +44939,10 @@ class nh {
     );
     return n.forEach((r) => {
       const a = t.find((l) => r.colId === l.field_name);
-      a ? (r.hide = !a.visible, r.width = a.width, r.context && (r.context.order = a.order, console.log(a.order))) : r.hide = !0;
+      a ? (r.hide = !a.visible, r.width = a.width, r.context && (r.context.order = a.order)) : r.hide = !0;
     }), n = n.filter((r) => r), n.sort((r, a) => {
       var l, d;
       return Number(((l = r.context) == null ? void 0 : l.order) ?? 1e3) - Number(((d = a.context) == null ? void 0 : d.order) ?? 1e3);
-    }), n.forEach((r) => {
-      r.context.order && console.log(r.colId, " =>> ", r.context.order);
     }), n;
   }
   getAllResourceColumns(t, s) {

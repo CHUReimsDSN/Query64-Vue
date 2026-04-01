@@ -341,7 +341,6 @@ export class ColumnFactory {
         resourceColumn.width = foundedColumn.width;
         if (resourceColumn.context) {
           resourceColumn.context.order = foundedColumn.order;
-          console.log(foundedColumn.order)
         }
       }
     });
@@ -351,11 +350,6 @@ export class ColumnFactory {
     allColumnsInOrder.sort((colA, colB) => {
       return Number(colA.context?.order ?? 1000) - Number(colB.context?.order ?? 1000);
     });
-    allColumnsInOrder.forEach((col) => {
-      if (col.context.order) {
-        console.log(col.colId, ' =>> ' , col.context.order)
-      }
-    })
     return allColumnsInOrder;
   }
 
