@@ -6,7 +6,6 @@ import type {
   IDateFilterParams,
   INumberFilterParams,
   ITextFilterParams,
-  TextMatcherParams,
   ValueGetterFunc,
 } from "ag-grid-enterprise";
 import {
@@ -348,9 +347,11 @@ export class ColumnFactory {
     allColumnsInOrder = allColumnsInOrder.filter((columnInOrder) => {
       return columnInOrder;
     });
+    console.log(allColumnsInOrder)
     allColumnsInOrder = allColumnsInOrder.sort((colA, colB) => {
       return Number(colA.context?.order) - Number(colB.context?.order);
     });
+    console.log(allColumnsInOrder)
     return allColumnsInOrder;
   }
 
