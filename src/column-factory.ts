@@ -342,19 +342,20 @@ export class ColumnFactory {
         if (resourceColumn.context) {
           resourceColumn.context.order = foundedColumn.order;
           console.log(foundedColumn.order)
-        } else {
-          console.log('no context wesh')
         }
       }
     });
     allColumnsInOrder = allColumnsInOrder.filter((columnInOrder) => {
       return columnInOrder;
     });
-    console.log(allColumnsInOrder)
-    allColumnsInOrder = allColumnsInOrder.sort((colA, colB) => {
-      return Number(colA.context?.order) - Number(colB.context?.order);
+    allColumnsInOrder.sort((colA, colB) => {
+      return Number(colA.context?.order ?? 1000) - Number(colB.context?.order ?? 1000);
     });
-    console.log(allColumnsInOrder)
+    allColumnsInOrder.forEach((col) => {
+      if (col.context.order) {
+        console.log(col.colId, ' =>> ' , col.context.order)
+      }
+    })
     return allColumnsInOrder;
   }
 
