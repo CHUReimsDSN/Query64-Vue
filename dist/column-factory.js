@@ -281,6 +281,10 @@ export class ColumnFactory {
                 resourceColumn.width = foundedColumn.width;
                 if (resourceColumn.context) {
                     resourceColumn.context.order = foundedColumn.order;
+                    console.log(foundedColumn.order);
+                }
+                else {
+                    console.log('no context wesh');
                 }
             }
         });
@@ -343,7 +347,10 @@ export class ColumnFactory {
                             metadata.association_name === null)));
             });
             if (overload) {
-                column = overload.colDef;
+                column = {
+                    ...column,
+                    ...overload.colDef
+                };
                 if (!column.colId) {
                     column.colId = column.field ?? column.headerName;
                 }
