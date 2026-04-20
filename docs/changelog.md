@@ -4,6 +4,10 @@ title: Changelog
 
 # Changelog
 
+## 1.4.7
+
+- Ajout de l'option 'pinned' pour les colonnes de l'aggrid. Les colonnes épinglées seront désormais visibles.
+
 ## 1.4.6
 
 - Correction d'un problème où l'ordre des colonnes de la props `initialGridParams` était ignoré
