@@ -6,7 +6,7 @@ title: Changelog
 
 ## 1.4.7
 
-- Ajout de l'option 'pinned' pour les colonnes de l'aggrid. Les colonnes épinglées seront désormais visibles.
+- Ajout de l'option `pinned` pour les profils de colonnes
 
 ## 1.4.6
 
