@@ -21,11 +21,13 @@ export type TResourceColumnMetaData = {
   association_type: string | null;
   association_class_name: string | null;
 };
+export type ColumnPinnedType = 'left' | 'right' | boolean | null | undefined;
 export type TResourceColumnProfil = {
   field_name: string;
   width: number;
   visible: boolean;
   order: number;
+  pinned: ColumnPinnedType;
 };
 export type TGlobalColumnProps = {
   columnTypeConfig?: Record<string, ColDef>;
