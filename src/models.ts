@@ -26,6 +26,7 @@ export type TResourceColumnProfil = {
   width: number;
   visible: boolean;
   order: number;
+  pinned?: ColDef['pinned'];
 };
 export type TGlobalColumnProps = {
   columnTypeConfig?: Record<string, ColDef>;

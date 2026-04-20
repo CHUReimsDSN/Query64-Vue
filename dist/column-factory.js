@@ -279,6 +279,7 @@ export class ColumnFactory {
             else {
                 resourceColumn.hide = !foundedColumn.visible;
                 resourceColumn.width = foundedColumn.width;
+                resourceColumn.pinned = foundedColumn.pinned;
                 if (resourceColumn.context) {
                     resourceColumn.context.order = foundedColumn.order;
                 }
