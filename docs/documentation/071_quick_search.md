@@ -28,8 +28,3 @@ watch(quickSearch, (newValue) => {
   <Query64Grid ref="query64Grid" />
 </template>
 ```
-
-## Configuration
-
-La configuration de la recherche rapide permet de sélectionner les colonnes sur lesquelles le filtre sera appliqué.
-

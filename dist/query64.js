@@ -1,74 +1,37 @@
-import { CellStyleModule, ClientSideRowModelApiModule, ClientSideRowModelModule, ColumnApiModule, ColumnAutoSizeModule, DateFilterModule, EventApiModule, InfiniteRowModelModule, LocaleModule, ModuleRegistry, NumberFilterModule, PaginationModule, RenderApiModule, RowAutoHeightModule, RowDragModule, RowStyleModule, TextFilterModule, ValidationModule, } from "ag-grid-community";
+import { CellStyleModule, ClientSideRowModelApiModule, ClientSideRowModelModule, ColumnApiModule, ColumnAutoSizeModule, DateFilterModule, EventApiModule, InfiniteRowModelModule, LocaleModule, ModuleRegistry, NumberFilterModule, PaginationModule, RenderApiModule, RowAutoHeightModule, RowDragModule, RowStyleModule, TextFilterModule, } from "ag-grid-community";
 import { ColumnMenuModule, ContextMenuModule, MasterDetailModule, RowGroupingPanelModule, LicenseManager, ServerSideRowModelApiModule, ServerSideRowModelModule, SetFilterModule, } from "ag-grid-enterprise";
-import { ColumnFactory } from "./column-factory";
-import AgGridFrenchTranslate from "./locale.fr";
+import { Logger } from "./logger";
+import { Utils } from "./utils";
+import CellDefaultListValue from "./CellDefaultListValue.vue";
 export class Query64 {
     static _instance = new Query64();
-    overloads = [];
-    additionals = [];
-    columnTypeConfig = ColumnFactory.getColumnTypesDefaultConfig();
-    translate = AgGridFrenchTranslate;
-    hasRegisterKeyAndModule = false;
-    static getColumnOverloadsByResourceName(resourceName) {
-        return this._instance.overloads.filter((overload) => {
-            return overload.resourceColumnRegister.resourceName === resourceName;
-        });
+    globalOverloadColumnsMap = new Map();
+    globalAdditionalColumnsMap = new Map();
+    globalConfig = {
+        columnDateFormater: Utils.formatDate,
+        columnDatetimeFormater: Utils.formatDatetime,
+        columnTypeConfig: Utils.columnTypesConfig(),
+        columnHasManyRenderComponent: CellDefaultListValue,
+        translation: Utils.getFrenchTranslate(),
+    };
+    loggerConfig = Logger.getDefaultConfig();
+    static getGlobalAdditionalColumnsByResourceName(resourceName) {
+        return this._instance.globalAdditionalColumnsMap.get(resourceName) ?? [];
     }
-    static getColumnAdditionalsByResourceName(resourceName) {
-        return this._instance.additionals.filter((additional) => {
-            return additional.resourceName === resourceName;
-        });
+    static getGlobalOverloadColumnsByResourceName(resourceName) {
+        return this._instance.globalOverloadColumnsMap.get(resourceName) ?? [];
     }
-    /**
-     * Enregistre une surcharge de colonne
-     * Un identifiant unique est créer par enregistrement : `resourceName` + `columnName` + `associationName`
-     * Les appels successifs de cette méthode pour une même donnée viendront remplacer la valeur pour un même identifiant
-     * @param resourceColumnRegister
-     * @param colDef
-     */
-    static registerColumnOverload(resourceColumnRegister, colDef) {
-        const id = `${resourceColumnRegister.resourceName}::${resourceColumnRegister.columnName}.${resourceColumnRegister.associationName}`;
-        const existingOverload = this._instance.overloads.find((overload) => {
-            return overload.id === id;
-        });
-        if (existingOverload) {
-            existingOverload.colDef = colDef;
-            return;
-        }
-        this._instance.overloads.push({
-            resourceColumnRegister,
-            colDef,
-            id,
-        });
+    static registerGlobalAdditionals(resourceName, columnRegistrations) {
+        const columnMapByResource = this._instance.globalAdditionalColumnsMap.get(resourceName) ?? [];
+        columnMapByResource.push(...columnRegistrations);
+        this._instance.globalAdditionalColumnsMap.set(resourceName, columnMapByResource);
     }
-    /**
-     * Enregistre une colonne additionnelle
-     * Un identifiant unique est créer par enregistrement, basé sur la propriété colId de la colonne
-     * Les appels successifs de cette méthode pour une même donnée viendront remplacer la valeur pour un même identifiant
-     * @param resourceName
-     * @param colDef
-     */
-    static registerColumnAdditional(resourceName, colDef) {
-        const id = `additional::${colDef.colId ?? new Date().getTime()}`;
-        const existingAdditional = this._instance.additionals.find((additional) => {
-            return additional.id === id;
-        });
-        if (existingAdditional) {
-            existingAdditional.colDef = colDef;
-            return;
-        }
-        this._instance.additionals.push({
-            resourceName,
-            colDef,
-            id,
-        });
+    static registerGlobalOverloads(resourceName, columnRegistrations) {
+        const columnMapByResource = this._instance.globalOverloadColumnsMap.get(resourceName) ?? [];
+        columnMapByResource.push(...columnRegistrations);
+        this._instance.globalOverloadColumnsMap.set(resourceName, columnMapByResource);
     }
-    /**
-     * Enregistre la clé AgGrid Enterprise et les modules nécéssaire à Query64
-     * @param key
-     * @param envMode
-     */
-    static registerAgGridKeyAndModules(key, devMode) {
+    static registerAgGridKeyAndModules(key, additionalModules = []) {
         const modulesToRegister = [
             ServerSideRowModelModule,
             MasterDetailModule,
@@ -92,26 +55,29 @@ export class Query64 {
             ColumnAutoSizeModule,
             RowAutoHeightModule,
             RowGroupingPanelModule,
-            SetFilterModule
+            SetFilterModule,
+            ...additionalModules,
         ];
-        if (devMode) {
-            modulesToRegister.push(ValidationModule);
-        }
         ModuleRegistry.registerModules(modulesToRegister);
         LicenseManager.setLicenseKey(key);
-        this._instance.hasRegisterKeyAndModule = true;
     }
-    static getAgGridGlobalTranslate() {
-        return this._instance.translate;
+    static getGlobalConfig() {
+        return this._instance.globalConfig;
     }
-    static registerAgGridBlobalTranslate(translate) {
-        this._instance.translate = translate;
+    static registerGlobalConfig(globalConfig) {
+        this._instance.globalConfig = {
+            ...this._instance.globalConfig,
+            ...globalConfig,
+        };
     }
-    static getColumnTypesGlobalConfig() {
-        return this._instance.columnTypeConfig;
+    static getLoggerConfig() {
+        return this._instance.loggerConfig;
     }
-    static registerColumnTypesConfig(columnTypeConfig) {
-        this._instance.columnTypeConfig = columnTypeConfig;
+    static registerLoggerConfig(loggerConfig) {
+        this._instance.loggerConfig = {
+            ...this.getLoggerConfig(),
+            ...loggerConfig,
+        };
     }
     constructor() { }
 }

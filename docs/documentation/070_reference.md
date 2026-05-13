@@ -15,7 +15,9 @@ import type { TQuery64GridExpose } from 'query64-vue';
 const query64Grid = ref<TQuery64GridExpose>()
 
 function example() {
-  if (!query64Grid.value) return
+  if (!query64Grid.value) {
+    return
+  } 
   gridApi = query64Grid.value.gridApi
   // ... more code with the AgGrid api
 }

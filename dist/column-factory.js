@@ -1,300 +1,22 @@
 import { Query64 } from "./query64";
-import CellDefaultListValue from "./CellDefaultListValue.vue";
+import { Logger } from "./logger";
 export class ColumnFactory {
-    static getColumnTypesDefaultConfig() {
-        return {
-            textColumn: {
-                floatingFilter: true,
-                resizable: true,
-                sortable: true,
-                enableRowGroup: true,
-                columnGroupShow: "open",
-                filter: "agTextColumnFilter",
-                filterParams: {
-                    filterOptions: ["contains", "notContains"],
-                },
-                mainMenuItems: [
-                    "sortAscending",
-                    "sortDescending",
-                    "columnChooser",
-                    "rowGroup",
-                    "pinSubMenu",
-                ],
-            },
-            keywordColumn: {
-                floatingFilter: true,
-                resizable: true,
-                sortable: true,
-                enableRowGroup: true,
-                columnGroupShow: "open",
-                filter: "agTextColumnFilter",
-                filterParams: {
-                    filterOptions: [
-                        "contains",
-                        "equals",
-                        "notEqual",
-                        "notContains",
-                        {
-                            displayKey: "blank",
-                            displayName: "Vide",
-                            predicate: function (_, cellValue) {
-                                return String(cellValue).length === 0;
-                            },
-                            numberOfInputs: 0,
-                        },
-                        {
-                            displayKey: "notEmpty",
-                            displayName: "Non vide",
-                            predicate: function (_, cellValue) {
-                                return String(cellValue).length > 0;
-                            },
-                            numberOfInputs: 0,
-                        },
-                    ],
-                },
-                mainMenuItems: [
-                    "sortAscending",
-                    "sortDescending",
-                    "columnChooser",
-                    "rowGroup",
-                    "pinSubMenu",
-                ],
-            },
-            floatColumn: {
-                floatingFilter: true,
-                resizable: true,
-                sortable: true,
-                enableRowGroup: true,
-                columnGroupShow: "open",
-                filter: "agNumberColumnFilter",
-                filterParams: {
-                    filterOptions: ["contains", "equals", "greaterThan", "lessThan"],
-                },
-                mainMenuItems: [
-                    "sortAscending",
-                    "sortDescending",
-                    "columnChooser",
-                    "rowGroup",
-                    "pinSubMenu",
-                ],
-            },
-            numberColumn: {
-                floatingFilter: true,
-                resizable: true,
-                sortable: true,
-                enableRowGroup: true,
-                columnGroupShow: "open",
-                filter: "agNumberColumnFilter",
-                filterParams: {
-                    filterOptions: ["equals", "greaterThan", "lessThan", "inRange"],
-                },
-                mainMenuItems: [
-                    "sortAscending",
-                    "sortDescending",
-                    "columnChooser",
-                    "rowGroup",
-                    "pinSubMenu",
-                ],
-            },
-            dateColumn: {
-                floatingFilter: true,
-                resizable: true,
-                sortable: true,
-                enableRowGroup: true,
-                columnGroupShow: "open",
-                filter: "agDateColumnFilter",
-                filterParams: {
-                    buttons: ["reset"],
-                    browserDatePicker: true,
-                    filterOptions: [
-                        "equals",
-                        "notEqual",
-                        "inRange",
-                        "greaterThan",
-                        "lessThan",
-                    ],
-                },
-                mainMenuItems: [
-                    "sortAscending",
-                    "sortDescending",
-                    "columnChooser",
-                    "rowGroup",
-                    "pinSubMenu",
-                ],
-            },
-            datetimeColumn: {
-                floatingFilter: true,
-                resizable: true,
-                sortable: true,
-                enableRowGroup: true,
-                columnGroupShow: "open",
-                filter: "agDateColumnFilter",
-                filterParams: {
-                    buttons: ["reset"],
-                    browserDatePicker: true,
-                    filterOptions: [
-                        "equals",
-                        "notEqual",
-                        "inRange",
-                        "greaterThan",
-                        "lessThan",
-                    ],
-                },
-                mainMenuItems: [
-                    "sortAscending",
-                    "sortDescending",
-                    "columnChooser",
-                    "rowGroup",
-                    "pinSubMenu",
-                ],
-            },
-            booleanColumn: {
-                floatingFilter: true,
-                resizable: true,
-                sortable: true,
-                enableRowGroup: true,
-                columnGroupShow: "open",
-                filter: "agSetColumnFilter",
-                filterParams: {
-                    values: [true, false, "null"],
-                    suppressSorting: true,
-                    valueFormatter: (params) => {
-                        if (params.value === true) {
-                            return "Oui";
-                        }
-                        if (params.value === false) {
-                            return "Non";
-                        }
-                        if (params.value === "null") {
-                            return "Vide";
-                        }
-                        return "???";
-                    },
-                },
-                mainMenuItems: [
-                    "sortAscending",
-                    "sortDescending",
-                    "columnChooser",
-                    "rowGroup",
-                    "pinSubMenu",
-                ],
-            },
-            objectColumn: {
-                floatingFilter: false,
-                filter: false,
-                sortable: false,
-                resizable: true,
-                autoHeight: true,
-                suppressHeaderFilterButton: true,
-                columnGroupShow: "open",
-                mainMenuItems: ["columnChooser"],
-            },
-            actionColumn: {
-                resizable: false,
-                initialHide: false,
-                hide: false,
-                floatingFilter: false,
-                sortable: false,
-                pinned: "right",
-                columnGroupShow: "open",
-                cellClass: "flex flex-center row no-wrap",
-                mainMenuItems: ["columnChooser"],
-            },
-        };
-    }
     resourceName;
-    globalColumnSettings;
-    hasManyColumnSettings;
-    actionColumnSettings;
-    overloadSettings;
-    additionalSettings;
-    constructor(resourceName, globalColumnProps, hasManyColumnProps, actionColumnProps, overloadProps, additionalProps) {
+    config;
+    customColumnsMap;
+    columnsMetadataMap;
+    constructor(resourceName, columnsMetadatas, config, additionals, overloads) {
         this.resourceName = resourceName;
-        this.globalColumnSettings = {
-            columnTypeConfig: globalColumnProps?.columnTypeConfig ??
-                Query64.getColumnTypesGlobalConfig(),
-            columnDateFormater: globalColumnProps?.columnDateFormater ??
-                ((dateValue) => {
-                    const date = new Date(dateValue);
-                    const day = date.getDate();
-                    const month = date.getMonth() + 1;
-                    const year = date.getFullYear();
-                    return ((day < 10 ? "0" : "") +
-                        day +
-                        "/" +
-                        (month < 10 ? "0" : "") +
-                        month +
-                        "/" +
-                        year);
-                }),
-            columnDatetimeFormater: globalColumnProps?.columnDatetimeFormater ??
-                ((dateValue) => {
-                    const date = new Date(dateValue);
-                    const day = date.getDate();
-                    const month = date.getMonth() + 1;
-                    const year = date.getFullYear();
-                    const hour = date.getHours();
-                    const minutes = date.getMinutes();
-                    return ((day < 10 ? "0" : "") +
-                        day +
-                        "/" +
-                        (month < 10 ? "0" : "") +
-                        month +
-                        "/" +
-                        year +
-                        " " +
-                        ((hour < 10 ? "0" : "") +
-                            hour +
-                            ":" +
-                            ((minutes < 10 ? "0" : "") + minutes)));
-                }),
+        this.columnsMetadataMap = new Map();
+        for (const metadata of columnsMetadatas) {
+            this.columnsMetadataMap.set(metadata.field_name, metadata);
+        }
+        this.config = {
+            ...Query64.getGlobalConfig(),
+            ...config,
         };
-        this.hasManyColumnSettings = hasManyColumnProps ?? {
-            purgeNullValue: false,
-            customComponent: CellDefaultListValue,
-        };
-        this.actionColumnSettings = actionColumnProps;
-        this.overloadSettings = overloadProps ?? [];
-        Query64.getColumnOverloadsByResourceName(this.resourceName).forEach((overload) => {
-            this.overloadSettings.push(overload);
-        });
-        this.additionalSettings = additionalProps ?? [];
-        Query64.getColumnAdditionalsByResourceName(this.resourceName).forEach((additional) => {
-            this.additionalSettings.push(additional);
-        });
-    }
-    getResourceColumnsDefault(resourceMetaDatas, resourceName) {
-        return this.getAllResourceColumns(resourceMetaDatas, resourceName);
-    }
-    getResourceColumnsByProfils(columnData, resourceMetaDatas, resourceName) {
-        const allColumns = this.getAllResourceColumns(resourceMetaDatas, resourceName);
-        let allColumnsInOrder = allColumns;
-        allColumnsInOrder.forEach((resourceColumn) => {
-            const foundedColumn = columnData.find((profilColumn) => {
-                return resourceColumn.colId === profilColumn.field_name;
-            });
-            if (!foundedColumn) {
-                resourceColumn.hide = true;
-            }
-            else {
-                resourceColumn.hide = !foundedColumn.visible;
-                resourceColumn.width = foundedColumn.width;
-                if (resourceColumn.context) {
-                    resourceColumn.context.order = foundedColumn.order;
-                }
-            }
-        });
-        allColumnsInOrder = allColumnsInOrder.filter((columnInOrder) => {
-            return columnInOrder;
-        });
-        allColumnsInOrder.sort((colA, colB) => {
-            return Number(colA.context?.order ?? 1000) - Number(colB.context?.order ?? 1000);
-        });
-        return allColumnsInOrder;
-    }
-    getAllResourceColumns(resourceMetaDatas, resourceName) {
-        const columns = [];
-        resourceMetaDatas.forEach((metadata) => {
+        this.customColumnsMap = new Map();
+        columnsMetadatas.forEach((metadata) => {
             let column;
             switch (metadata.field_type) {
                 case "string":
@@ -315,74 +37,118 @@ export class ColumnFactory {
                 case "object":
                     column = this.getGenericColumnObject(metadata);
                     break;
-            }
-            if (!column.context) {
-                column.context = {};
+                default:
+                    Logger.tryLog(`Field type unkown for column ${metadata.field_name} : ${metadata.field_type}`);
+                    column = this.getGenericColumnObject(metadata);
+                    break;
             }
             column.hide = metadata.association_type !== null;
             column.cellStyle = this.generateSafeColDefStyle();
-            if (metadata.raw_field_name === "id")
-                column.enableRowGroup = false;
+            const columnSpecialContext = {
+                type: "generated",
+            };
             if (metadata.association_type !== null) {
-                column.valueGetter = this.getGenericColumnValueGetterRelation(column);
-                if (metadata.association_type === "has_many") {
+                column.valueGetter = this.getGenericColumnValueGetterRelation(column, metadata);
+                if (metadata.association_type === "has_many" ||
+                    metadata.association_type === "has_and_belongs_to_many") {
                     column.autoHeight = true;
-                    column.cellRenderer =
-                        this.hasManyColumnSettings.customComponent ?? CellDefaultListValue;
+                    column.cellRenderer = this.config.columnHasManyRenderComponent;
                 }
             }
-            const overload = this.overloadSettings.find((overloadSetting) => {
-                return (overloadSetting.resourceColumnRegister.columnName ===
-                    metadata.raw_field_name &&
-                    (overloadSetting.resourceColumnRegister.associationName ===
-                        metadata.association_name ||
-                        (overloadSetting.resourceColumnRegister.associationName ===
-                            undefined &&
-                            metadata.association_name === null)));
+            const customColumn = ColumnFactory.generateCustomColumn(column, columnSpecialContext);
+            this.customColumnsMap.set(customColumn.colId, customColumn);
+        });
+        // additionals
+        const mergedAdditionals = [
+            ...Query64.getGlobalAdditionalColumnsByResourceName(this.resourceName),
+            ...(additionals ?? []),
+        ];
+        for (const additional of mergedAdditionals ?? []) {
+            const customColumn = ColumnFactory.generateCustomColumn(additional.colDef, {
+                type: "add",
+                dependsOn: additional.dependsOn,
             });
-            if (overload) {
-                column = {
-                    ...column,
-                    ...overload.colDef
-                };
-                if (!column.colId) {
-                    column.colId = column.field ?? column.headerName;
-                }
-                if (!column.context) {
-                    column.context = {};
-                }
+            if (this.customColumnsMap.has(additional.colDef.colId)) {
+                Logger.tryLog(`You tried to set additional column with id ${additional.colDef.colId} but this id already exists. Action has been ignored.`);
+                continue;
             }
-            columns.push(column);
-        });
-        if (this.actionColumnSettings?.defaultComponent) {
-            columns.push(this.getGenericColumnAction(resourceName, this.actionColumnSettings.defaultComponent));
+            this.customColumnsMap.set(additional.colDef.colId, customColumn);
         }
-        this.additionalSettings.forEach((additionalSetting) => {
-            const colDef = additionalSetting.colDef;
-            colDef.cellStyle = this.generateSafeColDefStyle();
-            if (!colDef.colId) {
-                colDef.colId = colDef.field ?? colDef.headerName;
+        // overloads
+        const mergedOverloads = [
+            ...Query64.getGlobalOverloadColumnsByResourceName(this.resourceName),
+            ...(overloads ?? []),
+        ];
+        for (const overload of mergedOverloads ?? []) {
+            const columnToOverload = this.customColumnsMap.get(overload.colDef.colId);
+            if (!columnToOverload) {
+                Logger.tryLog(`You tried to set overload column with id ${overload.colDef.colId} but no column was found. Action has been ignored.`);
+                continue;
             }
-            if (!colDef.context) {
-                colDef.context = {};
-            }
-            columns.push(colDef);
-        });
-        return columns;
+            const mergedColumn = {
+                ...columnToOverload,
+                ...overload.colDef,
+            };
+            const customColumn = ColumnFactory.generateCustomColumn(mergedColumn, {
+                type: "overload",
+                dependsOn: overload.dependsOn,
+            });
+            this.customColumnsMap.set(overload.colDef.colId, customColumn);
+        }
+        this.detectDeadDepedencies();
     }
-    getGenericColumnAction(resourceName, cellComponent) {
-        return {
-            headerName: "Actions",
-            type: "actionColumn",
-            colId: "defaultActions",
-            cellRenderer: cellComponent,
-            cellRendererParams: {
-                resourceName,
-            },
-            width: 107,
-            context: {},
-            cellStyle: this.generateSafeColDefStyle(),
-        };
+    getColumns() {
+        return this.customColumnsMap.values().toArray();
+    }
+    getColumnsByProfils(preferences) {
+        const columnsMapCopy = new Map(this.customColumnsMap);
+        const columnFoundMap = new Set();
+        const columnOrderMap = new Map();
+        for (const preference of preferences) {
+            const columnFound = columnsMapCopy.get(preference.colId);
+            if (!columnFound) {
+                columnFoundMap.add(preference.colId);
+                continue;
+            }
+            columnFound.hide = !preference.visible;
+            columnFound.width = preference.width;
+            columnFound.pinned = preference.pinned;
+            columnOrderMap.set(columnFound.colId, preference.order);
+        }
+        return columnsMapCopy
+            .values()
+            .toArray()
+            .map((column) => {
+            if (!columnFoundMap.has(column.colId)) {
+                column.hide = true;
+            }
+            return column;
+        })
+            .sort((colA, colB) => {
+            return ((columnOrderMap.get(colA.colId) ?? 1000) -
+                (columnOrderMap.get(colB.colId) ?? 1000));
+        });
+    }
+    getMetadataByColId(colId) {
+        return this.columnsMetadataMap.get(colId);
+    }
+    getColumnByColId(colId) {
+        return this.customColumnsMap.get(colId);
+    }
+    getColIdList() {
+        return this.columnsMetadataMap.keys().toArray();
+    }
+    getAllColumnDepedencies() {
+        return new Set(...this.customColumnsMap
+            .values()
+            .toArray()
+            .map((column) => column.query64Context.dependsOn ?? [])
+            .flat())
+            .keys()
+            .toArray();
+    }
+    columnExist(colId) {
+        return this.getColIdList().includes(colId);
     }
     getGenericColumnString(metaData) {
         return {
@@ -417,9 +183,10 @@ export class ColumnFactory {
             type: "dateColumn",
             filter: "agDateColumnFilter",
             valueGetter: (params) => {
-                if (!params.data || !params.data[metaData.raw_field_name])
+                if (!params.data ||
+                    !params.data[metaData.raw_field_name])
                     return "";
-                return this.globalColumnSettings.columnDateFormater(params.data[metaData.raw_field_name]);
+                return this.config.columnDateFormater(params.data[metaData.raw_field_name]);
             },
             width: 150,
         };
@@ -431,9 +198,10 @@ export class ColumnFactory {
             type: "dateColumn",
             filter: "agDateColumnFilter",
             valueGetter: (params) => {
-                if (!params.data || !params.data[metaData.raw_field_name])
+                if (!params.data ||
+                    !params.data[metaData.raw_field_name])
                     return "";
-                return this.globalColumnSettings.columnDatetimeFormater(params.data[metaData.raw_field_name]);
+                return this.config.columnDatetimeFormater(params.data[metaData.raw_field_name]);
             },
             width: 150,
         };
@@ -447,7 +215,9 @@ export class ColumnFactory {
                 if (!params.data ||
                     params.data[metaData.raw_field_name] === undefined)
                     return "";
-                return params.data[metaData.raw_field_name] ? "Oui" : "Non";
+                return params.data[metaData.raw_field_name]
+                    ? "Oui"
+                    : "Non";
             },
             width: 150,
         };
@@ -464,37 +234,39 @@ export class ColumnFactory {
             width: 150,
         };
     }
-    getGenericColumnValueGetterRelation(column) {
-        if (!column.colId)
+    getGenericColumnValueGetterRelation(column, metadata) {
+        if (!column.colId) {
             return () => null;
+        }
         const baseValueGetter = column.valueGetter;
-        const colIdMacro = column.colId.split("::").at(-1);
-        const colIdRelation = column.colId.split(".").at(0);
-        if (!colIdRelation ||
+        const associationType = metadata.association_type;
+        const relationName = metadata.association_name;
+        if (!relationName ||
             !baseValueGetter ||
             typeof baseValueGetter !== "function") {
             return () => null;
         }
-        if (colIdMacro === "has_many" || colIdMacro === "has_and_belongs_to_many") {
+        if (associationType === "has_many" ||
+            associationType === "has_and_belongs_to_many") {
             return (params) => {
-                if (!params.data || !params.data[colIdRelation]) {
+                if (!params.data || !params.data[relationName]) {
                     return "";
                 }
-                return params.data[colIdRelation].map((relation) => {
+                return params.data[relationName].map((relation) => {
                     return baseValueGetter({ ...params, data: relation });
                 });
             };
         }
-        if (colIdMacro === "belongs_to" || colIdMacro === "has_one") {
+        if (associationType === "belongs_to" || associationType === "has_one") {
             return (params) => {
                 if (!params.data ||
-                    !params.data[colIdRelation] ||
-                    !Array.isArray(params.data[colIdRelation])) {
+                    !params.data[relationName] ||
+                    !Array.isArray(params.data[relationName])) {
                     return "";
                 }
                 return baseValueGetter({
                     ...params,
-                    data: params.data[colIdRelation][0],
+                    data: params.data[relationName],
                 });
             };
         }
@@ -508,6 +280,22 @@ export class ColumnFactory {
                 };
             }
             return {};
+        };
+    }
+    detectDeadDepedencies() {
+        const depedencies = this.getAllColumnDepedencies();
+        for (const depedency of depedencies) {
+            if (!this.columnExist(depedency)) {
+                Logger.tryLog(`Column with id ${depedency} has been register as depedency but does not exist in the column pool.`);
+            }
+        }
+    }
+    static generateCustomColumn(column, query64Context) {
+        return {
+            ...column,
+            colId: column.colId,
+            query64Context,
+            context: {},
         };
     }
 }

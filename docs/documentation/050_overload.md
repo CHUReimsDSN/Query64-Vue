@@ -13,33 +13,34 @@ Peu import si une ou plusieurs grilles de Query64 pointent sur la même ressourc
 
 Exemple avec composant custom : 
 ```typescript
-// Ici la colonne 'id_res' de la ressource 'User' sera remplacer par la nouvelle définition
-Query64.registerColumnOverload({
-    resourceName: 'User'
-    columnName: 'id_res'
-  },
-  {
-      width: 200,
-      cellRenderer: CellCustomIdRes
-  }
+// Ici la colonne 'fullname' de la ressource 'User' sera remplacer par la nouvelle définition
+Query64.registerGlobalOverloads(
+  'User',
+  [{
+    {
+      colDef: {
+        colId: 'fullname',
+        cellRenderer: CellCustomFullname
+      }
+    }
+  }]
 )
 ```
 
 ```vue
 <script setup lang="ts">
-// CellCustomIdRes.vue
+// CellCustomFullname.vue
 // Les données de la ligne sont passer en props automatiquement au composant de la cellule
-
 import type { ICellRendererParams } from 'ag-grid-enterprise';
 
 const propsComponent = defineProps<{
-  params: ICellRendererParams
+  params: ICellRendererParams;
 }>();
 </script>
 
 <template>
   <div style="background-color: green;">
-    {{ propsComponent.params.data.id_res }} but everything is customizable!
+    {{ propsComponent.params.data.fullname }} but everything is customizable!
   </div>
 </template>
 ```
@@ -52,29 +53,25 @@ Exemple avec un composant custom :
 // Ici la colonne 'id_res' de la ressource 'User' sera remplacer par la nouvelle définition
 import { Query64Grid } from 'query64-vue';
 
-const userColumnOverloads = [
+const overloads = [
   {
-    resourceColumnRegister: {
-        columnName: 'id_res'
-    },
     colDef:  {
-      width: 200,
-      cellRenderer: CellCustomIdRes
+      colId: 'fullname',
+      cellRenderer: CellCustomFullname
     }
   }
 ]
 </script>
 
 <template>
-  <Query64Grid resourceName="User" :overloads="userColumnOverloads" />
+  <Query64Grid resourceName="User" :overloads="overloads" />
 </template>
 ```
 
 ```vue
 <script setup lang="ts">
-// CellCustomIdRes.vue
+// CellCustomFullname.vue
 // Les données de la ligne sont passer en props automatiquement au composant de la cellule
-
 import type { ICellRendererParams } from 'ag-grid-enterprise';
 
 const propsComponent = defineProps<{
@@ -84,7 +81,7 @@ const propsComponent = defineProps<{
 
 <template>
   <div style="background-color: green;">
-    {{ propsComponent.params.data.id_res }} but everything is customizable!
+    {{ propsComponent.params.data.fullname }} but everything is customizable!
   </div>
 </template>
 ```

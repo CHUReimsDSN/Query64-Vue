@@ -1,18 +1,17 @@
-<script setup lang="ts" generic="T extends TRecord">
+<script setup lang="ts">
 import { AgGridVue } from "ag-grid-vue3";
-import { onMounted, ref } from "vue";
-import {
-  TResourceColumnProfil,
-  TResourceColumnMetaData,
+import { nextTick, onMounted, ref } from "vue";
+import type {
+  TColumnProfil as TColumnPreference,
   TQuery64GridProps,
-  TQuery64GridExpose,
+  TQuery64GridApi,
   TQuery64GetRowsParams,
+  TCustomColumn,
 } from "./models";
 import { ColumnFactory } from "./column-factory";
 import {
   themeAlpine,
   type ColDef,
-  type ColTypeDef,
   type Column,
   type ColumnVisibleEvent,
   type GetRowIdParams,
@@ -24,82 +23,49 @@ import {
   type IServerSideGetRowsRequest,
   type ModelUpdatedEvent,
 } from "ag-grid-community";
-import { Query64 } from "./query64";
-import type { TRecord } from "./private-models";
+import type { TRecord, TResourceColumnMetaData } from "./private-models";
+import { Logger } from "./logger";
+import { Utils } from "./utils";
 
 // props
-const propsComponent = withDefaults(defineProps<TQuery64GridProps<T>>(), {
+const propsComponent = withDefaults(defineProps<TQuery64GridProps>(), {
   getMetadata: async () => [],
   getRows: async () => {
     return { items: [], length: 0 };
   },
   showRowCount: true,
   aggridTheme: themeAlpine,
-  gridStyle:
-    "box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2), 0 3px 4px rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.12);",
+  gridStyle: Utils.gridStyle(),
 });
 
-// consts
-let resourceMetaDatas: TResourceColumnMetaData[] = [];
-const columnFactory = new ColumnFactory(
-  propsComponent.resourceName,
-  propsComponent.globalColumnSettings,
-  propsComponent.hasManyColumnSettings,
-  propsComponent.actionColumnSettings,
-  propsComponent.overloads,
-  propsComponent.additionals
-);
-
-// vars
+// lets
 let lastGetRowsParams: TQuery64GetRowsParams | null = null;
 let lastDisplayedCols: string[] = [];
 let quickSearch: string | null = null
+let columnFactory: ColumnFactory | null = null;
 
 // refs
-const gridOptions = ref<GridOptions<T>>({
-  localeText: Query64.getAgGridGlobalTranslate(),
-  suppressMiddleClickScrolls: true,
-  suppressNoRowsOverlay: false,
-  rowSelection: "multiple",
-  rowModelType: "serverSide",
-  rowGroupPanelShow: "onlyWhenGrouping",
-  groupDisplayType: "singleColumn",
-  theme: propsComponent.aggridTheme,
-  autoGroupColumnDef: {
-    minWidth: 200,
-    cellRendererParams: {
-      innerRenderer: (params: ICellRendererParams) => {
-        // pas beau mais pas le choix, keyCreator sur les colDefs marche po :<
-        params.node.key = params.data.__group_key ?? null;
-        return params.data.__label;
-      },
-    },
-  },
-  columnTypes: columnFactory.globalColumnSettings.columnTypeConfig as {
-    [key: string]: ColTypeDef<T>;
-  },
-  columnDefs: [],
-  serverSideDatasource: setupRowData(),
-  getRowId,
-  getChildCount,
-  maxConcurrentDatasourceRequests: 1,
-  cacheBlockSize: 50,
-  maxBlocksInCache: 4,
-  rowHeight: 35,
-});
-const gridApi = ref<GridApi<T>>();
+const gridOptions = ref<GridOptions<TRecord> | null>(null);
+const gridApi = ref<GridApi<TRecord> | null>(null);
 const rowCountString = ref("0 ligne");
 const isLoadingSettingUpGrid = ref(true);
 const isLoadingServer = ref(true);
-const themeMode = ref<TQuery64GridProps<T>["aggridThemeMode"]>("light");
+const themeMode = ref<TQuery64GridProps["aggridThemeMode"]>("light");
 
 // functions
-async function setupResourceMetaData() {
+async function setupColumns() {
   const response = await propsComponent.getMetadata({
     resourceName: propsComponent.resourceName,
     context: propsComponent.context,
   });
-  resourceMetaDatas = response;
+  columnFactory = new ColumnFactory(
+    propsComponent.resourceName,
+    response,
+    propsComponent.config,
+    propsComponent.additionals,
+    propsComponent.overloads
+  )
+  gridOptions.value = getGridOptionsConfig(columnFactory)
 }
 function getRowId(params: GetRowIdParams) {
   if (params.data.__id) {
@@ -110,14 +76,18 @@ function getRowId(params: GetRowIdParams) {
 function getChildCount(dataItem: GetRowIdParams["data"]) {
   return dataItem.__childCount;
 }
-function setupRowData(): IServerSideDatasource<T> {
+function setupRowData(): IServerSideDatasource<TRecord> {
   return {
     getRows: (params) => {
+      if (!columnFactory) {
+        params.fail()
+        return
+      }
       const displayedCols =
         params.api
           .getColumns()
           ?.filter((column) => {
-            return column.isVisible();
+            return column.isVisible() || columnFactory!.getAllColumnDepedencies().includes(column.getColId());
           })
           .map((column) => {
             return column.getColId();
@@ -160,25 +130,34 @@ function setupRowData(): IServerSideDatasource<T> {
         .getRows(lastGetRowsParams)
         .then((response) => {
           isLoadingServer.value = false
-          let jsonKeysToParse: Set<keyof T> = new Set();
+          let jsonKeysToParse: Map<keyof TRecord, boolean> = new Map();
           const isGroupMode =
             params.request.rowGroupCols.length !== 0 &&
             params.request.rowGroupCols.length !==
             params.request.groupKeys.length;
           if (!isGroupMode) {
-            displayedCols.forEach((displayedCol) => {
-              if (!displayedCol.includes(".")) {
-                return;
+            for (const displayedCol of displayedCols) {
+              const metadataCol = columnFactory!.getMetadataByColId(displayedCol)
+              if (!metadataCol) {
+                continue;
               }
-              jsonKeysToParse.add(
-                (displayedCol.split(".")[0] ?? "") as keyof T
+              let parseToSingle = true
+              if (metadataCol.association_type === 'has_many' || metadataCol.association_type === 'has_and_belongs_to_many') {
+                parseToSingle = false
+              }
+              jsonKeysToParse.set(
+                (displayedCol.split(".")[0] ?? "") as keyof TRecord,
+                parseToSingle
               );
-            });
+            }
           }
           const items = response.items.map((item) => {
-            jsonKeysToParse.forEach((key) => {
-              item[key] = JSON.parse(item[key] as string);
-            });
+            for (const entry of jsonKeysToParse.entries()) {
+              item[entry[0]] = JSON.parse(item[entry[0]] as string);
+              if (entry[1]) {
+                item[entry[0]] = (item[entry[0]] as TRecord[]).at(0)
+              }
+            }
             return item;
           });
           if (shallReturnCount) {
@@ -202,26 +181,21 @@ function setupRowData(): IServerSideDatasource<T> {
         })
         .catch((error) => {
           params.fail();
-          console.error(error);
+          Logger.tryLog(error)
           isLoadingServer.value = false
         });
     },
   };
 }
-function setupGridColumns(columnProfils?: TResourceColumnProfil[]) {
-  if (!gridApi.value || !resourceMetaDatas) return;
-  let resourceColumns: ColDef<T>[];
-  if (columnProfils) {
-    resourceColumns = columnFactory.getResourceColumnsByProfils<T>(
-      columnProfils,
-      resourceMetaDatas,
-      propsComponent.resourceName
-    );
+function setupGridColumns(preferences?: TColumnPreference[]) {
+  if (!gridApi.value || !columnFactory) {
+    return;
+  }
+  let resourceColumns: ColDef<TRecord>[];
+  if (preferences) {
+    resourceColumns = columnFactory.getColumnsByProfils(preferences);
   } else {
-    resourceColumns = columnFactory.getResourceColumnsDefault<T>(
-      resourceMetaDatas,
-      propsComponent.resourceName
-    );
+    resourceColumns = columnFactory.getColumns();
   }
   gridApi.value.setGridOption("columnDefs", resourceColumns);
 }
@@ -262,7 +236,7 @@ function setupGridFiltersSortsAndGroups(
   }
 }
 function updateGridParams(
-  columnProfils?: TResourceColumnProfil[],
+  columnProfils?: TColumnPreference[],
   filterModel?: IServerSideGetRowsRequest["filterModel"],
   sortModel?: IServerSideGetRowsRequest["sortModel"],
   rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"],
@@ -278,63 +252,6 @@ function setRowCountString() {
   if (!gridApi.value) return;
   const rowCount = gridApi.value.getDisplayedRowCount();
   rowCountString.value = `${rowCount} ligne${rowCount > 0 ? "s" : ""}`;
-}
-function inheritGridOptionsProps() {
-  if (!propsComponent.initialGridParams?.gridOptions) return;
-  const optionsToFreeze: (keyof GridOptions<T>)[] = [
-    "localeText",
-    "rowModelType",
-    "columnTypes",
-    "columnDefs",
-    "serverSideDatasource",
-    "getRowId",
-    "getChildCount",
-  ];
-  Object.entries(propsComponent.initialGridParams.gridOptions).forEach(
-    (attribute) => {
-      const attributeForReal = attribute as [keyof GridOptions<T>, unknown];
-      if (optionsToFreeze.includes(attributeForReal[0])) return;
-      gridOptions.value[attributeForReal[0]] = attribute[1];
-    }
-  );
-}
-function setupGridEvents() {
-  const baseOnGridReady = gridOptions.value.onGridReady;
-  gridOptions.value.onGridReady = (params: GridReadyEvent) => {
-    gridApi.value = params.api;
-    updateGridParams(
-      propsComponent.initialGridParams?.columnProfils,
-      propsComponent.initialGridParams?.filterModel,
-      propsComponent.initialGridParams?.sortModel,
-      propsComponent.initialGridParams?.rowGroupCols
-    );
-    if (baseOnGridReady) baseOnGridReady(params);
-  };
-  const baseOnModeleUpdated = gridOptions.value.onModelUpdated;
-  gridOptions.value.onModelUpdated = (params: ModelUpdatedEvent) => {
-    if (baseOnModeleUpdated) baseOnModeleUpdated(params);
-    setTimeout(() => {
-      setRowCountString();
-    }, 100); // TODO try with nextTick
-  };
-  const baseOnColumnVisible = gridOptions.value.onColumnVisible;
-  gridOptions.value.onColumnVisible = (params: ColumnVisibleEvent) => {
-    if (baseOnColumnVisible) {
-      baseOnColumnVisible(params);
-    }
-    if (!params.column || !gridApi.value) {
-      return;
-    }
-    if (params.visible) {
-      gridApi.value.refreshServerSide();
-    } else {
-      if (lastGetRowsParams?.columnsToDisplay) {
-        lastGetRowsParams.columnsToDisplay = lastGetRowsParams.columnsToDisplay.filter((columnToDisplay) => {
-          return columnToDisplay !== params.column!.getColId()
-        })
-      }
-    }
-  };
 }
 function resetGridParams() {
   if (!gridApi.value) return;
@@ -354,7 +271,98 @@ function setupThemeMode() {
 function getLastGetRowsParams() {
   return lastGetRowsParams
 }
-async function triggerQuickFilter(search: string) {
+function getGridOptionsConfig(columnFactory: ColumnFactory): GridOptions<TRecord> {
+  const gridOptions: GridOptions<TRecord> = {
+    localeText: columnFactory.config.translation,
+    suppressMiddleClickScrolls: true,
+    suppressNoRowsOverlay: false,
+    rowSelection: "multiple",
+    rowModelType: "serverSide",
+    rowGroupPanelShow: "onlyWhenGrouping",
+    groupDisplayType: "singleColumn",
+    theme: propsComponent.aggridTheme,
+    autoGroupColumnDef: {
+      minWidth: 200,
+      cellRendererParams: {
+        innerRenderer: (params: ICellRendererParams) => {
+          // pas beau mais pas le choix, keyCreator sur les colDefs marche po :<
+          params.node.key = params.data.__group_key ?? null;
+          return params.data.__label;
+        },
+      },
+    },
+    columnTypes: columnFactory.config.columnTypeConfig,
+    columnDefs: [],
+    serverSideDatasource: setupRowData(),
+    getRowId,
+    getChildCount,
+    maxConcurrentDatasourceRequests: 1,
+    cacheBlockSize: 50,
+    maxBlocksInCache: 4,
+    rowHeight: 35,
+  }
+  if (propsComponent.initialGridParams?.gridOptions) {
+    const optionsToFreeze: (keyof GridOptions<TRecord>)[] = [
+      "localeText",
+      "rowModelType",
+      "columnTypes",
+      "columnDefs",
+      "serverSideDatasource",
+      "getRowId",
+      "getChildCount",
+    ];
+    for (const entry of Object.entries(propsComponent.initialGridParams.gridOptions)) {
+      const attributeForReal = entry as [keyof GridOptions<TRecord>, unknown];
+      if (optionsToFreeze.includes(attributeForReal[0])) {
+        continue;
+      }
+      gridOptions[attributeForReal[0]] = entry[1];
+    }
+  }
+  const baseOnGridReady = gridOptions.onGridReady;
+  gridOptions.onGridReady = (params: GridReadyEvent) => {
+    gridApi.value = params.api;
+    updateGridParams(
+      propsComponent.initialGridParams?.columnProfils,
+      propsComponent.initialGridParams?.filterModel,
+      propsComponent.initialGridParams?.sortModel,
+      propsComponent.initialGridParams?.rowGroupCols
+    );
+    if (baseOnGridReady) {
+      baseOnGridReady(params);
+    }
+  };
+  const baseOnModeleUpdated = gridOptions.onModelUpdated;
+  gridOptions.onModelUpdated = (params: ModelUpdatedEvent) => {
+    if (baseOnModeleUpdated) {
+      baseOnModeleUpdated(params);
+    }
+    void nextTick(() => {
+      Logger.debug('onModeleUpdated, should setRowCountString')
+      setRowCountString(); // TODO
+    })
+  };
+  const baseOnColumnVisible = gridOptions.onColumnVisible;
+  gridOptions.onColumnVisible = (params: ColumnVisibleEvent) => {
+    if (baseOnColumnVisible) {
+      baseOnColumnVisible(params);
+    }
+    if (!params.column || !gridApi.value) {
+      return;
+    }
+    if (params.visible) {
+      gridApi.value.refreshServerSide();
+    } else {
+      if (lastGetRowsParams?.columnsToDisplay) {
+        lastGetRowsParams.columnsToDisplay = lastGetRowsParams.columnsToDisplay.filter((columnToDisplay) => {
+          return columnToDisplay !== params.column!.getColId()
+        })
+      }
+    }
+  };
+  return gridOptions
+}
+function triggerQuickFilter(search: string) {
   if (!gridApi.value) {
     return
   }
@@ -364,31 +372,28 @@ async function triggerQuickFilter(search: string) {
 
 // lifeCycle
 onMounted(async () => {
-  inheritGridOptionsProps();
-  await setupResourceMetaData();
-  setupGridEvents();
+  await setupColumns();
   isLoadingSettingUpGrid.value = false;
   setupThemeMode();
 });
 
-// Expose
-defineExpose<TQuery64GridExpose<T>>({
+// expose
+defineExpose<TQuery64GridApi>({
   resetGridParams,
   updateGridParams,
   gridOptions,
-  gridApi: gridApi as unknown as GridApi<T>,
+  gridApi,
   getLastGetRowsParams,
   triggerQuickFilter,
-  isLoadingSettingUpGrid: isLoadingSettingUpGrid as unknown as boolean,
-  isLoadingServer: isLoadingServer as unknown as boolean
-} as TQuery64GridExpose<T>);
+  isLoadingSettingUpGrid,
+  isLoadingServer
+});
 </script>
 
 <template>
-  <div v-if="!isLoadingSettingUpGrid" style="display: flex; flex-direction: column; height: 100%"
+  <div v-if="!isLoadingSettingUpGrid && gridOptions" style="display: flex; flex-direction: column; height: 100%"
     :data-ag-theme-mode="themeMode">
-    <AgGridVue :gridOptions="(gridOptions as GridOptions<T>)"
-      :style="`height: 100%; width: 100%; ${propsComponent.gridStyle}`" />
+    <AgGridVue :gridOptions="gridOptions" :style="`height: 100%; width: 100%; ${propsComponent.gridStyle}`" />
     <div v-if="propsComponent.showRowCount" style="
         display: flex;
         flex-direction: row;

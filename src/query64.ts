@@ -1,4 +1,3 @@
-import type { ColDef, ColTypeDef } from "ag-grid-community";
 import {
   CellStyleModule,
   ClientSideRowModelApiModule,
@@ -17,7 +16,6 @@ import {
   RowDragModule,
   RowStyleModule,
   TextFilterModule,
-  ValidationModule,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -29,106 +27,71 @@ import {
   ServerSideRowModelModule,
   SetFilterModule,
 } from "ag-grid-enterprise";
-import { ColumnFactory } from "./column-factory";
-import AgGridFrenchTranslate from "./locale.fr";
-
-export type TResourceColumnOverload = {
-  resourceName: string;
-  columnName: string;
-  associationName?: string;
-};
-export type TColumnOverload = {
-  resourceColumnRegister: TResourceColumnOverload;
-  colDef: ColDef;
-  id: string;
-};
-export type TColumnAdditional = {
-  resourceName: string;
-  colDef: ColDef;
-  id: string;
-};
+import { Logger, type TLoggerConfig } from "./logger";
+import type { TQuery64Config } from "./models";
+import { Utils } from "./utils";
+import CellDefaultListValue from "./CellDefaultListValue.vue";
+import { TCustomColumnRegistration } from "./private-models";
 
 export class Query64 {
   private static _instance: Query64 = new Query64();
-  private overloads: TColumnOverload[] = [];
-  private additionals: TColumnAdditional[] = [];
-  private columnTypeConfig: {
-    [key: string]: ColTypeDef;
-  } = ColumnFactory.getColumnTypesDefaultConfig();
-  private translate: Record<string, string> = AgGridFrenchTranslate;
-  private hasRegisterKeyAndModule = false;
+  private globalOverloadColumnsMap: Map<string, TCustomColumnRegistration[]> =
+    new Map();
+  private globalAdditionalColumnsMap: Map<string, TCustomColumnRegistration[]> =
+    new Map();
+  private globalConfig: TQuery64Config = {
+    columnDateFormater: Utils.formatDate,
+    columnDatetimeFormater: Utils.formatDatetime,
+    columnTypeConfig: Utils.columnTypesConfig(),
+    columnHasManyRenderComponent: CellDefaultListValue,
+    translation: Utils.getFrenchTranslate(),
+  };
+  private loggerConfig: TLoggerConfig = Logger.getDefaultConfig();
 
-  static getColumnOverloadsByResourceName(
-    resourceName: string
-  ): TColumnOverload[] {
-    return this._instance.overloads.filter((overload) => {
-      return overload.resourceColumnRegister.resourceName === resourceName;
-    });
+  static getGlobalAdditionalColumnsByResourceName(
+    resourceName: string,
+  ): TCustomColumnRegistration[] {
+    return this._instance.globalAdditionalColumnsMap.get(resourceName) ?? [];
   }
 
-  static getColumnAdditionalsByResourceName(
-    resourceName: string
-  ): TColumnAdditional[] {
-    return this._instance.additionals.filter((additional) => {
-      return additional.resourceName === resourceName;
-    });
+  static getGlobalOverloadColumnsByResourceName(
+    resourceName: string,
+  ): TCustomColumnRegistration[] {
+    return this._instance.globalOverloadColumnsMap.get(resourceName) ?? [];
   }
 
-  /**
-   * Enregistre une surcharge de colonne
-   * Un identifiant unique est créer par enregistrement : `resourceName` + `columnName` + `associationName`
-   * Les appels successifs de cette méthode pour une même donnée viendront remplacer la valeur pour un même identifiant
-   * @param resourceColumnRegister
-   * @param colDef
-   */
-  static registerColumnOverload(
-    resourceColumnRegister: TResourceColumnOverload,
-    colDef: ColDef
+  static registerGlobalAdditionals(
+    resourceName: string,
+    columnRegistrations: TCustomColumnRegistration[],
   ) {
-    const id = `${resourceColumnRegister.resourceName}::${resourceColumnRegister.columnName}.${resourceColumnRegister.associationName}`;
-    const existingOverload = this._instance.overloads.find((overload) => {
-      return overload.id === id;
-    });
-    if (existingOverload) {
-      existingOverload.colDef = colDef;
-      return;
-    }
-    this._instance.overloads.push({
-      resourceColumnRegister,
-      colDef,
-      id,
-    });
-  }
-  
-  /**
-   * Enregistre une colonne additionnelle
-   * Un identifiant unique est créer par enregistrement, basé sur la propriété colId de la colonne
-   * Les appels successifs de cette méthode pour une même donnée viendront remplacer la valeur pour un même identifiant
-   * @param resourceName
-   * @param colDef
-   */
-  static registerColumnAdditional(resourceName: string, colDef: ColDef) {
-    const id = `additional::${colDef.colId ?? new Date().getTime()}`;
-    const existingAdditional = this._instance.additionals.find((additional) => {
-      return additional.id === id;
-    });
-    if (existingAdditional) {
-      existingAdditional.colDef = colDef;
-      return;
-    }
-    this._instance.additionals.push({
+    const columnMapByResource =
+      this._instance.globalAdditionalColumnsMap.get(resourceName) ?? [];
+    columnMapByResource.push(...columnRegistrations);
+    this._instance.globalAdditionalColumnsMap.set(
       resourceName,
-      colDef,
-      id,
-    });
+      columnMapByResource,
+    );
   }
 
-  /**
-   * Enregistre la clé AgGrid Enterprise et les modules nécéssaire à Query64
-   * @param key
-   * @param envMode
-   */
-  static registerAgGridKeyAndModules(key: string, devMode?: boolean) {
+  static registerGlobalOverloads(
+    resourceName: string,
+    columnRegistrations: TCustomColumnRegistration[],
+  ) {
+    const columnMapByResource =
+      this._instance.globalOverloadColumnsMap.get(resourceName) ?? [];
+    columnMapByResource.push(...columnRegistrations);
+    this._instance.globalOverloadColumnsMap.set(
+      resourceName,
+      columnMapByResource,
+    );
+  }
+
+  static registerAgGridKeyAndModules(
+    key: string,
+    additionalModules: Parameters<
+      typeof ModuleRegistry.registerModules
+    >[0] = [],
+  ) {
     const modulesToRegister = [
       ServerSideRowModelModule,
       MasterDetailModule,
@@ -152,31 +115,32 @@ export class Query64 {
       ColumnAutoSizeModule,
       RowAutoHeightModule,
       RowGroupingPanelModule,
-      SetFilterModule
+      SetFilterModule,
+      ...additionalModules,
     ];
-    if (devMode) {
-      modulesToRegister.push(ValidationModule);
-    }
     ModuleRegistry.registerModules(modulesToRegister);
     LicenseManager.setLicenseKey(key);
-    this._instance.hasRegisterKeyAndModule = true;
   }
 
-  static getAgGridGlobalTranslate() {
-    return this._instance.translate;
+  static getGlobalConfig() {
+    return this._instance.globalConfig;
+  }
+  static registerGlobalConfig(globalConfig: Partial<TQuery64Config>) {
+    this._instance.globalConfig = {
+      ...this._instance.globalConfig,
+      ...globalConfig,
+    };
   }
 
-  static registerAgGridBlobalTranslate(translate: Record<string, string>) {
-    this._instance.translate = translate;
+  static getLoggerConfig() {
+    return this._instance.loggerConfig;
   }
 
-  static getColumnTypesGlobalConfig() {
-    return this._instance.columnTypeConfig;
-  }
-  static registerColumnTypesConfig(columnTypeConfig: {
-    [key: string]: ColTypeDef;
-  }) {
-    this._instance.columnTypeConfig = columnTypeConfig;
+  static registerLoggerConfig(loggerConfig: Partial<TLoggerConfig>) {
+    this._instance.loggerConfig = {
+      ...this.getLoggerConfig(),
+      ...loggerConfig,
+    };
   }
 
   private constructor() {}

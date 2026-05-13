@@ -2,364 +2,48 @@ import type {
   CellClassParams,
   CellStyle,
   ColDef,
-  ColTypeDef,
-  IDateFilterParams,
-  INumberFilterParams,
-  ITextFilterParams,
   ValueGetterFunc,
 } from "ag-grid-enterprise";
-import {
-  TResourceColumnProfil,
-  TResourceColumnMetaData,
-  TAdditionalsProps,
-  TOverloadsProps,
-  TGlobalColumnProps,
-  THasManyColumnProps,
-  TActionColumnProps,
+import type {
+  TColumnProfil as TColumnPreference,
+  TCustomColumn,
+  TQuery64Config,
+  TCustomColId,
+  TColumnQuery64Context,
 } from "./models";
 import { Query64 } from "./query64";
-import { Component } from "vue";
-import CellDefaultListValue from "./CellDefaultListValue.vue";
+import type {
+  TCustomColumnRegistration,
+  TRecord,
+  TResourceColumnMetaData,
+} from "./private-models";
+import { Logger } from "./logger";
 
 export class ColumnFactory {
-  static getColumnTypesDefaultConfig(): { [key: string]: ColTypeDef } {
-    return {
-      textColumn: {
-        floatingFilter: true,
-        resizable: true,
-        sortable: true,
-        enableRowGroup: true,
-        columnGroupShow: "open",
-        filter: "agTextColumnFilter",
-        filterParams: <ITextFilterParams>{
-          filterOptions: ["contains", "notContains"],
-        },
-        mainMenuItems: [
-          "sortAscending",
-          "sortDescending",
-          "columnChooser",
-          "rowGroup",
-          "pinSubMenu",
-        ],
-      },
-      keywordColumn: {
-        floatingFilter: true,
-        resizable: true,
-        sortable: true,
-        enableRowGroup: true,
-        columnGroupShow: "open",
-        filter: "agTextColumnFilter",
-        filterParams: <ITextFilterParams>{
-          filterOptions: [
-            "contains",
-            "equals",
-            "notEqual",
-            "notContains",
-            {
-              displayKey: "blank",
-              displayName: "Vide",
-              predicate: function (
-                _: null,
-                cellValue: string | null | undefined,
-              ) {
-                return String(cellValue).length === 0;
-              },
-              numberOfInputs: 0,
-            },
-            {
-              displayKey: "notEmpty",
-              displayName: "Non vide",
-              predicate: function (
-                _: null,
-                cellValue: string | null | undefined,
-              ) {
-                return String(cellValue).length > 0;
-              },
-              numberOfInputs: 0,
-            },
-          ],
-        },
-        mainMenuItems: [
-          "sortAscending",
-          "sortDescending",
-          "columnChooser",
-          "rowGroup",
-          "pinSubMenu",
-        ],
-      },
-      floatColumn: {
-        floatingFilter: true,
-        resizable: true,
-        sortable: true,
-        enableRowGroup: true,
-        columnGroupShow: "open",
-        filter: "agNumberColumnFilter",
-        filterParams: <INumberFilterParams>{
-          filterOptions: ["contains", "equals", "greaterThan", "lessThan"],
-        },
-        mainMenuItems: [
-          "sortAscending",
-          "sortDescending",
-          "columnChooser",
-          "rowGroup",
-          "pinSubMenu",
-        ],
-      },
-      numberColumn: {
-        floatingFilter: true,
-        resizable: true,
-        sortable: true,
-        enableRowGroup: true,
-        columnGroupShow: "open",
-        filter: "agNumberColumnFilter",
-        filterParams: <INumberFilterParams>{
-          filterOptions: ["equals", "greaterThan", "lessThan", "inRange"],
-        },
-        mainMenuItems: [
-          "sortAscending",
-          "sortDescending",
-          "columnChooser",
-          "rowGroup",
-          "pinSubMenu",
-        ],
-      },
-      dateColumn: {
-        floatingFilter: true,
-        resizable: true,
-        sortable: true,
-        enableRowGroup: true,
-        columnGroupShow: "open",
-        filter: "agDateColumnFilter",
-        filterParams: <IDateFilterParams>{
-          buttons: ["reset"],
-          browserDatePicker: true,
-          filterOptions: [
-            "equals",
-            "notEqual",
-            "inRange",
-            "greaterThan",
-            "lessThan",
-          ],
-        },
-        mainMenuItems: [
-          "sortAscending",
-          "sortDescending",
-          "columnChooser",
-          "rowGroup",
-          "pinSubMenu",
-        ],
-      },
-      datetimeColumn: {
-        floatingFilter: true,
-        resizable: true,
-        sortable: true,
-        enableRowGroup: true,
-        columnGroupShow: "open",
-        filter: "agDateColumnFilter",
-        filterParams: <IDateFilterParams>{
-          buttons: ["reset"],
-          browserDatePicker: true,
-          filterOptions: [
-            "equals",
-            "notEqual",
-            "inRange",
-            "greaterThan",
-            "lessThan",
-          ],
-        },
-        mainMenuItems: [
-          "sortAscending",
-          "sortDescending",
-          "columnChooser",
-          "rowGroup",
-          "pinSubMenu",
-        ],
-      },
-      booleanColumn: {
-        floatingFilter: true,
-        resizable: true,
-        sortable: true,
-        enableRowGroup: true,
-        columnGroupShow: "open",
-        filter: "agSetColumnFilter",
-        filterParams: {
-          values: [true, false, "null"],
-          suppressSorting: true,
-          valueFormatter: (params: { value: string | boolean }) => {
-            if (params.value === true) {
-              return "Oui";
-            }
-            if (params.value === false) {
-              return "Non";
-            }
-            if (params.value === "null") {
-              return "Vide";
-            }
-            return "???";
-          },
-        },
-        mainMenuItems: [
-          "sortAscending",
-          "sortDescending",
-          "columnChooser",
-          "rowGroup",
-          "pinSubMenu",
-        ],
-      },
-      objectColumn: {
-        floatingFilter: false,
-        filter: false,
-        sortable: false,
-        resizable: true,
-        autoHeight: true,
-        suppressHeaderFilterButton: true,
-        columnGroupShow: "open",
-        mainMenuItems: ["columnChooser"],
-      },
-      actionColumn: {
-        resizable: false,
-        initialHide: false,
-        hide: false,
-        floatingFilter: false,
-        sortable: false,
-        pinned: "right",
-        columnGroupShow: "open",
-        cellClass: "flex flex-center row no-wrap",
-        mainMenuItems: ["columnChooser"],
-      },
-    };
-  }
-
   resourceName: string;
-  globalColumnSettings: TGlobalColumnProps & {
-    columnTypeConfig: Record<string, ColDef>;
-  };
-  hasManyColumnSettings: THasManyColumnProps;
-  actionColumnSettings?: TActionColumnProps;
-  overloadSettings: TOverloadsProps[];
-  additionalSettings: TAdditionalsProps[];
+  config: TQuery64Config;
+  customColumnsMap: Map<TCustomColId, TCustomColumn>;
+  columnsMetadataMap: Map<TCustomColId, TResourceColumnMetaData>;
 
   constructor(
     resourceName: string,
-    globalColumnProps?: TGlobalColumnProps,
-    hasManyColumnProps?: THasManyColumnProps,
-    actionColumnProps?: TActionColumnProps,
-    overloadProps?: TOverloadsProps[],
-    additionalProps?: TAdditionalsProps[],
+    columnsMetadatas: TResourceColumnMetaData[],
+    config?: TQuery64Config,
+    additionals?: TCustomColumnRegistration[],
+    overloads?: TCustomColumnRegistration[],
   ) {
     this.resourceName = resourceName;
-
-    this.globalColumnSettings = {
-      columnTypeConfig:
-        globalColumnProps?.columnTypeConfig ??
-        Query64.getColumnTypesGlobalConfig(),
-      columnDateFormater:
-        globalColumnProps?.columnDateFormater ??
-        ((dateValue: string | Date) => {
-          const date = new Date(dateValue);
-          const day = date.getDate();
-          const month = date.getMonth() + 1;
-          const year = date.getFullYear();
-          return (
-            (day < 10 ? "0" : "") +
-            day +
-            "/" +
-            (month < 10 ? "0" : "") +
-            month +
-            "/" +
-            year
-          );
-        }),
-      columnDatetimeFormater:
-        globalColumnProps?.columnDatetimeFormater ??
-        ((dateValue: string | Date) => {
-          const date = new Date(dateValue);
-          const day = date.getDate();
-          const month = date.getMonth() + 1;
-          const year = date.getFullYear();
-          const hour = date.getHours();
-          const minutes = date.getMinutes();
-          return (
-            (day < 10 ? "0" : "") +
-            day +
-            "/" +
-            (month < 10 ? "0" : "") +
-            month +
-            "/" +
-            year +
-            " " +
-            ((hour < 10 ? "0" : "") +
-              hour +
-              ":" +
-              ((minutes < 10 ? "0" : "") + minutes))
-          );
-        }),
+    this.columnsMetadataMap = new Map();
+    for (const metadata of columnsMetadatas) {
+      this.columnsMetadataMap.set(metadata.field_name, metadata);
+    }
+    this.config = {
+      ...Query64.getGlobalConfig(),
+      ...config,
     };
-    this.hasManyColumnSettings = hasManyColumnProps ?? {
-      purgeNullValue: false,
-      customComponent: CellDefaultListValue,
-    };
-    this.actionColumnSettings = actionColumnProps;
-    this.overloadSettings = overloadProps ?? [];
-    Query64.getColumnOverloadsByResourceName(this.resourceName).forEach(
-      (overload) => {
-        this.overloadSettings.push(overload);
-      },
-    );
-    this.additionalSettings = additionalProps ?? [];
-    Query64.getColumnAdditionalsByResourceName(this.resourceName).forEach(
-      (additional) => {
-        this.additionalSettings.push(additional);
-      },
-    );
-  }
-
-  getResourceColumnsDefault<T>(
-    resourceMetaDatas: TResourceColumnMetaData[],
-    resourceName: string,
-  ): ColDef<T>[] {
-    return this.getAllResourceColumns(resourceMetaDatas, resourceName);
-  }
-  getResourceColumnsByProfils<T>(
-    columnData: TResourceColumnProfil[],
-    resourceMetaDatas: TResourceColumnMetaData[],
-    resourceName: string,
-  ): ColDef<T>[] {
-    const allColumns = this.getAllResourceColumns<T>(
-      resourceMetaDatas,
-      resourceName,
-    );
-    let allColumnsInOrder = allColumns;
-    allColumnsInOrder.forEach((resourceColumn) => {
-      const foundedColumn = columnData.find((profilColumn) => {
-        return resourceColumn.colId === profilColumn.field_name;
-      });
-      if (!foundedColumn) {
-        resourceColumn.hide = true;
-      } else {
-        resourceColumn.hide = !foundedColumn.visible;
-        resourceColumn.width = foundedColumn.width;
-        if (resourceColumn.context) {
-          resourceColumn.context.order = foundedColumn.order;
-        }
-      }
-    });
-    allColumnsInOrder = allColumnsInOrder.filter((columnInOrder) => {
-      return columnInOrder;
-    });
-    allColumnsInOrder.sort((colA, colB) => {
-      return Number(colA.context?.order ?? 1000) - Number(colB.context?.order ?? 1000);
-    });
-    return allColumnsInOrder;
-  }
-
-  private getAllResourceColumns<T>(
-    resourceMetaDatas: TResourceColumnMetaData[],
-    resourceName: string,
-  ): ColDef<T>[] {
-    const columns: ColDef<T>[] = [];
-    resourceMetaDatas.forEach((metadata) => {
-      let column: ColDef<T>;
+    this.customColumnsMap = new Map();
+    columnsMetadatas.forEach((metadata) => {
+      let column: ColDef<TRecord>;
       switch (metadata.field_type) {
         case "string":
           column = this.getGenericColumnString(metadata);
@@ -379,151 +63,217 @@ export class ColumnFactory {
         case "object":
           column = this.getGenericColumnObject(metadata);
           break;
-      }
-      if (!column.context) {
-        column.context = {};
+        default:
+          Logger.tryLog(
+            `Field type unkown for column ${metadata.field_name} : ${metadata.field_type}`,
+          );
+          column = this.getGenericColumnObject(metadata);
+          break;
       }
       column.hide = metadata.association_type !== null;
       column.cellStyle = this.generateSafeColDefStyle();
-      if (metadata.raw_field_name === "id") column.enableRowGroup = false;
+      const columnSpecialContext: TColumnQuery64Context = {
+        type: "generated",
+      };
       if (metadata.association_type !== null) {
-        column.valueGetter = this.getGenericColumnValueGetterRelation(column);
-        if (metadata.association_type === "has_many") {
+        column.valueGetter = this.getGenericColumnValueGetterRelation(
+          column,
+          metadata,
+        );
+        if (
+          metadata.association_type === "has_many" ||
+          metadata.association_type === "has_and_belongs_to_many"
+        ) {
           column.autoHeight = true;
-          column.cellRenderer =
-            this.hasManyColumnSettings.customComponent ?? CellDefaultListValue;
+          column.cellRenderer = this.config.columnHasManyRenderComponent;
         }
       }
-      const overload = this.overloadSettings.find((overloadSetting) => {
+      const customColumn = ColumnFactory.generateCustomColumn(
+        column,
+        columnSpecialContext,
+      );
+      this.customColumnsMap.set(customColumn.colId, customColumn);
+    });
+
+    // additionals
+    const mergedAdditionals = [
+      ...Query64.getGlobalAdditionalColumnsByResourceName(this.resourceName),
+      ...(additionals ?? []),
+    ];
+    for (const additional of mergedAdditionals ?? []) {
+      const customColumn = ColumnFactory.generateCustomColumn(
+        additional.colDef,
+        {
+          type: "add",
+          dependsOn: additional.dependsOn,
+        },
+      );
+      if (this.customColumnsMap.has(additional.colDef.colId)) {
+        Logger.tryLog(
+          `You tried to set additional column with id ${additional.colDef.colId} but this id already exists. Action has been ignored.`,
+        );
+        continue;
+      }
+      this.customColumnsMap.set(additional.colDef.colId, customColumn);
+    }
+
+    // overloads
+    const mergedOverloads = [
+      ...Query64.getGlobalOverloadColumnsByResourceName(this.resourceName),
+      ...(overloads ?? []),
+    ];
+    for (const overload of mergedOverloads ?? []) {
+      const columnToOverload = this.customColumnsMap.get(overload.colDef.colId);
+      if (!columnToOverload) {
+        Logger.tryLog(
+          `You tried to set overload column with id ${overload.colDef.colId} but no column was found. Action has been ignored.`,
+        );
+        continue;
+      }
+      const mergedColumn = {
+        ...columnToOverload,
+        ...overload.colDef,
+      };
+      const customColumn = ColumnFactory.generateCustomColumn(mergedColumn, {
+        type: "overload",
+        dependsOn: overload.dependsOn,
+      });
+      this.customColumnsMap.set(overload.colDef.colId, customColumn);
+    }
+    this.detectDeadDepedencies();
+  }
+
+  getColumns() {
+    return this.customColumnsMap.values().toArray();
+  }
+  getColumnsByProfils(preferences: TColumnPreference[]): TCustomColumn[] {
+    const columnsMapCopy = new Map(this.customColumnsMap);
+    const columnFoundMap = new Set<TCustomColId>();
+    const columnOrderMap = new Map<TCustomColId, number>();
+    for (const preference of preferences) {
+      const columnFound = columnsMapCopy.get(preference.colId);
+      if (!columnFound) {
+        columnFoundMap.add(preference.colId);
+        continue;
+      }
+      columnFound.hide = !preference.visible;
+      columnFound.width = preference.width;
+      columnFound.pinned = preference.pinned;
+      columnOrderMap.set(columnFound.colId, preference.order);
+    }
+    return columnsMapCopy
+      .values()
+      .toArray()
+      .map((column) => {
+        if (!columnFoundMap.has(column.colId)) {
+          column.hide = true;
+        }
+        return column;
+      })
+      .sort((colA, colB) => {
         return (
-          overloadSetting.resourceColumnRegister.columnName ===
-            metadata.raw_field_name &&
-          (overloadSetting.resourceColumnRegister.associationName ===
-            metadata.association_name ||
-            (overloadSetting.resourceColumnRegister.associationName ===
-              undefined &&
-              metadata.association_name === null))
+          (columnOrderMap.get(colA.colId) ?? 1000) -
+          (columnOrderMap.get(colB.colId) ?? 1000)
         );
       });
-      if (overload) {
-        column = {
-          ...column,
-          ...overload.colDef as ColDef<T, any>
-        } 
-        if (!column.colId) {
-          column.colId = column.field ?? column.headerName;
-        }
-        if (!column.context) {
-          column.context = {};
-        }
-      }
-      columns.push(column);
-    });
-    if (this.actionColumnSettings?.defaultComponent) {
-      columns.push(
-        this.getGenericColumnAction(
-          resourceName,
-          this.actionColumnSettings.defaultComponent,
-        ),
-      );
-    }
-    this.additionalSettings.forEach((additionalSetting) => {
-      const colDef = additionalSetting.colDef;
-      colDef.cellStyle = this.generateSafeColDefStyle();
-      if (!colDef.colId) {
-        colDef.colId = colDef.field ?? colDef.headerName;
-      }
-      if (!colDef.context) {
-        colDef.context = {};
-      }
-      columns.push(colDef);
-    });
-    return columns;
   }
-  private getGenericColumnAction<T>(
-    resourceName: string,
-    cellComponent: Component,
-  ): ColDef<T> {
-    return {
-      headerName: "Actions",
-      type: "actionColumn",
-      colId: "defaultActions",
-      cellRenderer: cellComponent,
-      cellRendererParams: {
-        resourceName,
-      },
-      width: 107,
-      context: {},
-      cellStyle: this.generateSafeColDefStyle(),
-    };
+  getMetadataByColId(colId: TCustomColId) {
+    return this.columnsMetadataMap.get(colId);
   }
-  private getGenericColumnString<T>(
+  getColumnByColId(colId: TCustomColId) {
+    return this.customColumnsMap.get(colId);
+  }
+  getColIdList() {
+    return this.columnsMetadataMap.keys().toArray();
+  }
+  getAllColumnDepedencies() {
+    return new Set(
+      ...this.customColumnsMap
+        .values()
+        .toArray()
+        .map((column) => column.query64Context.dependsOn ?? [])
+        .flat(),
+    )
+      .keys()
+      .toArray();
+  }
+  columnExist(colId: TCustomColId) {
+    return this.getColIdList().includes(colId);
+  }
+
+  private getGenericColumnString(
     metaData: TResourceColumnMetaData,
-  ): ColDef<T> {
+  ): ColDef<TRecord> {
     return {
       headerName: metaData.label_name,
       colId: metaData.field_name,
       valueGetter: (params) => {
         if (!params.data) return "";
-        return params.data[metaData.raw_field_name as keyof T];
+        return params.data[metaData.raw_field_name as keyof TRecord];
       },
       type: "keywordColumn",
       filter: "agTextColumnFilter",
     };
   }
-  private getGenericColumnNumber<T>(
+  private getGenericColumnNumber(
     metaData: TResourceColumnMetaData,
-  ): ColDef<T> {
+  ): ColDef<TRecord> {
     return {
       headerName: metaData.label_name,
       colId: metaData.field_name,
       valueGetter: (params) => {
         if (!params.data) return "";
-        return params.data[metaData.raw_field_name as keyof T];
+        return params.data[metaData.raw_field_name as keyof TRecord];
       },
       type: "numberColumn",
       filter: "agNumberColumnFilter",
     };
   }
-  private getGenericColumnDate<T>(
+  private getGenericColumnDate(
     metaData: TResourceColumnMetaData,
-  ): ColDef<T> {
+  ): ColDef<TRecord> {
     return {
       headerName: metaData.label_name,
       colId: metaData.field_name,
       type: "dateColumn",
       filter: "agDateColumnFilter",
       valueGetter: (params) => {
-        if (!params.data || !params.data[metaData.raw_field_name as keyof T])
+        if (
+          !params.data ||
+          !params.data[metaData.raw_field_name as keyof TRecord]
+        )
           return "";
-        return this.globalColumnSettings.columnDateFormater!(
-          params.data[metaData.raw_field_name as keyof T] as string,
+        return this.config.columnDateFormater!(
+          params.data[metaData.raw_field_name as keyof TRecord] as string,
         );
       },
       width: 150,
     };
   }
-  private getGenericColumnDatetime<T>(
+  private getGenericColumnDatetime(
     metaData: TResourceColumnMetaData,
-  ): ColDef<T> {
+  ): ColDef<TRecord> {
     return {
       headerName: metaData.label_name,
       colId: metaData.field_name,
       type: "dateColumn",
       filter: "agDateColumnFilter",
       valueGetter: (params) => {
-        if (!params.data || !params.data[metaData.raw_field_name as keyof T])
+        if (
+          !params.data ||
+          !params.data[metaData.raw_field_name as keyof TRecord]
+        )
           return "";
-        return this.globalColumnSettings.columnDatetimeFormater!(
-          params.data[metaData.raw_field_name as keyof T] as string,
+        return this.config.columnDatetimeFormater!(
+          params.data[metaData.raw_field_name as keyof TRecord] as string,
         );
       },
       width: 150,
     };
   }
-  private getGenericColumnBoolean<T>(
+  private getGenericColumnBoolean(
     metaData: TResourceColumnMetaData,
-  ): ColDef<T> {
+  ): ColDef<TRecord> {
     return {
       headerName: metaData.label_name,
       colId: metaData.field_name,
@@ -531,17 +281,19 @@ export class ColumnFactory {
       valueGetter: (params) => {
         if (
           !params.data ||
-          params.data[metaData.raw_field_name as keyof T] === undefined
+          params.data[metaData.raw_field_name as keyof TRecord] === undefined
         )
           return "";
-        return params.data[metaData.raw_field_name as keyof T] ? "Oui" : "Non";
+        return params.data[metaData.raw_field_name as keyof TRecord]
+          ? "Oui"
+          : "Non";
       },
       width: 150,
     };
   }
-  private getGenericColumnObject<T>(
+  private getGenericColumnObject(
     metaData: TResourceColumnMetaData,
-  ): ColDef<T> {
+  ): ColDef<TRecord> {
     return {
       headerName: metaData.label_name,
       colId: metaData.field_name,
@@ -553,44 +305,50 @@ export class ColumnFactory {
       width: 150,
     };
   }
-  private getGenericColumnValueGetterRelation<T>(
-    column: ColDef<T>,
-  ): ValueGetterFunc<T> {
-    if (!column.colId) return () => null;
+  private getGenericColumnValueGetterRelation(
+    column: ColDef<TRecord>,
+    metadata: TResourceColumnMetaData,
+  ): ValueGetterFunc<TRecord> {
+    if (!column.colId) {
+      return () => null;
+    }
     const baseValueGetter = column.valueGetter;
-    const colIdMacro = column.colId.split("::").at(-1);
-    const colIdRelation = column.colId.split(".").at(0) as keyof T;
+    const associationType = metadata.association_type;
+    const relationName = metadata.association_name;
     if (
-      !colIdRelation ||
+      !relationName ||
       !baseValueGetter ||
       typeof baseValueGetter !== "function"
     ) {
       return () => null;
     }
-    if (colIdMacro === "has_many" || colIdMacro === "has_and_belongs_to_many") {
+    if (
+      associationType === "has_many" ||
+      associationType === "has_and_belongs_to_many"
+    ) {
       return (params) => {
-        if (!params.data || !params.data[colIdRelation]) {
+        if (!params.data || !params.data[relationName]) {
           return "";
         }
-        return (params.data[colIdRelation] as Record<string, unknown>[]).map(
+        return (params.data[relationName] as Record<string, unknown>[]).map(
           (relation) => {
-            return baseValueGetter({ ...params, data: relation as T });
+            return baseValueGetter({ ...params, data: relation as TRecord });
           },
         );
       };
     }
-    if (colIdMacro === "belongs_to" || colIdMacro === "has_one") {
+    if (associationType === "belongs_to" || associationType === "has_one") {
       return (params) => {
         if (
           !params.data ||
-          !params.data[colIdRelation] ||
-          !Array.isArray(params.data[colIdRelation])
+          !params.data[relationName] ||
+          !Array.isArray(params.data[relationName])
         ) {
           return "";
         }
         return baseValueGetter({
           ...params,
-          data: params.data[colIdRelation][0] as T,
+          data: params.data[relationName] as unknown as TRecord,
         });
       };
     }
@@ -604,6 +362,27 @@ export class ColumnFactory {
         } as CellStyle;
       }
       return {};
+    };
+  }
+  private detectDeadDepedencies() {
+    const depedencies = this.getAllColumnDepedencies();
+    for (const depedency of depedencies) {
+      if (!this.columnExist(depedency)) {
+        Logger.tryLog(
+          `Column with id ${depedency} has been register as depedency but does not exist in the column pool.`,
+        );
+      }
+    }
+  }
+  static generateCustomColumn(
+    column: ColDef<TRecord>,
+    query64Context: TColumnQuery64Context,
+  ): TCustomColumn {
+    return {
+      ...column,
+      colId: column.colId!,
+      query64Context,
+      context: {},
     };
   }
 }
