@@ -7,14 +7,17 @@ title: Changelog
 # 2.0.0
 - Refacto global
 - Système de dépendances de colonnes
-- Ajout de l'option `pinned` pour les préférences de colonne
 - Nouveau format de `colId`
 - Gestionnaire de log
 - Mise à disposition de l'AgGrid interne
 - Correction des types de `TQuery64GridApi`
 - Correction des accesseurs pour les données d'associations `belongs_to` et `has_one`
 
-### 1.4.6
+## 1.4.7
+
+- Ajout de l'option `pinned` pour les préferences de colonnes
+
+## 1.4.6
 
 - Correction d'un problème où l'ordre des colonnes de la props `initialGridParams` était ignoré
 
