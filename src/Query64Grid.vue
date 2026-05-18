@@ -6,10 +6,10 @@ import type {
   TQuery64GridProps,
   TQuery64GridApi,
   TQuery64GetRowsParams,
+  TResourceColumnMetaData
 } from "./models";
 import { ColumnFactory } from "./column-factory";
 import {
-  themeAlpine,
   type ColDef,
   type Column,
   type ColumnVisibleEvent,
@@ -22,7 +22,7 @@ import {
   type IServerSideGetRowsRequest,
   type ModelUpdatedEvent,
 } from "ag-grid-community";
-import type { TRecord, TResourceColumnMetaData } from "./private-models";
+import type { TRecord } from "./private-models";
 import { Logger } from "./logger";
 import { Utils } from "./utils";
 

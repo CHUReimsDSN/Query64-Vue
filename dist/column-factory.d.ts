@@ -1,6 +1,6 @@
 import type { ColDef } from "ag-grid-enterprise";
-import type { TColumnProfil as TColumnPreference, TCustomColumn, TQuery64Config, TCustomColId, TColumnQuery64Context } from "./models";
-import type { TCustomColumnRegistration, TRecord, TResourceColumnMetaData } from "./private-models";
+import type { TColumnProfil as TColumnPreference, TCustomColumn, TQuery64Config, TCustomColId, TColumnQuery64Context, TCustomColumnRegistration, TResourceColumnMetaData } from "./models";
+import type { TRecord } from "./private-models";
 export declare class ColumnFactory {
     resourceName: string;
     config: TQuery64Config;

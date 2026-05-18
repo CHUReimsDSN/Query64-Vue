@@ -29,10 +29,9 @@ import {
   SetFilterModule,
 } from "ag-grid-enterprise";
 import { Logger, type TLoggerConfig } from "./logger";
-import type { TQuery64Config } from "./models";
+import type { TQuery64Config, TCustomColumnRegistration } from "./models";
 import { Utils } from "./utils";
 import CellDefaultListValue from "./CellDefaultListValue.vue";
-import type { TCustomColumnRegistration } from "./private-models";
 
 export class Query64 {
   private static _instance: Query64 = new Query64();

@@ -10,12 +10,12 @@ import type {
   TQuery64Config,
   TCustomColId,
   TColumnQuery64Context,
+  TCustomColumnRegistration,
+  TResourceColumnMetaData,
 } from "./models";
 import { Query64 } from "./query64";
 import type {
-  TCustomColumnRegistration,
   TRecord,
-  TResourceColumnMetaData,
 } from "./private-models";
 import { Logger } from "./logger";
 
