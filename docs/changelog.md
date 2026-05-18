@@ -12,6 +12,9 @@ title: Changelog
 - Mise à disposition de l'AgGrid interne
 - Correction des types de `TQuery64GridApi`
 - Correction des accesseurs pour les données d'associations `belongs_to` et `has_one`
+- Nouvelles définitions des colonnes additionelles et surchargées
+- Passage sur la nouvelle version d'AgGrid (35.0.0)
+- Possibilité d'enregistré un thème par défault pour toutes les grilles
 
 ## 1.4.7
 

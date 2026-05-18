@@ -32,6 +32,7 @@ export type TQuery64Config = {
   columnDatetimeFormater: (dateValue: string | Date) => string;
   columnHasManyRenderComponent: Component;
   translation: Record<string, string>;
+  aggridTheme: any;
 };
 
 export type TCustomColId = string;

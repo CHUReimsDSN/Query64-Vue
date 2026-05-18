@@ -1,7 +1,7 @@
 import { ModuleRegistry } from "ag-grid-community";
 import { type TLoggerConfig } from "./logger";
 import type { TQuery64Config } from "./models";
-import { TCustomColumnRegistration } from "./private-models";
+import type { TCustomColumnRegistration } from "./private-models";
 export declare class Query64 {
     private static _instance;
     private globalOverloadColumnsMap;

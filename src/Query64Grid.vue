@@ -6,7 +6,6 @@ import type {
   TQuery64GridProps,
   TQuery64GridApi,
   TQuery64GetRowsParams,
-  TCustomColumn,
 } from "./models";
 import { ColumnFactory } from "./column-factory";
 import {
@@ -34,7 +33,6 @@ const propsComponent = withDefaults(defineProps<TQuery64GridProps>(), {
     return { items: [], length: 0 };
   },
   showRowCount: true,
-  aggridTheme: themeAlpine,
   gridStyle: Utils.gridStyle(),
 });
 
@@ -280,7 +278,7 @@ function getGridOptionsConfig(columnFactory: ColumnFactory): GridOptions<TRecord
     rowModelType: "serverSide",
     rowGroupPanelShow: "onlyWhenGrouping",
     groupDisplayType: "singleColumn",
-    theme: propsComponent.aggridTheme,
+    theme: columnFactory.config.aggridTheme,
     autoGroupColumnDef: {
       minWidth: 200,
       cellRendererParams: {

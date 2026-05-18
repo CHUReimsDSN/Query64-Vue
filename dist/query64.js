@@ -1,4 +1,4 @@
-import { CellStyleModule, ClientSideRowModelApiModule, ClientSideRowModelModule, ColumnApiModule, ColumnAutoSizeModule, DateFilterModule, EventApiModule, InfiniteRowModelModule, LocaleModule, ModuleRegistry, NumberFilterModule, PaginationModule, RenderApiModule, RowAutoHeightModule, RowDragModule, RowStyleModule, TextFilterModule, } from "ag-grid-community";
+import { CellStyleModule, ClientSideRowModelApiModule, ClientSideRowModelModule, ColumnApiModule, ColumnAutoSizeModule, DateFilterModule, EventApiModule, InfiniteRowModelModule, LocaleModule, ModuleRegistry, NumberFilterModule, PaginationModule, RenderApiModule, RowAutoHeightModule, RowDragModule, RowStyleModule, TextFilterModule, themeAlpine, } from "ag-grid-community";
 import { ColumnMenuModule, ContextMenuModule, MasterDetailModule, RowGroupingPanelModule, LicenseManager, ServerSideRowModelApiModule, ServerSideRowModelModule, SetFilterModule, } from "ag-grid-enterprise";
 import { Logger } from "./logger";
 import { Utils } from "./utils";
@@ -13,6 +13,7 @@ export class Query64 {
         columnTypeConfig: Utils.columnTypesConfig(),
         columnHasManyRenderComponent: CellDefaultListValue,
         translation: Utils.getFrenchTranslate(),
+        aggridTheme: themeAlpine
     };
     loggerConfig = Logger.getDefaultConfig();
     static getGlobalAdditionalColumnsByResourceName(resourceName) {

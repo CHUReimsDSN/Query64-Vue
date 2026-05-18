@@ -78257,7 +78257,8 @@ const X_ = { style: { display: "flex", "flex-direction": "column" } }, Z_ = /* @
       columnDatetimeFormater: ur.formatDatetime,
       columnTypeConfig: ur.columnTypesConfig(),
       columnHasManyRenderComponent: Z_,
-      translation: ur.getFrenchTranslate()
+      translation: ur.getFrenchTranslate(),
+      aggridTheme: zE
     });
     os(this, "loggerConfig", Ti.getDefaultConfig());
   }
@@ -79678,7 +79679,7 @@ const lU = ["data-ag-theme-mode"], cU = {
     getMetadata: { type: Function, default: async () => [] },
     getRows: { type: Function, default: async () => ({ items: [], length: 0 }) },
     showRowCount: { type: Boolean, default: !0 },
-    aggridTheme: { default: zE },
+    aggridTheme: {},
     aggridThemeMode: {},
     gridStyle: { default: ur.gridStyle() },
     config: {},
@@ -79821,7 +79822,7 @@ const lU = ["data-ag-theme-mode"], cU = {
         rowModelType: "serverSide",
         rowGroupPanelShow: "onlyWhenGrouping",
         groupDisplayType: "singleColumn",
-        theme: s.aggridTheme,
+        theme: A.config.aggridTheme,
         autoGroupColumnDef: {
           minWidth: 200,
           cellRendererParams: {

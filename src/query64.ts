@@ -16,6 +16,7 @@ import {
   RowDragModule,
   RowStyleModule,
   TextFilterModule,
+  themeAlpine,
 } from "ag-grid-community";
 import {
   ColumnMenuModule,
@@ -31,7 +32,7 @@ import { Logger, type TLoggerConfig } from "./logger";
 import type { TQuery64Config } from "./models";
 import { Utils } from "./utils";
 import CellDefaultListValue from "./CellDefaultListValue.vue";
-import { TCustomColumnRegistration } from "./private-models";
+import type { TCustomColumnRegistration } from "./private-models";
 
 export class Query64 {
   private static _instance: Query64 = new Query64();
@@ -45,6 +46,7 @@ export class Query64 {
     columnTypeConfig: Utils.columnTypesConfig(),
     columnHasManyRenderComponent: CellDefaultListValue,
     translation: Utils.getFrenchTranslate(),
+    aggridTheme: themeAlpine
   };
   private loggerConfig: TLoggerConfig = Logger.getDefaultConfig();
 
