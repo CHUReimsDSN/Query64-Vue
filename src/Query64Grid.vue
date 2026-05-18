@@ -23,7 +23,7 @@ import {
   type ModelUpdatedEvent,
 } from "ag-grid-community";
 import type { TRecord } from "./private-models";
-import { Logger } from "./logger";
+import { Query64Logger } from "./logger";
 import { Utils } from "./utils";
 
 // props
@@ -179,7 +179,7 @@ function setupRowData(): IServerSideDatasource<TRecord> {
         })
         .catch((error) => {
           params.fail();
-          Logger.tryLog(error)
+          Query64Logger.tryLog(error)
           isLoadingServer.value = false
         });
     },
@@ -336,7 +336,7 @@ function getGridOptionsConfig(columnFactory: ColumnFactory): GridOptions<TRecord
       baseOnModeleUpdated(params);
     }
     void nextTick(() => {
-      Logger.debug('onModeleUpdated, should setRowCountString')
+      Query64Logger.debug('onModeleUpdated, should setRowCountString')
       setRowCountString(); // TODO
     })
   };

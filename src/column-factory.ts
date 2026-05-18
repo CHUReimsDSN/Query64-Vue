@@ -17,7 +17,7 @@ import { Query64 } from "./query64";
 import type {
   TRecord,
 } from "./private-models";
-import { Logger } from "./logger";
+import { Query64Logger } from "./logger";
 
 export class ColumnFactory {
   resourceName: string;
@@ -64,7 +64,7 @@ export class ColumnFactory {
           column = this.getGenericColumnObject(metadata);
           break;
         default:
-          Logger.tryLog(
+          Query64Logger.tryLog(
             `Field type unkown for column ${metadata.field_name} : ${metadata.field_type}`,
           );
           column = this.getGenericColumnObject(metadata);
@@ -109,7 +109,7 @@ export class ColumnFactory {
         },
       );
       if (this.customColumnsMap.has(additional.colDef.colId)) {
-        Logger.tryLog(
+        Query64Logger.tryLog(
           `You tried to set additional column with id ${additional.colDef.colId} but this id already exists. Action has been ignored.`,
         );
         continue;
@@ -125,7 +125,7 @@ export class ColumnFactory {
     for (const overload of mergedOverloads ?? []) {
       const columnToOverload = this.customColumnsMap.get(overload.colDef.colId);
       if (!columnToOverload) {
-        Logger.tryLog(
+        Query64Logger.tryLog(
           `You tried to set overload column with id ${overload.colDef.colId} but no column was found. Action has been ignored.`,
         );
         continue;
@@ -368,7 +368,7 @@ export class ColumnFactory {
     const depedencies = this.getAllColumnDepedencies();
     for (const depedency of depedencies) {
       if (!this.columnExist(depedency)) {
-        Logger.tryLog(
+        Query64Logger.tryLog(
           `Column with id ${depedency} has been register as depedency but does not exist in the column pool.`,
         );
       }

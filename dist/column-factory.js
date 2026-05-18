@@ -1,5 +1,5 @@
 import { Query64 } from "./query64";
-import { Logger } from "./logger";
+import { Query64Logger } from "./logger";
 export class ColumnFactory {
     resourceName;
     config;
@@ -38,7 +38,7 @@ export class ColumnFactory {
                     column = this.getGenericColumnObject(metadata);
                     break;
                 default:
-                    Logger.tryLog(`Field type unkown for column ${metadata.field_name} : ${metadata.field_type}`);
+                    Query64Logger.tryLog(`Field type unkown for column ${metadata.field_name} : ${metadata.field_type}`);
                     column = this.getGenericColumnObject(metadata);
                     break;
             }
@@ -69,7 +69,7 @@ export class ColumnFactory {
                 dependsOn: additional.dependsOn,
             });
             if (this.customColumnsMap.has(additional.colDef.colId)) {
-                Logger.tryLog(`You tried to set additional column with id ${additional.colDef.colId} but this id already exists. Action has been ignored.`);
+                Query64Logger.tryLog(`You tried to set additional column with id ${additional.colDef.colId} but this id already exists. Action has been ignored.`);
                 continue;
             }
             this.customColumnsMap.set(additional.colDef.colId, customColumn);
@@ -82,7 +82,7 @@ export class ColumnFactory {
         for (const overload of mergedOverloads ?? []) {
             const columnToOverload = this.customColumnsMap.get(overload.colDef.colId);
             if (!columnToOverload) {
-                Logger.tryLog(`You tried to set overload column with id ${overload.colDef.colId} but no column was found. Action has been ignored.`);
+                Query64Logger.tryLog(`You tried to set overload column with id ${overload.colDef.colId} but no column was found. Action has been ignored.`);
                 continue;
             }
             const mergedColumn = {
@@ -286,7 +286,7 @@ export class ColumnFactory {
         const depedencies = this.getAllColumnDepedencies();
         for (const depedency of depedencies) {
             if (!this.columnExist(depedency)) {
-                Logger.tryLog(`Column with id ${depedency} has been register as depedency but does not exist in the column pool.`);
+                Query64Logger.tryLog(`Column with id ${depedency} has been register as depedency but does not exist in the column pool.`);
             }
         }
     }

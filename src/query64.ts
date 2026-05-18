@@ -28,7 +28,7 @@ import {
   ServerSideRowModelModule,
   SetFilterModule,
 } from "ag-grid-enterprise";
-import { Logger, type TLoggerConfig } from "./logger";
+import { Query64Logger, type TLoggerConfig } from "./logger";
 import type { TQuery64Config, TCustomColumnRegistration } from "./models";
 import { Utils } from "./utils";
 import CellDefaultListValue from "./CellDefaultListValue.vue";
@@ -47,7 +47,7 @@ export class Query64 {
     translation: Utils.getFrenchTranslate(),
     aggridTheme: themeAlpine
   };
-  private loggerConfig: TLoggerConfig = Logger.getDefaultConfig();
+  private loggerConfig: TLoggerConfig = Query64Logger.getDefaultConfig();
 
   static getGlobalAdditionalColumnsByResourceName(
     resourceName: string,

@@ -1,6 +1,6 @@
 import { CellStyleModule, ClientSideRowModelApiModule, ClientSideRowModelModule, ColumnApiModule, ColumnAutoSizeModule, DateFilterModule, EventApiModule, InfiniteRowModelModule, LocaleModule, ModuleRegistry, NumberFilterModule, PaginationModule, RenderApiModule, RowAutoHeightModule, RowDragModule, RowStyleModule, TextFilterModule, themeAlpine, } from "ag-grid-community";
 import { ColumnMenuModule, ContextMenuModule, MasterDetailModule, RowGroupingPanelModule, LicenseManager, ServerSideRowModelApiModule, ServerSideRowModelModule, SetFilterModule, } from "ag-grid-enterprise";
-import { Logger } from "./logger";
+import { Query64Logger } from "./logger";
 import { Utils } from "./utils";
 import CellDefaultListValue from "./CellDefaultListValue.vue";
 export class Query64 {
@@ -15,7 +15,7 @@ export class Query64 {
         translation: Utils.getFrenchTranslate(),
         aggridTheme: themeAlpine
     };
-    loggerConfig = Logger.getDefaultConfig();
+    loggerConfig = Query64Logger.getDefaultConfig();
     static getGlobalAdditionalColumnsByResourceName(resourceName) {
         return this._instance.globalAdditionalColumnsMap.get(resourceName) ?? [];
     }

@@ -5,7 +5,7 @@ export type TLoggerConfig = {
   logType: 'warn' | 'error' | 'info';
 }
 
-export abstract class Logger {
+export abstract class Query64Logger {
     static tryLog(message: string) {
         const loggerConfig = Query64.getLoggerConfig()
         if (loggerConfig.enabled) {

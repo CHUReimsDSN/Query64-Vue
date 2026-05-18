@@ -1,5 +1,5 @@
 import { Query64 } from "./query64";
-export class Logger {
+export class Query64Logger {
     static tryLog(message) {
         const loggerConfig = Query64.getLoggerConfig();
         if (loggerConfig.enabled) {
