@@ -199,15 +199,14 @@ export class GridFactory {
         .toArray()
         .map((column) => column.query64Context.dependsOn ?? [])
         .flat()))
-    return new Set(
+    return [...new Set(
       ...this.customColumnsMap
         .values()
         .toArray()
         .map((column) => column.query64Context.dependsOn ?? [])
         .flat(),
     )
-      .values()
-      .toArray();
+      .values()]
   }
   columnExist(colId: TCustomColId) {
     return this.getColIdList().includes(colId);

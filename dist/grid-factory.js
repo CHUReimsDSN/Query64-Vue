@@ -146,13 +146,12 @@ export class GridFactory {
             .toArray()
             .map((column) => column.query64Context.dependsOn ?? [])
             .flat()));
-        return new Set(...this.customColumnsMap
-            .values()
-            .toArray()
-            .map((column) => column.query64Context.dependsOn ?? [])
-            .flat())
-            .values()
-            .toArray();
+        return [...new Set(...this.customColumnsMap
+                .values()
+                .toArray()
+                .map((column) => column.query64Context.dependsOn ?? [])
+                .flat())
+                .values()];
     }
     columnExist(colId) {
         return this.getColIdList().includes(colId);
