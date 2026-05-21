@@ -6,10 +6,10 @@ export type TLoggerConfig = {
 }
 
 export abstract class Query64Logger {
-    static tryLog(message: string) {
+    static tryLog(code: string, message: string) {
         const loggerConfig = Query64.getLoggerConfig()
         if (loggerConfig.enabled) {
-            const messagePrefix = 'Query64 LOG : '
+            const messagePrefix = `Query64 Log (code ${code}) : `
             const fullMessage = messagePrefix + message
             switch (loggerConfig.logType) {
                 case 'error':

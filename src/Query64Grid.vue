@@ -74,7 +74,7 @@ function setupRowData(): IServerSideDatasource<TRecord> {
     getRows: (params) => {
       if (!gridFactory) {
         params.fail()
-        Query64Logger.tryLog('Fail to get rows, gridFactory is undefined')
+        Query64Logger.tryLog('001', 'Fail to get rows, gridFactory is undefined')
         return
       }
       const displayedCols =
@@ -91,7 +91,7 @@ function setupRowData(): IServerSideDatasource<TRecord> {
           rowData: [],
           rowCount: 0,
         });
-        Query64Logger.tryLog('wtf') // TODO
+        Query64Logger.tryLog('002', 'Tried to get rows but not columns to display')
         return;
       }
       const shallReturnCount =
@@ -176,7 +176,7 @@ function setupRowData(): IServerSideDatasource<TRecord> {
         .catch((error) => {
           params.fail();
           console.log(error) // TODO remove
-          Query64Logger.tryLog(error)
+          Query64Logger.tryLog('003', error)
           isLoadingServer.value = false
         });
     },
@@ -273,7 +273,7 @@ function getLastGetRowsParams() {
 }
 function setupGridOptionsConfig() {
   if (!gridFactory.value) {
-    Query64Logger.tryLog('')
+    Query64Logger.tryLog('004', 'Tried to setup grid options but grid factory was null')
     return
   }
   const gridOptionBuilding: GridOptions<TRecord> = {

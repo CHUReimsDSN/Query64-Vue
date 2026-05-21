@@ -3,7 +3,7 @@ export type TLoggerConfig = {
     logType: 'warn' | 'error' | 'info';
 };
 export declare abstract class Query64Logger {
-    static tryLog(message: string): void;
+    static tryLog(code: string, message: string): void;
     static debug(message: string): void;
     static getDefaultConfig(): TLoggerConfig;
 }

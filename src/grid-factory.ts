@@ -75,7 +75,7 @@ export class GridFactory {
           break;
         default:
           Query64Logger.tryLog(
-            `Field type unkown for column ${metadata.field_name} : ${metadata.field_type}`,
+            '010', `Field type unkown for column ${metadata.field_name} : ${metadata.field_type}`,
           );
           column = this.getGenericColumnObject(metadata);
           break;
@@ -117,7 +117,7 @@ export class GridFactory {
       });
       if (this.customColumnsMap.has(additional.colDef.colId)) {
         Query64Logger.tryLog(
-          `You tried to set additional column with id ${additional.colDef.colId} but this id already exists. Action has been ignored.`,
+          '011', `You tried to set additional column with id ${additional.colDef.colId} but this id already exists. Action has been ignored.`,
         );
         continue;
       }
@@ -133,7 +133,7 @@ export class GridFactory {
       const columnToOverload = this.customColumnsMap.get(overload.colDef.colId);
       if (!columnToOverload) {
         Query64Logger.tryLog(
-          `You tried to set overload column with id ${overload.colDef.colId} but no column was found. Action has been ignored.`,
+          '012', `You tried to set overload column with id ${overload.colDef.colId} but no column was found. Action has been ignored.`,
         );
         continue;
       }
@@ -376,7 +376,7 @@ export class GridFactory {
     for (const depedency of depedencies) {
       if (!this.columnExist(depedency)) {
         Query64Logger.tryLog(
-          `Column with id ${depedency} has been register as depedency but does not exist in the column pool.`,
+         '013', `Column with id ${depedency} has been register as depedency but does not exist in the column pool.`,
         );
       }
     }

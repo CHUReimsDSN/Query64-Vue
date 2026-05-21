@@ -77795,19 +77795,19 @@ var q_ = {
   dependsOn: zp
 };
 class ds {
-  static tryLog(t) {
-    const s = Vs.getLoggerConfig();
-    if (s.enabled) {
-      const o = "Query64 LOG : " + t;
-      switch (s.logType) {
+  static tryLog(t, s) {
+    const i = Vs.getLoggerConfig();
+    if (i.enabled) {
+      const r = `Query64 Log (code ${t}) : ` + s;
+      switch (i.logType) {
         case "error":
-          console.error(o);
+          console.error(r);
           break;
         case "warn":
-          console.warn(o);
+          console.warn(r);
           break;
         case "info":
-          console.info(o);
+          console.info(r);
           break;
       }
     }
@@ -77882,6 +77882,7 @@ class Yt {
           break;
         default:
           ds.tryLog(
+            "010",
             `Field type unkown for column ${c.field_name} : ${c.field_type}`
           ), d = this.getGenericColumnObject(c);
           break;
@@ -77911,6 +77912,7 @@ class Yt {
       });
       if (this.customColumnsMap.has(c.colDef.colId)) {
         ds.tryLog(
+          "011",
           `You tried to set additional column with id ${c.colDef.colId} but this id already exists. Action has been ignored.`
         );
         continue;
@@ -77925,6 +77927,7 @@ class Yt {
       const d = this.customColumnsMap.get(c.colDef.colId);
       if (!d) {
         ds.tryLog(
+          "012",
           `You tried to set overload column with id ${c.colDef.colId} but no column was found. Action has been ignored.`
         );
         continue;
@@ -78053,6 +78056,7 @@ class Yt {
     const t = this.getAllColumnDepedencies();
     for (const s of t)
       this.columnExist(s) || ds.tryLog(
+        "013",
         `Column with id ${s} has been register as depedency but does not exist in the column pool.`
       );
   }
@@ -79736,7 +79740,7 @@ const cU = { ref: "root" }, dU = /* @__PURE__ */ Vr({
         getRows: (B) => {
           var Y;
           if (!l) {
-            B.fail(), ds.tryLog("Fail to get rows, gridFactory is undefined");
+            B.fail(), ds.tryLog("001", "Fail to get rows, gridFactory is undefined");
             return;
           }
           const V = ((Y = B.api.getColumns()) == null ? void 0 : Y.filter((ie) => ie.isVisible() || l.value.getAllColumnDepedencies().includes(ie.getColId())).map((ie) => ie.getColId())) ?? [];
@@ -79744,7 +79748,7 @@ const cU = { ref: "root" }, dU = /* @__PURE__ */ Vr({
             B.success({
               rowData: [],
               rowCount: 0
-            }), ds.tryLog("wtf");
+            }), ds.tryLog("002", "Tried to get rows but not columns to display");
             return;
           }
           const W = JSON.stringify({
@@ -79794,7 +79798,7 @@ const cU = { ref: "root" }, dU = /* @__PURE__ */ Vr({
               rowData: Le
             }), W && ie.row_count === 0 || !W && ie.items.length === 0 ? (Ee = a.value) == null || Ee.showNoRowsOverlay() : (Me = a.value) == null || Me.hideOverlay();
           }).catch((ie) => {
-            B.fail(), console.log(ie), ds.tryLog(ie), u.value = !1;
+            B.fail(), console.log(ie), ds.tryLog("003", ie), u.value = !1;
           });
         }
       };
@@ -79832,7 +79836,7 @@ const cU = { ref: "root" }, dU = /* @__PURE__ */ Vr({
     }
     function T() {
       if (!l.value) {
-        ds.tryLog("");
+        ds.tryLog("004", "Tried to setup grid options but grid factory was null");
         return;
       }
       const B = {
