@@ -109,9 +109,10 @@ export class GridFactory {
         for (const preference of preferences) {
             const columnFound = columnsMapCopy.get(preference.colId);
             if (!columnFound) {
-                columnFoundMap.add(preference.colId);
+                Query64Logger.tryLog('014', `Preference set with colId ${preference.colId} but no column found in column pool`);
                 continue;
             }
+            columnFoundMap.add(preference.colId);
             columnFound.hide = !preference.visible;
             columnFound.width = preference.width;
             columnFound.pinned = preference.pinned;
@@ -141,17 +142,16 @@ export class GridFactory {
         return this.columnsMetadataMap.keys().toArray();
     }
     getAllColumnDepedencies() {
-        const ok = [];
+        const uniqDepedencies = [];
         for (const customColumn of this.customColumnsMap.values()) {
             for (const dependColId of customColumn.query64Context.dependsOn ?? []) {
-                if (ok.includes(dependColId)) {
+                if (uniqDepedencies.includes(dependColId)) {
                     continue;
                 }
-                ok.push(dependColId);
+                uniqDepedencies.push(dependColId);
             }
         }
-        console.log(ok);
-        return ok;
+        return uniqDepedencies;
     }
     columnExist(colId) {
         return this.getColIdList().includes(colId);
@@ -290,10 +290,9 @@ export class GridFactory {
     }
     detectDeadDepedencies() {
         const depedencies = this.getAllColumnDepedencies();
-        for (const depedency of depedencies) {
-            console.log(depedency);
-            if (!this.columnExist(depedency)) {
-                Query64Logger.tryLog('013', `Column with id ${depedency} has been register as depedency but does not exist in the column pool.`);
+        for (const depedencyColId of depedencies) {
+            if (!this.columnExist(depedencyColId)) {
+                Query64Logger.tryLog('013', `Column with id ${depedencyColId} has been register as depedency but does not exist in the column pool.`);
             }
         }
     }
