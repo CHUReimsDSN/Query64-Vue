@@ -79861,7 +79861,12 @@ const cU = { ref: "root" }, dU = /* @__PURE__ */ Vr({
         rowHeight: 35
       }, V = B.onGridReady;
       B.onGridReady = (Y) => {
-        a.value = Y.api, V && V(Y);
+        a.value = Y.api, b(
+          s.initialGridParams.preferences,
+          s.initialGridParams.filterModel,
+          s.initialGridParams.sortModel,
+          s.initialGridParams.rowgroupCols
+        ), V && V(Y);
       };
       const W = B.onModelUpdated;
       B.onModelUpdated = (Y) => {

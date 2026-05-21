@@ -306,6 +306,11 @@ function setupGridOptionsConfig() {
   const baseOnGridReady = gridOptionBuilding.onGridReady;
   gridOptionBuilding.onGridReady = (params: GridReadyEvent) => {
     gridApi.value = params.api;
+    updateGridParams(propsComponent.initialGridParams.preferences,
+      propsComponent.initialGridParams.filterModel,
+      propsComponent.initialGridParams.sortModel,
+      propsComponent.initialGridParams.rowgroupCols
+    )
     if (baseOnGridReady) {
       baseOnGridReady(params);
     }

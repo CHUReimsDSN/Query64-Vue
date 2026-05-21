@@ -113,6 +113,10 @@ export type TQuery64GridProps = {
     additionals?: TCustomColumnRegistration[];
     overloads?: TCustomColumnRegistration[];
     gridConfig?: Partial<TQuery64GridConfig>;
+    preferences?: TColumnPreference[];
+    filterModel?: IServerSideGetRowsRequest["filterModel"],
+    sortModel?: IServerSideGetRowsRequest["sortModel"],
+    rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"],
   };
   showRowCount?: boolean;
   gridStyle?: string;
