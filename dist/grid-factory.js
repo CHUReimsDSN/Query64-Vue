@@ -141,6 +141,11 @@ export class GridFactory {
         return this.columnsMetadataMap.keys().toArray();
     }
     getAllColumnDepedencies() {
+        console.log(...this.customColumnsMap
+            .values()
+            .toArray()
+            .map((column) => column.query64Context.dependsOn ?? [])
+            .flat());
         return new Set(...this.customColumnsMap
             .values()
             .toArray()

@@ -77968,7 +77968,7 @@ class Yt {
     return this.columnsMetadataMap.keys().toArray();
   }
   getAllColumnDepedencies() {
-    return new Set(
+    return console.log(...this.customColumnsMap.values().toArray().map((t) => t.query64Context.dependsOn ?? []).flat()), new Set(
       ...this.customColumnsMap.values().toArray().map((t) => t.query64Context.dependsOn ?? []).flat()
     ).keys().toArray();
   }
