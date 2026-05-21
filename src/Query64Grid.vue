@@ -148,6 +148,7 @@ function setupRowData(): IServerSideDatasource<TRecord> {
           const items = response.items.map((item) => {
             for (const entry of jsonKeysToParse.entries()) {
               item[entry[0]] = JSON.parse(item[entry[0]] as string);
+              console.log(entry)
               if (entry[1]) {
                 item[entry[0]] = (item[entry[0]] as TRecord[]).at(0)
               }
