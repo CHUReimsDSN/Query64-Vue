@@ -74,6 +74,7 @@ function setupRowData(): IServerSideDatasource<TRecord> {
     getRows: (params) => {
       if (!gridFactory) {
         params.fail()
+        Query64Logger.tryLog('Fail to get rows, gridFactory is undefined')
         return
       }
       const displayedCols =
@@ -90,6 +91,7 @@ function setupRowData(): IServerSideDatasource<TRecord> {
           rowData: [],
           rowCount: 0,
         });
+        Query64Logger.tryLog('wtf') // TODO
         return;
       }
       const shallReturnCount =
