@@ -176,7 +176,6 @@ function setupRowData(): IServerSideDatasource<TRecord> {
         })
         .catch((error) => {
           params.fail();
-          console.log(error) // TODO remove
           Query64Logger.tryLog('003', error)
           isLoadingServer.value = false
         });
@@ -324,8 +323,7 @@ function setupGridOptionsConfig() {
       baseOnModeleUpdated(params);
     }
     void nextTick(() => {
-      Query64Logger.debug('onModeleUpdated, should setRowCountString')
-      setRowCountString(); // TODO
+      setRowCountString();
     })
   };
   const baseOnColumnVisible = gridOptionBuilding.onColumnVisible;

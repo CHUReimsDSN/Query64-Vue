@@ -287,6 +287,7 @@ export class GridFactory {
     detectDeadDepedencies() {
         const depedencies = this.getAllColumnDepedencies();
         for (const depedency of depedencies) {
+            console.log(depedency);
             if (!this.columnExist(depedency)) {
                 Query64Logger.tryLog('013', `Column with id ${depedency} has been register as depedency but does not exist in the column pool.`);
             }
