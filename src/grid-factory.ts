@@ -194,11 +194,11 @@ export class GridFactory {
     return this.columnsMetadataMap.keys().toArray();
   }
   getAllColumnDepedencies() {
-    console.log(...this.customColumnsMap
+    console.log(Array.isArray(this.customColumnsMap
         .values()
         .toArray()
         .map((column) => column.query64Context.dependsOn ?? [])
-        .flat())
+        .flat()))
     return new Set(
       ...this.customColumnsMap
         .values()
@@ -206,7 +206,7 @@ export class GridFactory {
         .map((column) => column.query64Context.dependsOn ?? [])
         .flat(),
     )
-      .keys()
+      .values()
       .toArray();
   }
   columnExist(colId: TCustomColId) {
