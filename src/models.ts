@@ -4,12 +4,12 @@ import type {
   GridOptions,
   IServerSideGetRowsRequest,
 } from "ag-grid-community";
-import { Component, type Ref } from "vue";
+import { type Component, type Ref } from "vue";
 import type { TRecord } from "./private-models";
 
 export type TAggridGenericData = {
   items: TRecord[];
-  length: number;
+  row_count: number;
 };
 export type TResourceColumnMetaData = {
   raw_field_name: string;
@@ -17,31 +17,45 @@ export type TResourceColumnMetaData = {
   label_name: string;
   field_type: "string" | "number" | "date" | "datetime" | "boolean" | "object";
   association_name: string | null;
-  association_type: 'belongs_to' | 'has_one' | 'has_many' | 'has_and_belongs_to_many' | null;
+  association_type:
+    | "belongs_to"
+    | "has_one"
+    | "has_many"
+    | "has_and_belongs_to_many"
+    | null;
   association_class_name: string | null;
 };
 export type TCustomColumnRegistration = {
   dependsOn?: TCustomColId[];
   colDef: ColDef<TRecord> & {
-    colId: TCustomColId
-  }
+    colId: TCustomColId;
+  };
 };
 
 /**
  * @exportToDoc
  */
-export type TColumnProfil = {
+export type TColumnPreference = {
   colId: string;
   width: number;
   visible: boolean;
   order: number;
-  pinned?: 'right' | 'left' | undefined;
+  pinned?: "right" | "left" | undefined;
 };
 
 /**
  * @exportToDoc
  */
 export type TQuery64Config = {
+  gridStyle: string;
+  containerStyle: string;
+  displayRowComponent: Component;
+};
+
+/**
+ * @exportToDoc
+ */
+export type TQuery64GridConfig = {
   columnTypeConfig: Record<string, ColDef<TRecord>>;
   columnDateFormater: (dateValue: string | Date) => string;
   columnDatetimeFormater: (dateValue: string | Date) => string;
@@ -88,28 +102,27 @@ export type TQuery64GetRowsParams = {
  */
 export type TQuery64GridProps = {
   resourceName: string;
-  getMetadata: (
-    query64Params: TQuery64GetMetadataParams,
-  ) => Promise<TResourceColumnMetaData[]>;
-  getRows: (
-    query64Params: TQuery64GetRowsParams,
-  ) => Promise<TAggridGenericData>;
-  showRowCount?: boolean;
-  aggridTheme?: any;
-  aggridThemeMode?: "light" | "dark" | "dark-blue";
-  gridStyle?: string;
-  config?: TQuery64Config;
-  additionals?: TCustomColumnRegistration[];
-  overloads?: TCustomColumnRegistration[];
-  initialGridParams?: {
-    gridOptions?: GridOptions<TRecord>;
-    columnProfils?: TColumnProfil[];
-    filterModel?: IServerSideGetRowsRequest["filterModel"];
-    sortModel?: IServerSideGetRowsRequest["sortModel"];
-    rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"];
+  initialGridParams: {
+    getMetadata: (
+      query64Params: TQuery64GetMetadataParams,
+    ) => Promise<TResourceColumnMetaData[]>;
+    getRows: (
+      query64Params: TQuery64GetRowsParams,
+    ) => Promise<TAggridGenericData>;
+    gridOptions?: Partial<GridOptions<TRecord>>;
+    additionals?: TCustomColumnRegistration[];
+    overloads?: TCustomColumnRegistration[];
+    gridConfig?: Partial<TQuery64GridConfig>;
   };
+  showRowCount?: boolean;
+  gridStyle?: string;
+  containerStyle?: string;
+  displayRowComponent?: Component;
+  themeMode?: TAgGridThemeMode;
   context?: Record<string, unknown>;
 };
+
+export type TAgGridThemeMode = "light" | "dark" | "dark-blue";
 
 /**
  * @exportToDoc
@@ -124,7 +137,7 @@ export type TQuery64GridApi<T = TRecord> = {
    * Applique des filtres, tris, ordres et groupes à la grille et re-alimente la grille en données
    */
   updateGridParams: (
-    columnProfils?: TColumnProfil[],
+    columnPreferences?: TColumnPreference[],
     filterModel?: IServerSideGetRowsRequest["filterModel"],
     sortModel?: IServerSideGetRowsRequest["sortModel"],
     rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"],

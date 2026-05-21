@@ -8,10 +8,13 @@ export class Query64Logger {
             switch (loggerConfig.logType) {
                 case 'error':
                     console.error(fullMessage);
+                    break;
                 case 'warn':
                     console.warn(fullMessage);
+                    break;
                 case 'info':
                     console.info(fullMessage);
+                    break;
             }
         }
     }

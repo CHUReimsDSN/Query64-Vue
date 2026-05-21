@@ -29,9 +29,14 @@ import {
   SetFilterModule,
 } from "ag-grid-enterprise";
 import { Query64Logger, type TLoggerConfig } from "./logger";
-import type { TQuery64Config, TCustomColumnRegistration } from "./models";
-import { Utils } from "./utils";
+import type {
+  TQuery64Config,
+  TCustomColumnRegistration,
+  TQuery64GridConfig,
+} from "./models";
 import CellDefaultListValue from "./CellDefaultListValue.vue";
+import DisplayRowCountDefault from "./DisplayRowCountDefault.vue";
+import { GridFactory } from "./grid-factory";
 
 export class Query64 {
   private static _instance: Query64 = new Query64();
@@ -40,12 +45,17 @@ export class Query64 {
   private globalAdditionalColumnsMap: Map<string, TCustomColumnRegistration[]> =
     new Map();
   private globalConfig: TQuery64Config = {
-    columnDateFormater: Utils.formatDate,
-    columnDatetimeFormater: Utils.formatDatetime,
-    columnTypeConfig: Utils.columnTypesConfig(),
+    displayRowComponent: DisplayRowCountDefault,
+    gridStyle: GridFactory.defaultGridStyle(),
+    containerStyle: GridFactory.defaultContainerStyle(),
+  };
+  private globalGridConfig: TQuery64GridConfig = {
+    columnDateFormater: GridFactory.formatDateFn,
+    columnDatetimeFormater: GridFactory.formatDatetimeFn,
+    columnTypeConfig: GridFactory.defaultColumnTypesConfig(),
     columnHasManyRenderComponent: CellDefaultListValue,
-    translation: Utils.getFrenchTranslate(),
-    aggridTheme: themeAlpine
+    translation: GridFactory.getFrenchTranslate(),
+    aggridTheme: themeAlpine,
   };
   private loggerConfig: TLoggerConfig = Query64Logger.getDefaultConfig();
 
@@ -54,13 +64,11 @@ export class Query64 {
   ): TCustomColumnRegistration[] {
     return this._instance.globalAdditionalColumnsMap.get(resourceName) ?? [];
   }
-
   static getGlobalOverloadColumnsByResourceName(
     resourceName: string,
   ): TCustomColumnRegistration[] {
     return this._instance.globalOverloadColumnsMap.get(resourceName) ?? [];
   }
-
   static registerGlobalAdditionals(
     resourceName: string,
     columnRegistrations: TCustomColumnRegistration[],
@@ -73,7 +81,6 @@ export class Query64 {
       columnMapByResource,
     );
   }
-
   static registerGlobalOverloads(
     resourceName: string,
     columnRegistrations: TCustomColumnRegistration[],
@@ -86,7 +93,6 @@ export class Query64 {
       columnMapByResource,
     );
   }
-
   static registerAgGridKeyAndModules(
     key: string,
     additionalModules: Parameters<
@@ -122,7 +128,17 @@ export class Query64 {
     ModuleRegistry.registerModules(modulesToRegister);
     LicenseManager.setLicenseKey(key);
   }
-
+  static getGlobalGridConfig() {
+    return this._instance.globalGridConfig;
+  }
+  static registerGlobalGridConfig(
+    globalGridConfig: Partial<TQuery64GridConfig>,
+  ) {
+    this._instance.globalGridConfig = {
+      ...this._instance.globalGridConfig,
+      ...globalGridConfig,
+    };
+  }
   static getGlobalConfig() {
     return this._instance.globalConfig;
   }
@@ -132,17 +148,14 @@ export class Query64 {
       ...globalConfig,
     };
   }
-
   static getLoggerConfig() {
     return this._instance.loggerConfig;
   }
-
   static registerLoggerConfig(loggerConfig: Partial<TLoggerConfig>) {
     this._instance.loggerConfig = {
       ...this.getLoggerConfig(),
       ...loggerConfig,
     };
   }
-
   private constructor() {}
 }

@@ -1,19 +1,25 @@
 import { CellStyleModule, ClientSideRowModelApiModule, ClientSideRowModelModule, ColumnApiModule, ColumnAutoSizeModule, DateFilterModule, EventApiModule, InfiniteRowModelModule, LocaleModule, ModuleRegistry, NumberFilterModule, PaginationModule, RenderApiModule, RowAutoHeightModule, RowDragModule, RowStyleModule, TextFilterModule, themeAlpine, } from "ag-grid-community";
 import { ColumnMenuModule, ContextMenuModule, MasterDetailModule, RowGroupingPanelModule, LicenseManager, ServerSideRowModelApiModule, ServerSideRowModelModule, SetFilterModule, } from "ag-grid-enterprise";
 import { Query64Logger } from "./logger";
-import { Utils } from "./utils";
 import CellDefaultListValue from "./CellDefaultListValue.vue";
+import DisplayRowCountDefault from "./DisplayRowCountDefault.vue";
+import { GridFactory } from "./grid-factory";
 export class Query64 {
     static _instance = new Query64();
     globalOverloadColumnsMap = new Map();
     globalAdditionalColumnsMap = new Map();
     globalConfig = {
-        columnDateFormater: Utils.formatDate,
-        columnDatetimeFormater: Utils.formatDatetime,
-        columnTypeConfig: Utils.columnTypesConfig(),
+        displayRowComponent: DisplayRowCountDefault,
+        gridStyle: GridFactory.defaultGridStyle(),
+        containerStyle: GridFactory.defaultContainerStyle(),
+    };
+    globalGridConfig = {
+        columnDateFormater: GridFactory.formatDateFn,
+        columnDatetimeFormater: GridFactory.formatDatetimeFn,
+        columnTypeConfig: GridFactory.defaultColumnTypesConfig(),
         columnHasManyRenderComponent: CellDefaultListValue,
-        translation: Utils.getFrenchTranslate(),
-        aggridTheme: themeAlpine
+        translation: GridFactory.getFrenchTranslate(),
+        aggridTheme: themeAlpine,
     };
     loggerConfig = Query64Logger.getDefaultConfig();
     static getGlobalAdditionalColumnsByResourceName(resourceName) {
@@ -61,6 +67,15 @@ export class Query64 {
         ];
         ModuleRegistry.registerModules(modulesToRegister);
         LicenseManager.setLicenseKey(key);
+    }
+    static getGlobalGridConfig() {
+        return this._instance.globalGridConfig;
+    }
+    static registerGlobalGridConfig(globalGridConfig) {
+        this._instance.globalGridConfig = {
+            ...this._instance.globalGridConfig,
+            ...globalGridConfig,
+        };
     }
     static getGlobalConfig() {
         return this._instance.globalConfig;
