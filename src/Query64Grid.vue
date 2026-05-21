@@ -132,12 +132,12 @@ function setupRowData(): IServerSideDatasource<TRecord> {
           if (!isGroupMode) {
             for (const displayedCol of displayedCols) {
               const metadataCol = gridFactory.value!.getMetadataByColId(displayedCol)
-              if (!metadataCol) {
+              if (!metadataCol || !metadataCol.association_type) {
                 continue;
               }
-              let parseToSingle = true
-              if (metadataCol.association_type === 'has_many' || metadataCol.association_type === 'has_and_belongs_to_many') {
-                parseToSingle = false
+              let parseToSingle = false
+              if (metadataCol.association_type === 'belongs_to' || metadataCol.association_type === 'has_one') {
+                parseToSingle = true
               }
               jsonKeysToParse.set(
                 (displayedCol.split(".")[0] ?? "") as keyof TRecord,

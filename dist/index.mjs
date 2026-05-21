@@ -2479,12 +2479,12 @@ function ot(e, t, s) {
     }
     const de = (Te) => C(Te, null, D, A, !1);
     k.forEach(de), o == null || o.sortColumns(kh.bind(o, D, Y)), r == null || r.sortColumns(kh.bind(r, A, ie)), i.refreshCols(!1, s);
-    const we = (Te, J, Re = []) => {
+    const we = (Te, J, Fe = []) => {
       for (const ze of J) {
         const ro = Te(ze.colId);
-        He(Re, ro), C(ro, ze, null, null, !0);
+        He(Fe, ro), C(ro, ze, null, null, !0);
       }
-      Re.forEach(de);
+      Fe.forEach(de);
     };
     return we(
       (Te) => (n == null ? void 0 : n.getColumn(Te)) ?? null,
@@ -4972,7 +4972,7 @@ ${o}`;
   ref: "foregroundColor",
   mix: e,
   onto: "headerBackgroundColor"
-}), Fe = { ref: "backgroundColor" }, It = { ref: "foregroundColor" }, Pe = { ref: "accentColor" }, Ki = {
+}), Re = { ref: "backgroundColor" }, It = { ref: "foregroundColor" }, Pe = { ref: "accentColor" }, Ki = {
   backgroundColor: "#fff",
   foregroundColor: "#181d1f",
   borderColor: De(0.15),
@@ -5020,7 +5020,7 @@ ${o}`;
   listItemHeight: {
     calc: "max(iconSize, dataFontSize) + widgetVerticalSpacing"
   },
-  dragAndDropImageBackgroundColor: Fe,
+  dragAndDropImageBackgroundColor: Re,
   dragAndDropImageBorder: !0,
   dragAndDropImageNotAllowedBorder: {
     color: {
@@ -5038,7 +5038,7 @@ ${o}`;
   toggleButtonHeight: 18,
   toggleButtonOnBackgroundColor: Pe,
   toggleButtonOffBackgroundColor: Se(0.3),
-  toggleButtonSwitchBackgroundColor: Fe,
+  toggleButtonSwitchBackgroundColor: Re,
   toggleButtonSwitchInset: 2,
   tooltipBackgroundColor: {
     ref: "chromeBackgroundColor"
@@ -17969,7 +17969,7 @@ var kP = class extends P {
   sideButtonTextColor: { ref: "textColor" },
   sideButtonHoverBackgroundColor: { ref: "sideButtonBackgroundColor" },
   sideButtonHoverTextColor: { ref: "sideButtonTextColor" },
-  sideButtonSelectedBackgroundColor: Fe,
+  sideButtonSelectedBackgroundColor: Re,
   sideButtonSelectedTextColor: { ref: "sideButtonTextColor" },
   sideButtonBorder: "solid 1px transparent",
   sideButtonSelectedBorder: !0,
@@ -18016,7 +18016,7 @@ var kP = class extends P {
     ref: "backgroundColor",
     mix: 0.66
   },
-  dataBackgroundColor: Fe,
+  dataBackgroundColor: Re,
   oddRowBackgroundColor: { ref: "dataBackgroundColor" },
   wrapperBorderRadius: 8,
   cellHorizontalPadding: {
@@ -18102,7 +18102,7 @@ var kP = class extends P {
   dialogBorder: {
     color: De(0.2)
   },
-  panelBackgroundColor: Fe,
+  panelBackgroundColor: Re,
   panelTitleBarHeight: { ref: "headerHeight" },
   panelTitleBarBackgroundColor: {
     ref: "headerBackgroundColor"
@@ -18143,7 +18143,7 @@ var kP = class extends P {
   advancedFilterBuilderColumnPillColor: "#a6e194",
   advancedFilterBuilderOptionPillColor: "#f3c08b",
   advancedFilterBuilderValuePillColor: "#85c0e4",
-  filterPanelApplyButtonColor: Fe,
+  filterPanelApplyButtonColor: Re,
   filterPanelApplyButtonBackgroundColor: Pe,
   filterPanelCardSubtleColor: {
     ref: "textColor",
@@ -18223,7 +18223,7 @@ var kP = class extends P {
   feature: "buttonStyle",
   params: {
     ...rl,
-    buttonBackgroundColor: Fe,
+    buttonBackgroundColor: Re,
     buttonBorder: !0,
     buttonHoverBackgroundColor: { ref: "rowHoverColor" },
     buttonActiveBorder: { color: Pe }
@@ -18233,13 +18233,13 @@ var kP = class extends P {
   feature: "buttonStyle",
   params: {
     ...rl,
-    buttonBackgroundColor: Fe,
+    buttonBackgroundColor: Re,
     buttonBorder: { color: Pe },
     buttonFontWeight: 600,
     buttonTextColor: Pe,
     buttonHoverBackgroundColor: { ref: "rowHoverColor" },
     buttonActiveBackgroundColor: Pe,
-    buttonActiveTextColor: Fe
+    buttonActiveTextColor: Re
   },
   css: ol
 }), XP = /* @__PURE__ */ YP(), ZP = () => le({
@@ -18249,7 +18249,7 @@ var kP = class extends P {
     buttonBorder: { color: It, width: 2, style: "outset" },
     buttonActiveBorder: { color: It, width: 2, style: "inset" },
     buttonBackgroundColor: Se(0.07),
-    buttonHoverBackgroundColor: Fe,
+    buttonHoverBackgroundColor: Re,
     buttonVerticalPadding: { calc: "spacing * 0.5" }
   },
   css: ol
@@ -18285,20 +18285,20 @@ var kP = class extends P {
     checkboxBorderRadius: {
       ref: "borderRadius"
     },
-    checkboxUncheckedBackgroundColor: Fe,
+    checkboxUncheckedBackgroundColor: Re,
     checkboxUncheckedBorderColor: Se(0.3),
     checkboxCheckedBackgroundColor: Pe,
     checkboxCheckedBorderColor: { ref: "checkboxCheckedBackgroundColor" },
     checkboxCheckedShapeImage: {
       svg: '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" fill="none"><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M1 3.5 3.5 6l5-5"/></svg>'
     },
-    checkboxCheckedShapeColor: Fe,
+    checkboxCheckedShapeColor: Re,
     checkboxIndeterminateBackgroundColor: Se(0.3),
     checkboxIndeterminateBorderColor: { ref: "checkboxIndeterminateBackgroundColor" },
     checkboxIndeterminateShapeImage: {
       svg: '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="2" fill="none"><rect width="10" height="2" fill="#000" rx="1"/></svg>'
     },
-    checkboxIndeterminateShapeColor: Fe,
+    checkboxIndeterminateShapeColor: Re,
     radioCheckedShapeImage: {
       svg: '<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" fill="none"><circle cx="3" cy="3" r="3" fill="#000"/></svg>'
     }
@@ -18339,8 +18339,8 @@ var kP = class extends P {
   advancedFilterBuilderOptionPillColor: "#5a3168",
   advancedFilterBuilderValuePillColor: "#374c86",
   filterPanelApplyButtonColor: It,
-  findMatchColor: Fe,
-  findActiveMatchColor: Fe,
+  findMatchColor: Re,
+  findActiveMatchColor: Re,
   checkboxUncheckedBorderColor: Se(0.4),
   toggleButtonOffBackgroundColor: Se(0.4),
   rowBatchEditBackgroundColor: Se(0.1)
@@ -18564,7 +18564,7 @@ var kP = class extends P {
   feature: "inputStyle",
   params: {
     ...Pu,
-    inputBackgroundColor: Fe,
+    inputBackgroundColor: Re,
     inputBorder: !0,
     inputBorderRadius: {
       ref: "borderRadius"
@@ -18682,7 +18682,7 @@ var kP = class extends P {
     tabSelectedBorderColor: {
       ref: "borderColor"
     },
-    tabSelectedBackgroundColor: Fe
+    tabSelectedBackgroundColor: Re
   },
   css: Xr
 }), AE = /* @__PURE__ */ DE(), IE = () => le({
@@ -18741,7 +18741,7 @@ var kP = class extends P {
     tabSelectedBorderColor: {
       ref: "borderColor"
     },
-    tabSelectedBackgroundColor: Fe
+    tabSelectedBackgroundColor: Re
   },
   css: () => Xr + ME
 }), BE = /* @__PURE__ */ OE(), VE = (
@@ -18813,12 +18813,12 @@ var kP = class extends P {
   },
   checkboxBorderRadius: 2,
   checkboxBorderWidth: 1,
-  checkboxUncheckedBackgroundColor: Fe,
+  checkboxUncheckedBackgroundColor: Re,
   checkboxUncheckedBorderColor: Se(0.5),
-  checkboxCheckedBackgroundColor: Fe,
+  checkboxCheckedBackgroundColor: Re,
   checkboxCheckedBorderColor: Pe,
   checkboxCheckedShapeColor: Pe,
-  checkboxIndeterminateBackgroundColor: Fe,
+  checkboxIndeterminateBackgroundColor: Re,
   checkboxIndeterminateBorderColor: Se(0.5),
   checkboxIndeterminateShapeColor: Se(0.5),
   focusShadow: { radius: 2, spread: 1, color: Pe },
@@ -18826,7 +18826,7 @@ var kP = class extends P {
   iconButtonHoverBackgroundColor: "transparent",
   iconButtonActiveBackgroundColor: "transparent",
   fontSize: 12,
-  tabSelectedBackgroundColor: Fe,
+  tabSelectedBackgroundColor: Re,
   headerFontWeight: "bold",
   toggleButtonWidth: 32,
   toggleButtonHeight: 16,
@@ -18880,7 +18880,7 @@ var kP = class extends P {
       color: { ref: "primaryColor" }
     },
     menuBackgroundColor: { ref: "backgroundColor" },
-    sideButtonBarBackgroundColor: Fe,
+    sideButtonBarBackgroundColor: Re,
     sideButtonSelectedBackgroundColor: "transparent",
     sideButtonBarTopPadding: { calc: "spacing * 4" },
     headerColumnResizeHandleColor: "none",
@@ -67832,19 +67832,19 @@ var i7 = class extends P {
     if (re(y)) {
       if (this.active = !1, this.topNumMatches = 0, this.centerNumMatches = 0, this.totalMatches = 0, this.refreshRows(t), M) {
         const J = f.store;
-        for (const Re of Object.keys(J))
-          (Te = (Me = J[Re]) == null ? void 0 : Me.api) == null || Te.findClearActive();
+        for (const Fe of Object.keys(J))
+          (Te = (Me = J[Fe]) == null ? void 0 : Me.api) == null || Te.findClearActive();
       }
       re(C) || this.dispatchFindChanged();
       return;
     }
     const T = c.allCols, E = l.getCallback("isFullWidthRow"), k = l.get("detailCellRendererParams"), D = l.get("fullWidthCellRendererParams"), A = l.get("groupRowRendererParams"), B = _w(l), V = m.isPivotMode();
     let W = 0, _, Y, ie = !1;
-    const de = (J, Re, ze, ro) => {
+    const de = (J, Fe, ze, ro) => {
       if (!ze)
         return;
       let Si = _.get(J);
-      Si || (Si = [], _.set(J, Si), Y.push(J), ro || t.add(J)), Si.push([Re, ze]), W += ze;
+      Si || (Si = [], _.set(J, Si), Y.push(J), ro || t.add(J)), Si.push([Fe, ze]), W += ze;
     }, we = (J) => {
       var Si, fh, mh, Ch, vh;
       if (ie) {
@@ -67854,14 +67854,14 @@ var i7 = class extends P {
         if (fe == null || !g.isRowInPage(fe))
           return;
       }
-      const Re = J.hasChildren();
+      const Fe = J.hasChildren();
       if (!Kw(
         B,
         J,
-        Re,
+        Fe,
         V,
-        Uw(B, J, Re),
-        $w(B, J, Re)
+        Uw(B, J, Fe),
+        $w(B, J, Fe)
       ))
         return;
       const ze = J.data;
@@ -79777,18 +79777,18 @@ const cU = { ref: "root" }, dU = /* @__PURE__ */ Vr({
             let de = /* @__PURE__ */ new Map();
             if (!(B.request.rowGroupCols.length !== 0 && B.request.rowGroupCols.length !== B.request.groupKeys.length))
               for (const J of V) {
-                const Re = l.value.getMetadataByColId(J);
-                if (!Re)
+                const Fe = l.value.getMetadataByColId(J);
+                if (!Fe || !Fe.association_type)
                   continue;
-                let ze = !0;
-                (Re.association_type === "has_many" || Re.association_type === "has_and_belongs_to_many") && (ze = !1), de.set(
+                let ze = !1;
+                (Fe.association_type === "belongs_to" || Fe.association_type === "has_one") && (ze = !0), de.set(
                   J.split(".")[0] ?? "",
                   ze
                 );
               }
             const Le = ie.items.map((J) => {
-              for (const Re of de.entries())
-                J[Re[0]] = JSON.parse(J[Re[0]]), console.log(Re), Re[1] && (J[Re[0]] = J[Re[0]].at(0));
+              for (const Fe of de.entries())
+                J[Fe[0]] = JSON.parse(J[Fe[0]]), console.log(Fe), Fe[1] && (J[Fe[0]] = J[Fe[0]].at(0));
               return J;
             });
             ie.row_count !== -1 ? B.success({
