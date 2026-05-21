@@ -77968,11 +77968,11 @@ class Yt {
     return this.columnsMetadataMap.keys().toArray();
   }
   getAllColumnDepedencies() {
-    return console.log(new Set(
-      ...this.customColumnsMap.values().toArray().map((t) => t.query64Context.dependsOn ?? [])
-    ).values().toArray()), new Set(
-      ...this.customColumnsMap.values().toArray().map((t) => t.query64Context.dependsOn ?? [])
-    ).values().toArray();
+    const t = [];
+    for (const s of this.customColumnsMap.values())
+      for (const i of s.query64Context.dependsOn ?? [])
+        t.includes(i) || t.push(i);
+    return console.log(t), t;
   }
   columnExist(t) {
     return this.getColIdList().includes(t);

@@ -141,18 +141,17 @@ export class GridFactory {
         return this.columnsMetadataMap.keys().toArray();
     }
     getAllColumnDepedencies() {
-        console.log(new Set(...this.customColumnsMap
-            .values()
-            .toArray()
-            .map((column) => column.query64Context.dependsOn ?? []))
-            .values()
-            .toArray());
-        return new Set(...this.customColumnsMap
-            .values()
-            .toArray()
-            .map((column) => column.query64Context.dependsOn ?? []))
-            .values()
-            .toArray();
+        const ok = [];
+        for (const customColumn of this.customColumnsMap.values()) {
+            for (const dependColId of customColumn.query64Context.dependsOn ?? []) {
+                if (ok.includes(dependColId)) {
+                    continue;
+                }
+                ok.push(dependColId);
+            }
+        }
+        console.log(ok);
+        return ok;
     }
     columnExist(colId) {
         return this.getColIdList().includes(colId);
