@@ -78044,7 +78044,7 @@ class Yt {
     const i = t.valueGetter, o = s.association_type, r = s.association_name;
     return !r || !i || typeof i != "function" ? () => null : o === "has_many" || o === "has_and_belongs_to_many" ? (n) => !n.data || !n.data[r] ? "" : n.data[r].map(
       (a) => i({ ...n, data: a })
-    ) : o === "belongs_to" || o === "has_one" ? (n) => !n.data || !n.data[r] || !Array.isArray(n.data[r]) ? "" : i({
+    ) : o === "belongs_to" || o === "has_one" ? (n) => !n.data || !n.data[r] ? "" : i({
       ...n,
       data: n.data[r]
     }) : () => null;

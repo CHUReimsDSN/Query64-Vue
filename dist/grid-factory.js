@@ -266,8 +266,7 @@ export class GridFactory {
         if (associationType === "belongs_to" || associationType === "has_one") {
             return (params) => {
                 if (!params.data ||
-                    !params.data[relationName] ||
-                    !Array.isArray(params.data[relationName])) {
+                    !params.data[relationName]) {
                     return "";
                 }
                 return baseValueGetter({

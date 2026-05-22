@@ -350,8 +350,7 @@ export class GridFactory {
       return (params) => {
         if (
           !params.data ||
-          !params.data[relationName] ||
-          !Array.isArray(params.data[relationName])
+          !params.data[relationName]
         ) {
           return "";
         }
