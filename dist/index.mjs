@@ -77798,7 +77798,7 @@ class ds {
   static tryLog(t, s) {
     const i = Vs.getLoggerConfig();
     if (i.enabled) {
-      const r = `Query64 Log (code ${t}) : ` + s;
+      const r = `💣 Query64 Log (code ${t}) : ` + s;
       switch (i.logType) {
         case "error":
           console.error(r);

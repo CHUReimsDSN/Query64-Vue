@@ -6,11 +6,11 @@ title: Changelog
 
 # 2.0.0
 
-__Features__ : 
+__Nouveautés__ : 
 
 - Système de dépendances de colonnes
 - Système d'avertissement pour les colonnes customs (les colonnes additionnelles ayant déjà été définies, et les colonnes surchargées n'ayant pas trouver la colonne d'origine)
-- Gestionnaire de log pour les avertissements
+- Gestionnaire de log avec code d'erreur
 - Nouveau format de `colId`
 - Mise à disposition de l'AgGrid interne pour l'enregistrement des modules à travers la classe `Query64`
 - Nouvelles définitions des colonnes additionelles et surchargées
