@@ -10,16 +10,17 @@ import { Query64Grid } from 'query64-vue';
 const preference = {
   columnProfils: [
     {
-      "order": 0,
-      "width": 100,
-      "visible": true,
-      "field_name": "id"
+      order: 0,
+      width: 100,
+      visible: true,
+      colId: "id"
     },
     {
-      "order": 1,
-      "width": 140,
-      "visible": false,
-      "field_name": "label"
+      order: 1,
+      width: 140,
+      visible: false,
+      colId: "article.label",
+      pinned: 'right'
     },
   ],
   filterModel: {},

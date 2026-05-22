@@ -1,57 +1,23 @@
-import type { ColDef, ColTypeDef } from "ag-grid-community";
-export type TResourceColumnOverload = {
-    resourceName: string;
-    columnName: string;
-    associationName?: string;
-};
-export type TColumnOverload = {
-    resourceColumnRegister: TResourceColumnOverload;
-    colDef: ColDef;
-    id: string;
-};
-export type TColumnAdditional = {
-    resourceName: string;
-    colDef: ColDef;
-    id: string;
-};
+import { ModuleRegistry } from "ag-grid-community";
+import { type TLoggerConfig } from "./logger";
+import type { TQuery64Config, TCustomColumnRegistration, TQuery64GridConfig } from "./models";
 export declare class Query64 {
     private static _instance;
-    private overloads;
-    private additionals;
-    private columnTypeConfig;
-    private translate;
-    private hasRegisterKeyAndModule;
-    static getColumnOverloadsByResourceName(resourceName: string): TColumnOverload[];
-    static getColumnAdditionalsByResourceName(resourceName: string): TColumnAdditional[];
-    /**
-     * Enregistre une surcharge de colonne
-     * Un identifiant unique est créer par enregistrement : `resourceName` + `columnName` + `associationName`
-     * Les appels successifs de cette méthode pour une même donnée viendront remplacer la valeur pour un même identifiant
-     * @param resourceColumnRegister
-     * @param colDef
-     */
-    static registerColumnOverload(resourceColumnRegister: TResourceColumnOverload, colDef: ColDef): void;
-    /**
-     * Enregistre une colonne additionnelle
-     * Un identifiant unique est créer par enregistrement, basé sur la propriété colId de la colonne
-     * Les appels successifs de cette méthode pour une même donnée viendront remplacer la valeur pour un même identifiant
-     * @param resourceName
-     * @param colDef
-     */
-    static registerColumnAdditional(resourceName: string, colDef: ColDef): void;
-    /**
-     * Enregistre la clé AgGrid Enterprise et les modules nécéssaire à Query64
-     * @param key
-     * @param envMode
-     */
-    static registerAgGridKeyAndModules(key: string, devMode?: boolean): void;
-    static getAgGridGlobalTranslate(): Record<string, string>;
-    static registerAgGridBlobalTranslate(translate: Record<string, string>): void;
-    static getColumnTypesGlobalConfig(): {
-        [key: string]: ColTypeDef;
-    };
-    static registerColumnTypesConfig(columnTypeConfig: {
-        [key: string]: ColTypeDef;
-    }): void;
+    private globalOverloadColumnsMap;
+    private globalAdditionalColumnsMap;
+    private globalConfig;
+    private globalGridConfig;
+    private loggerConfig;
+    static getGlobalAdditionalColumnsByResourceName(resourceName: string): TCustomColumnRegistration[];
+    static getGlobalOverloadColumnsByResourceName(resourceName: string): TCustomColumnRegistration[];
+    static registerGlobalAdditionals(resourceName: string, columnRegistrations: TCustomColumnRegistration[]): void;
+    static registerGlobalOverloads(resourceName: string, columnRegistrations: TCustomColumnRegistration[]): void;
+    static registerAgGridKeyAndModules(key: string, additionalModules?: Parameters<typeof ModuleRegistry.registerModules>[0]): void;
+    static getGlobalGridConfig(): TQuery64GridConfig;
+    static registerGlobalGridConfig(globalGridConfig: Partial<TQuery64GridConfig>): void;
+    static getGlobalConfig(): TQuery64Config;
+    static registerGlobalConfig(globalConfig: Partial<TQuery64Config>): void;
+    static getLoggerConfig(): TLoggerConfig;
+    static registerLoggerConfig(loggerConfig: Partial<TLoggerConfig>): void;
     private constructor();
 }

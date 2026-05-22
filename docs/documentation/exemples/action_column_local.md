@@ -2,7 +2,7 @@
 title: Colonne d'action
 ---
 
-# Exemple pour définir une colonne d'action sur une grille précise :
+# Exemple pour définir une colonne d'action sur une grille :
 
 ```vue
 <script setup lang="ts">
@@ -15,13 +15,18 @@ type Article = {
   title: string;
 };
 
-const actionColumnSettings = {
-  defaultComponent: ColumnActionArticle,
-};
+const additionals = [
+  {
+    colDef: {
+      colId: 'actions',
+      cellRenderer: ColumnActionArticle
+    }
+  }
+]
 </script>
 
 <template>
-  <Query64Grid :actionColumnSettings="actionColumnSettings" />
+  <Query64Grid :additionals="additionals" />
 </template>
 ```
 
@@ -31,12 +36,11 @@ Dans le composant, il est possible de récupérer les données de la ligne coura
 ```vue
 <script setup lang="ts">
 // ColumnActionArticle.vue
-import type { Article } from './ArticlePage.vue'
+import type { Article } from './article'
+import type { ICellRendererParams } from 'ag-grid-enterprise';
 
 const propsComponent = defineProps<{
-  params: {
-    data: Article
-  }
+  params: ICellRendererParams<Article>
 }>();
 </script>
 
@@ -45,7 +49,7 @@ const propsComponent = defineProps<{
     <router-link
       :to="{ name: 'article-by-id', params: { id: propsComponent.params.data.id }}"
     >
-      <div>See more</div>
+      <div>Voir</div>
     </router-link>
   </div>
 </template>
@@ -60,12 +64,10 @@ Plus d'infos sur les props dans la documentation de l'AgGrid : [Custom Component
 <script setup lang="ts">
 // ColumnActionArticle.vue
 import type { Article } from './ArticlePage.vue'
-import type { GridApi } from 'ag-grid-enterprise';
+import type { ICellRendererParams } from 'ag-grid-enterprise';
+
 const propsComponent = defineProps<{
-  params: {
-    data: Article;
-    api: GridApi;
-  }
+  params: ICellRendererParams<Article>
 }>();
 
 async function deleteArticleById() {

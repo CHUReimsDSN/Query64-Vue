@@ -1,5 +1,3 @@
-export type TRecord = {
+export type TRecord = Record<string, unknown> & {
     id: number;
-    created_at: string;
-    updated_at: string;
 };

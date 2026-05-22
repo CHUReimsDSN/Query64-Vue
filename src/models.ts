@@ -1,51 +1,80 @@
-import {
+import type {
   ColDef,
   GridApi,
   GridOptions,
   IServerSideGetRowsRequest,
 } from "ag-grid-community";
-import { Component } from "vue";
-import { TResourceColumnOverload } from "./query64";
+import { type Component, type Ref } from "vue";
 import type { TRecord } from "./private-models";
 
-export type TAggridGenericData<T = TRecord> = {
-  items: T[];
-  length: number;
+export type TAggridGenericData = {
+  items: TRecord[];
+  row_count: number;
 };
 export type TResourceColumnMetaData = {
   raw_field_name: string;
-  field_name: string;
+  field_name: TCustomColId;
   label_name: string;
   field_type: "string" | "number" | "date" | "datetime" | "boolean" | "object";
   association_name: string | null;
-  association_type: string | null;
+  association_type:
+    | "belongs_to"
+    | "has_one"
+    | "has_many"
+    | "has_and_belongs_to_many"
+    | null;
   association_class_name: string | null;
 };
-export type TResourceColumnProfil = {
-  field_name: string;
+export type TCustomColumnRegistration = {
+  dependsOn?: TCustomColId[];
+  colDef: ColDef<TRecord> & {
+    colId: TCustomColId;
+  };
+};
+
+/**
+ * @exportToDoc
+ */
+export type TColumnPreference = {
+  colId: string;
   width: number;
   visible: boolean;
   order: number;
-  pinned?: ColDef['pinned'];
+  pinned?: "right" | "left" | undefined;
 };
-export type TGlobalColumnProps = {
-  columnTypeConfig?: Record<string, ColDef>;
-  columnDateFormater?: (dateValue: string | Date) => string;
-  columnDatetimeFormater?: (dateValue: string | Date) => string;
+
+/**
+ * @exportToDoc
+ */
+export type TQuery64Config = {
+  gridStyle: string;
+  containerStyle: string;
+  displayRowComponent: Component;
 };
-export type TActionColumnProps = {
-  defaultComponent: Component;
+
+/**
+ * @exportToDoc
+ */
+export type TQuery64GridConfig = {
+  columnTypeConfig: Record<string, ColDef<TRecord>>;
+  columnDateFormater: (dateValue: string | Date) => string;
+  columnDatetimeFormater: (dateValue: string | Date) => string;
+  columnHasManyRenderComponent: Component;
+  translation: Record<string, string>;
+  aggridTheme: any;
 };
-export type THasManyColumnProps = {
-  purgeNullValue: boolean;
-  customComponent: Component;
+
+export type TCustomColId = string;
+
+export type TColumnQuery64Context = {
+  type: "generated" | "add" | "overload";
+  dependsOn?: TCustomColId[];
 };
-export type TOverloadsProps = {
-  resourceColumnRegister: Omit<TResourceColumnOverload, "resourceName">;
-  colDef: ColDef;
-};
-export type TAdditionalsProps = {
-  colDef: ColDef;
+
+export type TCustomColumn = ColDef<TRecord> & {
+  colId: TCustomColId;
+  query64Context: TColumnQuery64Context;
+  context: Record<string, unknown>;
 };
 
 /**
@@ -71,37 +100,38 @@ export type TQuery64GetRowsParams = {
 /**
  * @exportToDoc
  */
-export type TQuery64GridProps<T = TRecord> = {
+export type TQuery64GridProps = {
   resourceName: string;
-  getMetadata: (
-    query64Params: TQuery64GetMetadataParams
-  ) => Promise<TResourceColumnMetaData[]>;
-  getRows: (
-    query64Params: TQuery64GetRowsParams
-  ) => Promise<TAggridGenericData<T>>;
-  showRowCount?: boolean;
-  aggridTheme?: any; // TODO
-  aggridThemeMode?: "light" | "dark" | "dark-blue";
-  gridStyle?: string;
-  globalColumnSettings?: TGlobalColumnProps;
-  hasManyColumnSettings?: THasManyColumnProps;
-  actionColumnSettings?: TActionColumnProps;
-  overloads?: TOverloadsProps[];
-  additionals?: TAdditionalsProps[];
-  initialGridParams?: {
-    gridOptions?: GridOptions<T>;
-    columnProfils?: TResourceColumnProfil[];
-    filterModel?: IServerSideGetRowsRequest["filterModel"];
-    sortModel?: IServerSideGetRowsRequest["sortModel"];
-    rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"];
+  initialGridParams: {
+    getMetadata: (
+      query64Params: TQuery64GetMetadataParams,
+    ) => Promise<TResourceColumnMetaData[]>;
+    getRows: (
+      query64Params: TQuery64GetRowsParams,
+    ) => Promise<TAggridGenericData>;
+    gridOptions?: Partial<GridOptions<TRecord>>;
+    additionals?: TCustomColumnRegistration[];
+    overloads?: TCustomColumnRegistration[];
+    gridConfig?: Partial<TQuery64GridConfig>;
+    preferences?: TColumnPreference[];
+    filterModel?: IServerSideGetRowsRequest["filterModel"],
+    sortModel?: IServerSideGetRowsRequest["sortModel"],
+    rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"],
   };
+  showRowCount?: boolean;
+  gridStyle?: string;
+  containerStyle?: string;
+  displayRowComponent?: Component;
+  themeMode?: TAgGridThemeMode;
   context?: Record<string, unknown>;
 };
+
+export type TAgGridThemeMode = "light" | "dark" | "dark-blue";
 
 /**
  * @exportToDoc
  */
-export type TQuery64GridExpose<T = TRecord> = {
+export type TQuery64GridApi<T = TRecord> = {
   /*
    * Réinitialise les filtres, tris, ordre et groupes de la grille et re-alimente la grille en données
    */
@@ -111,22 +141,22 @@ export type TQuery64GridExpose<T = TRecord> = {
    * Applique des filtres, tris, ordres et groupes à la grille et re-alimente la grille en données
    */
   updateGridParams: (
-    columnProfils?: TResourceColumnProfil[],
+    columnPreferences?: TColumnPreference[],
     filterModel?: IServerSideGetRowsRequest["filterModel"],
     sortModel?: IServerSideGetRowsRequest["sortModel"],
     rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"],
-    forceReset?: boolean // default = false
+    forceReset?: boolean, // default = false
   ) => void;
 
   /*
    *  Accès aux options de la grille
    */
-  gridOptions: GridOptions<T>;
+  gridOptions: Ref<GridOptions<T> | null>;
 
   /*
    * Accès à l'API de la grille
    */
-  gridApi: GridApi<T> | undefined;
+  gridApi: Ref<GridApi<T> | null>;
 
   /*
    * Dernier paramètre envoyer au serveur pour obtenir les lignes
@@ -136,15 +166,15 @@ export type TQuery64GridExpose<T = TRecord> = {
   /*
    * Référence de chargement de la grille
    */
-  isLoadingSettingUpGrid: boolean;
+  isLoadingSettingUpGrid: Ref<boolean>;
 
   /*
-  * Référence de chargement du serveur
-  */
-  isLoadingServer: boolean;
+   * Référence de chargement du serveur
+   */
+  isLoadingServer: Ref<boolean>;
 
   /*
-  * Déclenche le filtre rapide (filtre sur toutes les colonnes)
-  */
+   * Déclenche le filtre rapide (filtre sur toutes les colonnes)
+   */
   triggerQuickFilter: (search: string) => void | Promise<void>;
 };

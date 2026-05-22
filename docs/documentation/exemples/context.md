@@ -13,7 +13,6 @@ const context = {
 </script>
 
 <template>
-  <Query64Grid :context="context"
-  />
+  <Query64Grid :context="context" />
 </template>
 ```
