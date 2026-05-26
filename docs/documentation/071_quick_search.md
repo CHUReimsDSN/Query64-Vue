@@ -10,9 +10,9 @@ Il est possible d'effectuer une recherche rapide à travers toutes les colonnes 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { Query64Grid } from 'query64-vue';
-import type { TQuery64GridExpose } from 'query64-vue';
+import type { TQuery64GridApi } from 'query64-vue';
 
-const query64Grid = ref<TQuery64GridExpose>()
+const query64Grid = ref<TQuery64GridApi>()
 const quickSearch = ref('')
 
 watch(quickSearch, (newValue) => {
