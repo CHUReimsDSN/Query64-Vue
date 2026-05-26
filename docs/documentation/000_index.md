@@ -32,8 +32,8 @@ npm install
 
 ```ts
 // Peer depedencies
-  "ag-grid-vue3": "^34.0.0",
-  "ag-grid-community": "^34.0.0",
-  "ag-grid-enterprise": "^34.0.0",
+  "ag-grid-vue3": "^35.0.0",
+  "ag-grid-community": "^35.0.0",
+  "ag-grid-enterprise": "^35.0.0",
   "vue": "^3.0.0"
 ```
