@@ -28,7 +28,7 @@ export type TColumnPreference = {
     width: number;
     visible: boolean;
     order: number;
-    pinned?: "right" | "left" | undefined;
+    pinned?: ColDef['pinned'];
 };
 /**
  * @exportToDoc
