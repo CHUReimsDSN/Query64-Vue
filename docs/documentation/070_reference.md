@@ -10,9 +10,9 @@ Exemple d'accès à la gridApi :
 ```vue
 <script setup lang="ts">
 import { Query64Grid } from 'query64-vue';
-import type { TQuery64GridExpose } from 'query64-vue';
+import type { TQuery64GridApi } from 'query64-vue';
 
-const query64Grid = ref<TQuery64GridExpose>()
+const query64Grid = ref<TQuery64GridApi>()
 
 function example() {
   if (!query64Grid.value) {
@@ -29,7 +29,7 @@ function example() {
 ```
 
 ::: warning Important 
-Consulter la [Définition API](/api-definition/models.md#TQuery64GridExpose) pour connaitre les méthodes disponibles. 
+Consulter la [Définition API](/api-definition/models.md#TQuery64GridApi) pour connaitre les méthodes disponibles. 
 :::
 
 
