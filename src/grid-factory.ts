@@ -86,9 +86,7 @@ export class GridFactory {
         metadata.association_type === null &&
         (metadata.field_category === null ||
           (metadata.field_category === "primary_key" &&
-            this.gridConfig.showPrimaryKeyByDefault) ||
-          (metadata.field_category === "foreign_key" &&
-            this.gridConfig.showForeignKeyByDefault))
+            this.gridConfig.showPrimaryKeyByDefault))
       ) {
         shallHideColumn = false;
       }

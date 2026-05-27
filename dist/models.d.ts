@@ -48,7 +48,6 @@ export type TQuery64GridConfig = {
     columnHasManyRenderComponent: Component;
     translation: Record<string, string>;
     showPrimaryKeyByDefault: boolean;
-    showForeignKeyByDefault: boolean;
     aggridTheme: any;
 };
 export type TCustomColId = string;
