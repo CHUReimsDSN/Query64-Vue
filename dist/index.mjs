@@ -77887,19 +77887,20 @@ class Yt {
           ), d = this.getGenericColumnObject(c);
           break;
       }
-      d.hide = c.association_type !== null, d.cellStyle = this.generateSafeColDefStyle();
-      const u = {
+      let u = !0;
+      c.association_type === null && (c.field_category === null || c.field_category === "primary_key" && this.gridConfig.showPrimaryKeyByDefault || c.field_category === "foreign_key" && this.gridConfig.showForeignKeyByDefault) && (u = !1), d.hide = u, d.cellStyle = this.generateSafeColDefStyle();
+      const h = {
         type: "generated"
       };
       c.association_type !== null && (d.valueGetter = this.getGenericColumnValueGetterRelation(
         d,
         c
       ), (c.association_type === "has_many" || c.association_type === "has_and_belongs_to_many") && (d.autoHeight = !0, d.cellRenderer = this.gridConfig.columnHasManyRenderComponent));
-      const h = Yt.generateCustomColumn(
+      const g = Yt.generateCustomColumn(
         d,
-        u
+        h
       );
-      this.customColumnsMap.set(h.colId, h);
+      this.customColumnsMap.set(g.colId, g);
     });
     const a = [
       ...Vs.getGlobalAdditionalColumnsByResourceName(this.resourceName),
@@ -77951,7 +77952,10 @@ class Yt {
     for (const r of t) {
       const n = s.get(r.colId);
       if (!n) {
-        ds.tryLog("014", `Preference set with colId ${r.colId} but no column found in column pool`);
+        ds.tryLog(
+          "014",
+          `Preference set with colId ${r.colId} but no column found in column pool`
+        );
         continue;
       }
       i.add(r.colId), n.hide = !r.visible, n.width = r.width, n.pinned = r.pinned, o.set(n.colId, r.order);
@@ -78503,6 +78507,8 @@ const Ea = class Ea {
       columnTypeConfig: Yt.defaultColumnTypesConfig(),
       columnHasManyRenderComponent: J_,
       translation: Yt.getFrenchTranslate(),
+      showPrimaryKeyByDefault: !1,
+      showForeignKeyByDefault: !1,
       aggridTheme: WE
     });
     Vt(this, "loggerConfig", ds.getDefaultConfig());

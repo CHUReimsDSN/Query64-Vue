@@ -10,9 +10,9 @@ export type TResourceColumnMetaData = {
     field_name: TCustomColId;
     label_name: string;
     field_type: "string" | "number" | "date" | "datetime" | "boolean" | "object";
+    field_category: "primary_key" | "foreign_key" | null;
     association_name: string | null;
     association_type: "belongs_to" | "has_one" | "has_many" | "has_and_belongs_to_many" | null;
-    association_class_name: string | null;
 };
 export type TCustomColumnRegistration = {
     dependsOn?: TCustomColId[];
@@ -47,6 +47,8 @@ export type TQuery64GridConfig = {
     columnDatetimeFormater: (dateValue: string | Date) => string;
     columnHasManyRenderComponent: Component;
     translation: Record<string, string>;
+    showPrimaryKeyByDefault: boolean;
+    showForeignKeyByDefault: boolean;
     aggridTheme: any;
 };
 export type TCustomColId = string;

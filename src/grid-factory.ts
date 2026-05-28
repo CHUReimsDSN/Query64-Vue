@@ -75,12 +75,24 @@ export class GridFactory {
           break;
         default:
           Query64Logger.tryLog(
-            '010', `Field type unkown for column ${metadata.field_name} : ${metadata.field_type}`,
+            "010",
+            `Field type unkown for column ${metadata.field_name} : ${metadata.field_type}`,
           );
           column = this.getGenericColumnObject(metadata);
           break;
       }
-      column.hide = metadata.association_type !== null;
+      let shallHideColumn = true;
+      if (
+        metadata.association_type === null &&
+        (metadata.field_category === null ||
+          (metadata.field_category === "primary_key" &&
+            this.gridConfig.showPrimaryKeyByDefault) ||
+          (metadata.field_category === "foreign_key" &&
+            this.gridConfig.showForeignKeyByDefault))
+      ) {
+        shallHideColumn = false;
+      }
+      column.hide = shallHideColumn;
       column.cellStyle = this.generateSafeColDefStyle();
       const columnSpecialContext: TColumnQuery64Context = {
         type: "generated",
@@ -117,7 +129,8 @@ export class GridFactory {
       });
       if (this.customColumnsMap.has(additional.colDef.colId)) {
         Query64Logger.tryLog(
-          '011', `You tried to set additional column with id ${additional.colDef.colId} but this id already exists. Action has been ignored.`,
+          "011",
+          `You tried to set additional column with id ${additional.colDef.colId} but this id already exists. Action has been ignored.`,
         );
         continue;
       }
@@ -133,7 +146,8 @@ export class GridFactory {
       const columnToOverload = this.customColumnsMap.get(overload.colDef.colId);
       if (!columnToOverload) {
         Query64Logger.tryLog(
-          '012', `You tried to set overload column with id ${overload.colDef.colId} but no column was found. Action has been ignored.`,
+          "012",
+          `You tried to set overload column with id ${overload.colDef.colId} but no column was found. Action has been ignored.`,
         );
         continue;
       }
@@ -160,10 +174,13 @@ export class GridFactory {
     for (const preference of preferences) {
       const columnFound = columnsMapCopy.get(preference.colId);
       if (!columnFound) {
-        Query64Logger.tryLog('014', `Preference set with colId ${preference.colId} but no column found in column pool`)
+        Query64Logger.tryLog(
+          "014",
+          `Preference set with colId ${preference.colId} but no column found in column pool`,
+        );
         continue;
       }
-      columnFoundMap.add(preference.colId)
+      columnFoundMap.add(preference.colId);
       columnFound.hide = !preference.visible;
       columnFound.width = preference.width;
       columnFound.pinned = preference.pinned;
@@ -195,16 +212,16 @@ export class GridFactory {
     return this.columnsMetadataMap.keys().toArray();
   }
   getAllColumnDepedencies() {
-    const uniqDepedencies: TCustomColId[] = []
+    const uniqDepedencies: TCustomColId[] = [];
     for (const customColumn of this.customColumnsMap.values()) {
-        for (const dependColId of customColumn.query64Context.dependsOn ?? []) {
-          if (uniqDepedencies.includes(dependColId)) {
-            continue
-          }
-          uniqDepedencies.push(dependColId)
+      for (const dependColId of customColumn.query64Context.dependsOn ?? []) {
+        if (uniqDepedencies.includes(dependColId)) {
+          continue;
         }
+        uniqDepedencies.push(dependColId);
+      }
     }
-    return uniqDepedencies
+    return uniqDepedencies;
   }
   columnExist(colId: TCustomColId) {
     return this.getColIdList().includes(colId);
@@ -348,10 +365,7 @@ export class GridFactory {
     }
     if (associationType === "belongs_to" || associationType === "has_one") {
       return (params) => {
-        if (
-          !params.data ||
-          !params.data[relationName]
-        ) {
+        if (!params.data || !params.data[relationName]) {
           return "";
         }
         return baseValueGetter({
@@ -377,7 +391,8 @@ export class GridFactory {
     for (const depedencyColId of depedencies) {
       if (!this.columnExist(depedencyColId)) {
         Query64Logger.tryLog(
-         '013', `Column with id ${depedencyColId} has been register as depedency but does not exist in the column pool.`,
+          "013",
+          `Column with id ${depedencyColId} has been register as depedency but does not exist in the column pool.`,
         );
       }
     }
