@@ -77888,7 +77888,7 @@ class Yt {
           break;
       }
       let u = !0;
-      c.association_type === null && (c.field_category === null || c.field_category === "primary_key" && this.gridConfig.showPrimaryKeyByDefault) && (u = !1), d.hide = u, d.cellStyle = this.generateSafeColDefStyle();
+      c.association_type === null && (c.field_category === null || c.field_category === "primary_key" && this.gridConfig.showPrimaryKeyByDefault || c.field_category === "foreign_key" && this.gridConfig.showForeignKeyByDefault) && (u = !1), d.hide = u, d.cellStyle = this.generateSafeColDefStyle();
       const h = {
         type: "generated"
       };
@@ -78508,6 +78508,7 @@ const Ea = class Ea {
       columnHasManyRenderComponent: J_,
       translation: Yt.getFrenchTranslate(),
       showPrimaryKeyByDefault: !1,
+      showForeignKeyByDefault: !1,
       aggridTheme: WE
     });
     Vt(this, "loggerConfig", ds.getDefaultConfig());

@@ -56,6 +56,7 @@ export class Query64 {
     columnHasManyRenderComponent: CellDefaultListValue,
     translation: GridFactory.getFrenchTranslate(),
     showPrimaryKeyByDefault: false,
+    showForeignKeyByDefault: false,
     aggridTheme: themeAlpine,
   };
   private loggerConfig: TLoggerConfig = Query64Logger.getDefaultConfig();
