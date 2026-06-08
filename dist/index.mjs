@@ -77945,7 +77945,7 @@ class Yt {
     this.detectDeadDepedencies();
   }
   getColumns() {
-    return this.customColumnsMap.values().toArray();
+    return Array.from(this.customColumnsMap.values());
   }
   getColumnsByPreferences(t) {
     const s = new Map(this.customColumnsMap), i = /* @__PURE__ */ new Set(), o = /* @__PURE__ */ new Map();
@@ -77960,7 +77960,7 @@ class Yt {
       }
       i.add(r.colId), n.hide = !r.visible, n.width = r.width, n.pinned = r.pinned, o.set(n.colId, r.order);
     }
-    return s.values().toArray().map((r) => (i.has(r.colId) || (r.hide = !0), r)).sort((r, n) => (o.get(r.colId) ?? 1e3) - (o.get(n.colId) ?? 1e3));
+    return Array.from(s.values()).map((r) => (i.has(r.colId) || (r.hide = !0), r)).sort((r, n) => (o.get(r.colId) ?? 1e3) - (o.get(n.colId) ?? 1e3));
   }
   getMetadataByColId(t) {
     return this.columnsMetadataMap.get(t);
@@ -77969,7 +77969,7 @@ class Yt {
     return this.customColumnsMap.get(t);
   }
   getColIdList() {
-    return this.columnsMetadataMap.keys().toArray();
+    return Array.from(this.columnsMetadataMap.keys());
   }
   getAllColumnDepedencies() {
     const t = [];

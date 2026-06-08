@@ -109,7 +109,7 @@ export class GridFactory {
         this.detectDeadDepedencies();
     }
     getColumns() {
-        return this.customColumnsMap.values().toArray();
+        return Array.from(this.customColumnsMap.values());
     }
     getColumnsByPreferences(preferences) {
         const columnsMapCopy = new Map(this.customColumnsMap);
@@ -127,9 +127,7 @@ export class GridFactory {
             columnFound.pinned = preference.pinned;
             columnOrderMap.set(columnFound.colId, preference.order);
         }
-        return columnsMapCopy
-            .values()
-            .toArray()
+        return Array.from(columnsMapCopy.values())
             .map((column) => {
             if (!columnFoundMap.has(column.colId)) {
                 column.hide = true;
@@ -148,7 +146,7 @@ export class GridFactory {
         return this.customColumnsMap.get(colId);
     }
     getColIdList() {
-        return this.columnsMetadataMap.keys().toArray();
+        return Array.from(this.columnsMetadataMap.keys());
     }
     getAllColumnDepedencies() {
         const uniqDepedencies = [];

@@ -4,6 +4,11 @@ title: Changelog
 
 # Changelog
 
+### 2.1.1
+
+- Correction des `Iterator.toArray()` pour une meilleur compabilité
+
+---
 ### 2.1.0
 
 - Ajout des options d'affichage par défaut pour les colonnes de clé primaire et étrangère dans le `TQuery64GridConfig`
