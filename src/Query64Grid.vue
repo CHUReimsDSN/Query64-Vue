@@ -276,6 +276,7 @@ function setupGridOptionsConfig() {
     return
   }
   const gridOptionBuilding: GridOptions<TRecord> = {
+    ...propsComponent.initialGridParams.gridOptions,
     localeText: gridFactory.value.gridConfig.translation,
     suppressMiddleClickScrolls: true,
     suppressNoRowsOverlay: false,
