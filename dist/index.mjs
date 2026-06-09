@@ -79848,6 +79848,7 @@ const cU = { ref: "root" }, dU = /* @__PURE__ */ Vr({
         return;
       }
       const B = {
+        ...s.initialGridParams.gridOptions,
         localeText: l.value.gridConfig.translation,
         suppressMiddleClickScrolls: !0,
         suppressNoRowsOverlay: !1,

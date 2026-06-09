@@ -4,6 +4,11 @@ title: Changelog
 
 # Changelog
 
+### 2.1.2
+
+- La props `initialGridParams.gridOptions` est désormais pris en charge.
+
+---
 ### 2.1.1
 
 - Correction des `Iterator.toArray()` pour une meilleur compabilité
