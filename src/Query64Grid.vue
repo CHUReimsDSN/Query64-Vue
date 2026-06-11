@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AgGridVue } from "ag-grid-vue3";
-import { computed, nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, readonly, ref } from "vue";
 import type {
   TQuery64GridProps,
   TQuery64GridApi,
@@ -31,15 +31,16 @@ const propsComponent = withDefaults(defineProps<TQuery64GridProps>(), {
   showRowCount: true,
 });
 
+
 // lets
 let lastGetRowsParams: TQuery64GetRowsParams | null = null;
 let lastDisplayedCols: string[] = [];
 let quickSearch: string | null = null
+let gridFactory: GridFactory | null = null
 
 // refs
 const gridOptions = ref<GridOptions<TRecord> | null>(null);
 const gridApi = ref<GridApi<TRecord> | null>(null);
-const gridFactory = ref<GridFactory | null>(null);
 const rowCountRef = ref(0);
 const isLoadingSettingUpGrid = ref(true);
 const isLoadingServer = ref(true);
@@ -51,7 +52,7 @@ async function setupGrid() {
     resourceName: propsComponent.resourceName,
     context: propsComponent.context,
   });
-  gridFactory.value = new GridFactory(
+  gridFactory = new GridFactory(
     propsComponent.resourceName,
     response,
     propsComponent.initialGridParams.getRows,
@@ -81,7 +82,7 @@ function setupRowData(): IServerSideDatasource<TRecord> {
         params.api
           .getColumns()
           ?.filter((column) => {
-            return column.isVisible() || gridFactory.value!.getAllColumnDepedencies().includes(column.getColId());
+            return column.isVisible() || gridFactory!.getAllColumnDepedencies().includes(column.getColId());
           })
           .map((column) => {
             return column.getColId();
@@ -121,7 +122,7 @@ function setupRowData(): IServerSideDatasource<TRecord> {
         context: propsComponent.context,
       };
       isLoadingServer.value = true
-      gridFactory.value!.getRowsFn(lastGetRowsParams)
+      gridFactory!.getRowsFn(lastGetRowsParams)
         .then((response) => {
           isLoadingServer.value = false
           let jsonKeysToParse: Map<keyof TRecord, boolean> = new Map();
@@ -131,7 +132,7 @@ function setupRowData(): IServerSideDatasource<TRecord> {
             params.request.groupKeys.length;
           if (!isGroupMode) {
             for (const displayedCol of displayedCols) {
-              const metadataCol = gridFactory.value!.getMetadataByColId(displayedCol)
+              const metadataCol = gridFactory!.getMetadataByColId(displayedCol)
               if (!metadataCol || !metadataCol.association_type) {
                 continue;
               }
@@ -182,14 +183,14 @@ function setupRowData(): IServerSideDatasource<TRecord> {
   };
 }
 function setupGridColumns(preferences?: TColumnPreference[]) {
-  if (!gridApi.value || !gridFactory.value) {
+  if (!gridApi.value || !gridFactory) {
     return;
   }
   let resourceColumns: ColDef<TRecord>[];
   if (preferences) {
-    resourceColumns = gridFactory.value.getColumnsByPreferences(preferences);
+    resourceColumns = gridFactory.getColumnsByPreferences(preferences);
   } else {
-    resourceColumns = gridFactory.value.getColumns();
+    resourceColumns = gridFactory.getColumns();
   }
   gridApi.value.setGridOption("columnDefs", resourceColumns);
 }
@@ -271,20 +272,20 @@ function getLastGetRowsParams() {
   return lastGetRowsParams
 }
 function setupGridOptionsConfig() {
-  if (!gridFactory.value) {
+  if (!gridFactory) {
     Query64Logger.tryLog('004', 'Tried to setup grid options but grid factory was null')
     return
   }
   const gridOptionBuilding: GridOptions<TRecord> = {
     ...propsComponent.initialGridParams.gridOptions,
-    localeText: gridFactory.value.gridConfig.translation,
+    localeText: gridFactory.gridConfig.translation,
     suppressMiddleClickScrolls: true,
     suppressNoRowsOverlay: false,
     rowSelection: "multiple",
     rowModelType: "serverSide",
     rowGroupPanelShow: "onlyWhenGrouping",
     groupDisplayType: "singleColumn",
-    theme: gridFactory.value.gridConfig.aggridTheme,
+    theme: gridFactory.gridConfig.aggridTheme,
     autoGroupColumnDef: {
       minWidth: 200,
       cellRendererParams: {
@@ -295,7 +296,7 @@ function setupGridOptionsConfig() {
         },
       },
     },
-    columnTypes: gridFactory.value.gridConfig.columnTypeConfig,
+    columnTypes: gridFactory.gridConfig.columnTypeConfig,
     columnDefs: [],
     serverSideDatasource: setupRowData(),
     getRowId,
@@ -382,24 +383,29 @@ onMounted(async () => {
   setupThemeMode();
 });
 
-// expose
-defineExpose<TQuery64GridApi>({
+// api
+const api: TQuery64GridApi = {
   resetGridParams,
   updateGridParams,
-  gridOptions,
-  gridApi,
   getLastGetRowsParams,
   triggerQuickFilter,
-  isLoadingSettingUpGrid,
-  isLoadingServer
-});
+  refs: {
+    gridOptions: readonly(gridOptions) as TQuery64GridApi['refs']['gridOptions'],
+    gridApi: readonly(gridApi),
+    isLoadingSettingUpGrid: readonly(isLoadingSettingUpGrid),
+    isLoadingServer: readonly(isLoadingServer),
+    rowCount: readonly(rowCountRef)
+  }
+}
+
+// expose
+defineExpose<TQuery64GridApi>(api);
 </script>
 
 <template>
-  <div v-if="!isLoadingSettingUpGrid && gridOptions && gridFactory" :style="computedContainerStyle"
+  <div v-if="!isLoadingSettingUpGrid && gridOptions" :style="computedContainerStyle"
     :data-ag-theme-mode="themeMode">
     <AgGridVue :gridOptions="gridOptions" :style="computedGridStyle" />
-    <Component v-if="gridApi && propsComponent.showRowCount" :is="computedRowComponent" :gridApi="gridApi"
-      :rowCount="rowCountRef" />
+    <Component v-if="gridApi && propsComponent.showRowCount" :is="computedRowComponent" :query64GridApi="api" />
   </div>
 </template>

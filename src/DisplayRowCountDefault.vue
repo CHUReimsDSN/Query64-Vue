@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import type { GridApi } from 'ag-grid-community';
-import type { TRecord } from './private-models';
+import { TQuery64GridApi } from './models';
 
 // props
 const propsComponent = defineProps<{
-    rowCount: number;
-    gridApi: GridApi<TRecord>;
+    query64GridApi: TQuery64GridApi;
 }>()
 </script>
 
@@ -18,6 +16,7 @@ const propsComponent = defineProps<{
         padding: 4px 4px;
         padding-right: 8px;
       ">
-        {{ propsComponent.rowCount }} ligne{{ propsComponent.rowCount > 0 ? 's' : '' }}
+        {{ propsComponent.query64GridApi.refs.rowCount.value }} ligne{{
+            propsComponent.query64GridApi.refs.rowCount.value > 0 ? 's' : '' }}
     </div>
 </template>
