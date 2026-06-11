@@ -281,7 +281,6 @@ function setupGridOptionsConfig() {
     localeText: gridFactory.gridConfig.translation,
     suppressMiddleClickScrolls: true,
     suppressNoRowsOverlay: false,
-    rowSelection: "multiple",
     rowModelType: "serverSide",
     rowGroupPanelShow: "onlyWhenGrouping",
     groupDisplayType: "singleColumn",
