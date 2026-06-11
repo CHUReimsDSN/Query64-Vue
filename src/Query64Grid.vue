@@ -311,7 +311,7 @@ function setupGridOptionsConfig() {
     updateGridParams(propsComponent.initialGridParams.preferences,
       propsComponent.initialGridParams.filterModel,
       propsComponent.initialGridParams.sortModel,
-      propsComponent.initialGridParams.rowgroupCols
+      propsComponent.initialGridParams.rowGroupCols
     )
     if (baseOnGridReady) {
       baseOnGridReady(params);

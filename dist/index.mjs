@@ -79876,7 +79876,7 @@ const dU = { ref: "root" }, uU = /* @__PURE__ */ Nr({
           s.initialGridParams.preferences,
           s.initialGridParams.filterModel,
           s.initialGridParams.sortModel,
-          s.initialGridParams.rowgroupCols
+          s.initialGridParams.rowGroupCols
         ), N && N(ie);
       };
       const W = G.onModelUpdated;
