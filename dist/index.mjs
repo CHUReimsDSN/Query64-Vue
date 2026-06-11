@@ -79851,7 +79851,6 @@ const dU = { ref: "root" }, uU = /* @__PURE__ */ Nr({
         localeText: n.gridConfig.translation,
         suppressMiddleClickScrolls: !0,
         suppressNoRowsOverlay: !1,
-        rowSelection: "multiple",
         rowModelType: "serverSide",
         rowGroupPanelShow: "onlyWhenGrouping",
         groupDisplayType: "singleColumn",
