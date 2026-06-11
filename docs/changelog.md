@@ -4,9 +4,14 @@ title: Changelog
 
 # Changelog
 
+### 2.2.0
+
+- Correction de l'api `TQuery64GridApi` où les objects réactives ne l'était plus
+
+---
 ### 2.1.2
 
-- La props `initialGridParams.gridOptions` est désormais pris en charge.
+- La props `initialGridParams.gridOptions` est désormais pris en charge
 
 ---
 ### 2.1.1

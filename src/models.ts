@@ -40,7 +40,7 @@ export type TColumnPreference = {
   width: number;
   visible: boolean;
   order: number;
-  pinned?: ColDef['pinned'];
+  pinned?: ColDef["pinned"];
 };
 
 /**
@@ -116,9 +116,9 @@ export type TQuery64GridProps = {
     overloads?: TCustomColumnRegistration[];
     gridConfig?: Partial<TQuery64GridConfig>;
     preferences?: TColumnPreference[];
-    filterModel?: IServerSideGetRowsRequest["filterModel"],
-    sortModel?: IServerSideGetRowsRequest["sortModel"],
-    rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"],
+    filterModel?: IServerSideGetRowsRequest["filterModel"];
+    sortModel?: IServerSideGetRowsRequest["sortModel"];
+    rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"];
   };
   showRowCount?: boolean;
   gridStyle?: string;
@@ -133,7 +133,7 @@ export type TAgGridThemeMode = "light" | "dark" | "dark-blue";
 /**
  * @exportToDoc
  */
-export type TQuery64GridApi<T = TRecord> = {
+export type TQuery64GridApi = {
   /*
    * Réinitialise les filtres, tris, ordre et groupes de la grille et re-alimente la grille en données
    */
@@ -151,32 +151,43 @@ export type TQuery64GridApi<T = TRecord> = {
   ) => void;
 
   /*
-   *  Accès aux options de la grille
-   */
-  gridOptions: Ref<GridOptions<T> | null>;
-
-  /*
-   * Accès à l'API de la grille
-   */
-  gridApi: Ref<GridApi<T> | null>;
-
-  /*
    * Dernier paramètre envoyer au serveur pour obtenir les lignes
    */
   getLastGetRowsParams: () => TQuery64GetRowsParams | null;
 
   /*
-   * Référence de chargement de la grille
-   */
-  isLoadingSettingUpGrid: Ref<boolean>;
-
-  /*
-   * Référence de chargement du serveur
-   */
-  isLoadingServer: Ref<boolean>;
-
-  /*
    * Déclenche le filtre rapide (filtre sur toutes les colonnes)
    */
   triggerQuickFilter: (search: string) => void | Promise<void>;
+
+  /*
+   * Contient les refs readonly de Query64Grid
+   */
+  refs: {
+    /*
+     * Référence de chargement de la grille
+     */
+    isLoadingSettingUpGrid: Readonly<Ref<boolean>>;
+
+    /*
+     * Référence de chargement du serveur
+     */
+    isLoadingServer: Readonly<Ref<boolean>>;
+
+    /*
+     *  Référence des options de la grille
+     */
+    gridOptions: Readonly<Ref<GridOptions<TRecord> | null>>;
+
+    /*
+     * Référence à l'API de la grille
+     */
+    gridApi: Readonly<Ref<GridApi<TRecord> | null>>;
+
+
+    /*
+    * Référence du nombre de ligne 
+    */
+    rowCount: Readonly<Ref<number>>;
+  };
 };

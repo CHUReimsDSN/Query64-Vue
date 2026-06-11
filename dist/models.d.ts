@@ -28,7 +28,7 @@ export type TColumnPreference = {
     width: number;
     visible: boolean;
     order: number;
-    pinned?: ColDef['pinned'];
+    pinned?: ColDef["pinned"];
 };
 /**
  * @exportToDoc
@@ -107,13 +107,16 @@ export type TAgGridThemeMode = "light" | "dark" | "dark-blue";
 /**
  * @exportToDoc
  */
-export type TQuery64GridApi<T = TRecord> = {
+export type TQuery64GridApi = {
     resetGridParams: () => void;
     updateGridParams: (columnPreferences?: TColumnPreference[], filterModel?: IServerSideGetRowsRequest["filterModel"], sortModel?: IServerSideGetRowsRequest["sortModel"], rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"], forceReset?: boolean) => void;
-    gridOptions: Ref<GridOptions<T> | null>;
-    gridApi: Ref<GridApi<T> | null>;
     getLastGetRowsParams: () => TQuery64GetRowsParams | null;
-    isLoadingSettingUpGrid: Ref<boolean>;
-    isLoadingServer: Ref<boolean>;
     triggerQuickFilter: (search: string) => void | Promise<void>;
+    refs: {
+        isLoadingSettingUpGrid: Readonly<Ref<boolean>>;
+        isLoadingServer: Readonly<Ref<boolean>>;
+        gridOptions: Readonly<Ref<GridOptions<TRecord> | null>>;
+        gridApi: Readonly<Ref<GridApi<TRecord> | null>>;
+        rowCount: Readonly<Ref<number>>;
+    };
 };
