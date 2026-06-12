@@ -306,11 +306,17 @@ export class GridFactory {
         if (
           !params.data ||
           params.data[metaData.raw_field_name as keyof TRecord] === undefined
-        )
+        ) {
           return "";
-        return params.data[metaData.raw_field_name as keyof TRecord]
-          ? "Oui"
-          : "Non";
+        }
+        const value = params.data[metaData.raw_field_name as keyof TRecord]
+        if (value === true) {
+          return 'Oui'
+        }
+        if (value === false) {
+          return 'Non'
+        }
+        return ''
       },
       width: 150,
     };

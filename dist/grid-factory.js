@@ -226,11 +226,17 @@ export class GridFactory {
             type: "booleanColumn",
             valueGetter: (params) => {
                 if (!params.data ||
-                    params.data[metaData.raw_field_name] === undefined)
+                    params.data[metaData.raw_field_name] === undefined) {
                     return "";
-                return params.data[metaData.raw_field_name]
-                    ? "Oui"
-                    : "Non";
+                }
+                const value = params.data[metaData.raw_field_name];
+                if (value === true) {
+                    return 'Oui';
+                }
+                if (value === false) {
+                    return 'Non';
+                }
+                return '';
             },
             width: 150,
         };
