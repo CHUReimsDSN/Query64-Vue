@@ -78027,7 +78027,12 @@ class Yt {
       headerName: t.label_name,
       colId: t.field_name,
       type: "booleanColumn",
-      valueGetter: (s) => !s.data || s.data[t.raw_field_name] === void 0 ? "" : s.data[t.raw_field_name] ? "Oui" : "Non",
+      valueGetter: (s) => {
+        if (!s.data || s.data[t.raw_field_name] === void 0)
+          return "";
+        const i = s.data[t.raw_field_name];
+        return i === !0 ? "Oui" : i === !1 ? "Non" : "";
+      },
       width: 150
     };
   }
