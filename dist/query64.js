@@ -1,5 +1,5 @@
 import { CellStyleModule, ClientSideRowModelApiModule, ClientSideRowModelModule, ColumnApiModule, ColumnAutoSizeModule, DateFilterModule, EventApiModule, InfiniteRowModelModule, LocaleModule, ModuleRegistry, NumberFilterModule, PaginationModule, RenderApiModule, RowAutoHeightModule, RowDragModule, RowStyleModule, TextFilterModule, themeAlpine, } from "ag-grid-community";
-import { ColumnMenuModule, ContextMenuModule, MasterDetailModule, RowGroupingPanelModule, LicenseManager, ServerSideRowModelApiModule, ServerSideRowModelModule, SetFilterModule, } from "ag-grid-enterprise";
+import { ColumnMenuModule, ContextMenuModule, MasterDetailModule, RowGroupingPanelModule, LicenseManager, ServerSideRowModelApiModule, ServerSideRowModelModule, SetFilterModule, CellSelectionModule, } from "ag-grid-enterprise";
 import { Query64Logger } from "./logger";
 import CellDefaultListValue from "./CellDefaultListValue.vue";
 import DisplayRowCountDefault from "./DisplayRowCountDefault.vue";
@@ -65,6 +65,7 @@ export class Query64 {
             RowAutoHeightModule,
             RowGroupingPanelModule,
             SetFilterModule,
+            CellSelectionModule,
             ...additionalModules,
         ];
         ModuleRegistry.registerModules(modulesToRegister);

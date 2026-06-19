@@ -4,6 +4,11 @@ title: Changelog
 
 # Changelog
 
+### 2.2.1
+
+- Ajout du `CellSelectionModule` dans les paramètres par défault de Query64.
+
+---
 ### 2.2.0
 
 - Correction de l'api `TQuery64GridApi` où les objects réactives ne l'était plus
