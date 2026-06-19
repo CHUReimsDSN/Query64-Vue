@@ -27,6 +27,7 @@ import {
   ServerSideRowModelApiModule,
   ServerSideRowModelModule,
   SetFilterModule,
+  CellSelectionModule,
 } from "ag-grid-enterprise";
 import { Query64Logger, type TLoggerConfig } from "./logger";
 import type {
@@ -125,6 +126,7 @@ export class Query64 {
       RowAutoHeightModule,
       RowGroupingPanelModule,
       SetFilterModule,
+      CellSelectionModule,
       ...additionalModules,
     ];
     ModuleRegistry.registerModules(modulesToRegister);
