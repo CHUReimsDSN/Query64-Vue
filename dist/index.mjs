@@ -79820,7 +79820,7 @@ const dU = { ref: "root" }, uU = /* @__PURE__ */ Nr({
       if (!l.value || !n)
         return;
       let N;
-      G ? N = n.getColumnsByPreferences(G) : N = n.getColumns(), l.value.setGridOption("columnDefs", N);
+      G && G.length > 0 ? N = n.getColumnsByPreferences(G) : N = n.getColumns(), l.value.setGridOption("columnDefs", N);
     }
     function v(G, N, W, X = !1) {
       if (l.value && (G && (X && l.value.setFilterModel(null), l.value.setFilterModel(G)), N && (X && l.value.resetColumnState(), l.value.applyColumnState({ state: N })), W)) {
