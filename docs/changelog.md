@@ -4,6 +4,11 @@ title: Changelog
 
 # Changelog
 
+### 2.2.2
+
+- Correction d'un problème où les préferences étaient interprété même vide dans la props `Query64Grid.initialGridParams.preferences`.
+
+---
 ### 2.2.1
 
 - Ajout du `CellSelectionModule` dans les paramètres par défault de Query64.

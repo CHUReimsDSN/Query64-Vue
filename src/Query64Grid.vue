@@ -187,7 +187,7 @@ function setupGridColumns(preferences?: TColumnPreference[]) {
     return;
   }
   let resourceColumns: ColDef<TRecord>[];
-  if (preferences) {
+  if (preferences && preferences.length > 0) {
     resourceColumns = gridFactory.getColumnsByPreferences(preferences);
   } else {
     resourceColumns = gridFactory.getColumns();
