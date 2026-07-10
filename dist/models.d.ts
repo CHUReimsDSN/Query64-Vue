@@ -95,6 +95,7 @@ export type TQuery64GridProps = {
         filterModel?: IServerSideGetRowsRequest["filterModel"];
         sortModel?: IServerSideGetRowsRequest["sortModel"];
         rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"];
+        quickSearch?: string;
     };
     showRowCount?: boolean;
     gridStyle?: string;
@@ -109,7 +110,7 @@ export type TAgGridThemeMode = "light" | "dark" | "dark-blue";
  */
 export type TQuery64GridApi = {
     resetGridParams: () => void;
-    updateGridParams: (columnPreferences?: TColumnPreference[], filterModel?: IServerSideGetRowsRequest["filterModel"], sortModel?: IServerSideGetRowsRequest["sortModel"], rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"], forceReset?: boolean) => void;
+    updateGridParams: (columnPreferences?: TColumnPreference[], filterModel?: IServerSideGetRowsRequest["filterModel"], sortModel?: IServerSideGetRowsRequest["sortModel"], rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"], quickSearch?: string, forceReset?: boolean) => void;
     getLastGetRowsParams: () => TQuery64GetRowsParams | null;
     triggerQuickFilter: (search: string) => void | Promise<void>;
     refs: {

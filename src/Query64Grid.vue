@@ -35,7 +35,7 @@ const propsComponent = withDefaults(defineProps<TQuery64GridProps>(), {
 // lets
 let lastGetRowsParams: TQuery64GetRowsParams | null = null;
 let lastDisplayedCols: string[] = [];
-let quickSearch: string | null = null
+let quickSearch: string | null = propsComponent.initialGridParams.quickSearch ?? null
 let gridFactory: GridFactory | null = null
 
 // refs
@@ -237,6 +237,7 @@ function updateGridParams(
   filterModel?: IServerSideGetRowsRequest["filterModel"],
   sortModel?: IServerSideGetRowsRequest["sortModel"],
   rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"],
+  quickSearchValue?: string,
   forceReset = false
 ) {
   if (!gridApi.value) {
@@ -244,6 +245,9 @@ function updateGridParams(
   }
   setupGridColumns(columnPreferences);
   setupGridFiltersSortsAndGroups(filterModel, sortModel, rowGroupCols, forceReset);
+  if (quickSearchValue) {
+    quickSearch = quickSearchValue
+  }
 }
 function setRowCountString() {
   if (!gridApi.value) {

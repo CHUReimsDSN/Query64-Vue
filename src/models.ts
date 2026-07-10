@@ -119,6 +119,7 @@ export type TQuery64GridProps = {
     filterModel?: IServerSideGetRowsRequest["filterModel"];
     sortModel?: IServerSideGetRowsRequest["sortModel"];
     rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"];
+    quickSearch?: string;
   };
   showRowCount?: boolean;
   gridStyle?: string;
@@ -147,6 +148,7 @@ export type TQuery64GridApi = {
     filterModel?: IServerSideGetRowsRequest["filterModel"],
     sortModel?: IServerSideGetRowsRequest["sortModel"],
     rowgroupCols?: IServerSideGetRowsRequest["rowGroupCols"],
+    quickSearch?: string,
     forceReset?: boolean, // default = false
   ) => void;
 
