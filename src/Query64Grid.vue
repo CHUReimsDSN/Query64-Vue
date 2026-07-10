@@ -237,6 +237,7 @@ function updateGridParams(
   filterModel?: IServerSideGetRowsRequest["filterModel"],
   sortModel?: IServerSideGetRowsRequest["sortModel"],
   rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"],
+  quickSearchValue?: string,
   forceReset = false
 ) {
   if (!gridApi.value) {
@@ -244,6 +245,9 @@ function updateGridParams(
   }
   setupGridColumns(columnPreferences);
   setupGridFiltersSortsAndGroups(filterModel, sortModel, rowGroupCols, forceReset);
+  if (quickSearchValue) {
+    quickSearch = quickSearchValue
+  }
 }
 function setRowCountString() {
   if (!gridApi.value) {

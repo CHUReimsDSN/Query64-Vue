@@ -79828,8 +79828,8 @@ const dU = { ref: "root" }, uU = /* @__PURE__ */ Nr({
         X && l.value.setRowGroupColumns([]), l.value.setRowGroupColumns(re);
       }
     }
-    function b(G, N, W, X, ie = !1) {
-      l.value && (C(G), v(N, W, X, ie));
+    function b(G, N, W, X, ie, re = !1) {
+      l.value && (C(G), v(N, W, X, re), ie && (r = ie));
     }
     function w() {
       l.value && (c.value = l.value.getDisplayedRowCount());
