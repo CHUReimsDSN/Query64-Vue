@@ -79726,7 +79726,7 @@ const dU = { ref: "root" }, uU = /* @__PURE__ */ Nr({
   },
   setup(e, { expose: t }) {
     const s = e;
-    let i = null, o = [], r = null, n = null;
+    let i = null, o = [], r = s.initialGridParams.quickSearch ?? null, n = null;
     const a = bt(null), l = bt(null), c = bt(0), d = bt(!0), u = bt(!0), h = bt("light");
     async function g() {
       const G = await s.initialGridParams.getMetadata({

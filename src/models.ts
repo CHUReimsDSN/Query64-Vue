@@ -119,6 +119,7 @@ export type TQuery64GridProps = {
     filterModel?: IServerSideGetRowsRequest["filterModel"];
     sortModel?: IServerSideGetRowsRequest["sortModel"];
     rowGroupCols?: IServerSideGetRowsRequest["rowGroupCols"];
+    quickSearch?: string;
   };
   showRowCount?: boolean;
   gridStyle?: string;

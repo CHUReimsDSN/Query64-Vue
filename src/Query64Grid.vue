@@ -35,7 +35,7 @@ const propsComponent = withDefaults(defineProps<TQuery64GridProps>(), {
 // lets
 let lastGetRowsParams: TQuery64GetRowsParams | null = null;
 let lastDisplayedCols: string[] = [];
-let quickSearch: string | null = null
+let quickSearch: string | null = propsComponent.initialGridParams.quickSearch ?? null
 let gridFactory: GridFactory | null = null
 
 // refs
