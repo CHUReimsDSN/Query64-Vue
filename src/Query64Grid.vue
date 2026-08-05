@@ -251,6 +251,7 @@ function updateGridParams(
     quickSearch = quickSearchValue
   }
   if (forceReset) {
+    console.log('sdfsdfsdf')
     resetRequested = true
   }
 }
