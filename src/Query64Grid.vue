@@ -242,8 +242,6 @@ function updateGridParams(
   quickSearchValue?: string,
   forceReset = false
 ) {
-  console.log('sdfsdfsdf')
-  console.log(forceReset)
   if (!gridApi.value) {
     return;
   }
