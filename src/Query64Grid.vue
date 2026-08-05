@@ -33,6 +33,7 @@ const propsComponent = withDefaults(defineProps<TQuery64GridProps>(), {
 
 
 // lets
+let resetRequested = false;
 let lastGetRowsParams: TQuery64GetRowsParams | null = null;
 let lastDisplayedCols: string[] = [];
 let quickSearch: string | null = propsComponent.initialGridParams.quickSearch ?? null
@@ -107,7 +108,7 @@ function setupRowData(): IServerSideDatasource<TRecord> {
           endRow: 0,
           startRow: 0,
           sortModel: [],
-        }) || (lastDisplayedCols.join(", ") !== displayedCols.join(", ")) || (lastGetRowsParams !== null && (lastGetRowsParams.quickSearch !== quickSearch));
+        }) || (lastDisplayedCols.join(", ") !== displayedCols.join(", ")) || (lastGetRowsParams !== null && (lastGetRowsParams.quickSearch !== quickSearch)) || resetRequested;
       lastDisplayedCols = displayedCols;
       const groupCols = params.api.getRowGroupColumns().map((groupColumn) => {
         return groupColumn.getColId();
@@ -165,6 +166,7 @@ function setupRowData(): IServerSideDatasource<TRecord> {
               rowData: items,
             });
           }
+          resetRequested = false
           if (
             (shallReturnCount && response.row_count === 0) ||
             (!shallReturnCount && response.items.length === 0)
@@ -247,6 +249,9 @@ function updateGridParams(
   setupGridFiltersSortsAndGroups(filterModel, sortModel, rowGroupCols, forceReset);
   if (quickSearchValue) {
     quickSearch = quickSearchValue
+  }
+  if (forceReset) {
+    resetRequested = true
   }
 }
 function setRowCountString() {
