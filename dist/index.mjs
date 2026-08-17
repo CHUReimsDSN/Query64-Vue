@@ -79853,6 +79853,10 @@ const dU = { ref: "root" }, uU = /* @__PURE__ */ Nr({
         return;
       }
       const G = {
+        maxConcurrentDatasourceRequests: 1,
+        cacheBlockSize: 50,
+        maxBlocksInCache: 4,
+        rowHeight: 35,
         ...s.initialGridParams.gridOptions,
         localeText: a.gridConfig.translation,
         suppressMiddleClickScrolls: !0,
@@ -79871,11 +79875,7 @@ const dU = { ref: "root" }, uU = /* @__PURE__ */ Nr({
         columnDefs: [],
         serverSideDatasource: C(),
         getRowId: f,
-        getChildCount: m,
-        maxConcurrentDatasourceRequests: 1,
-        cacheBlockSize: 50,
-        maxBlocksInCache: 4,
-        rowHeight: 35
+        getChildCount: m
       }, V = G.onGridReady;
       G.onGridReady = (ie) => {
         c.value = ie.api, w(

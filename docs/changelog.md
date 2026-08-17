@@ -4,6 +4,11 @@ title: Changelog
 
 # Changelog
 
+### 2.2.3
+
+- Correction de la surcharge de la grid options.
+
+---
 ### 2.2.2
 
 - Correction d'un problème où les préferences étaient interprété même vide dans la props `Query64Grid.initialGridParams.preferences`.
