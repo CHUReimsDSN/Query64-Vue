@@ -286,6 +286,10 @@ function setupGridOptionsConfig() {
     return
   }
   const gridOptionBuilding: GridOptions<TRecord> = {
+    maxConcurrentDatasourceRequests: 1,
+    cacheBlockSize: 50,
+    maxBlocksInCache: 4,
+    rowHeight: 35,
     ...propsComponent.initialGridParams.gridOptions,
     localeText: gridFactory.gridConfig.translation,
     suppressMiddleClickScrolls: true,
@@ -309,10 +313,6 @@ function setupGridOptionsConfig() {
     serverSideDatasource: setupRowData(),
     getRowId,
     getChildCount,
-    maxConcurrentDatasourceRequests: 1,
-    cacheBlockSize: 50,
-    maxBlocksInCache: 4,
-    rowHeight: 35,
   }
   const baseOnGridReady = gridOptionBuilding.onGridReady;
   gridOptionBuilding.onGridReady = (params: GridReadyEvent) => {
