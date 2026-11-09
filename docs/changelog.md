@@ -8,37 +8,44 @@ title: Changelog
 
 - Correction de la surcharge de la grid options.
 
----
+<br />
+
 ### 2.2.2
 
 - Correction d'un problème où les préferences étaient interprété même vide dans la props `Query64Grid.initialGridParams.preferences`.
 
----
+<br />
+
 ### 2.2.1
 
 - Ajout du `CellSelectionModule` dans les paramètres par défault de Query64.
 
----
+<br />
+
 ### 2.2.0
 
 - Correction de l'api `TQuery64GridApi` où les objects réactives ne l'était plus
 
----
+<br />
+
 ### 2.1.2
 
 - La props `initialGridParams.gridOptions` est désormais pris en charge
 
----
+<br />
+
 ### 2.1.1
 
 - Correction des `Iterator.toArray()` pour une meilleur compabilité
 
----
+<br />
+
 ### 2.1.0
 
 - Ajout des options d'affichage par défaut pour les colonnes de clé primaire et étrangère dans le `TQuery64GridConfig`
 
----
+<br />
+
 # 2.0.0
 
 __Nouveautés__ : 
@@ -66,42 +73,50 @@ __Corrections__ :
 - Correction d'un problème d'affichage et de comportement lié au nombre de ligne retourné par la fonction `getRows`
 - Correction du cycle de vie des préferences des colonnes
 
----
+<br />
+
 ### 1.4.7
 
 - Ajout de l'option `pinned` pour les préferences de colonnes
 
----
+<br />
+
 ### 1.4.6
 
 - Correction d'un problème où l'ordre des colonnes de la props `initialGridParams` était ignoré
 
----
+<br />
+
 ### 1.4.5
 
 - Ajout d'un paramètre optionnel à `updateGridParams` pour forcer la réinitialiser des états concernés
 
----
+<br />
+
 ### 1.4.4
 
 - Prise en compte de l'affichage du type 'date'
 
----
+<br />
+
 ### 1.4.3
 
 - Ajout d'une référence de chargement du serveur
 
----
+<br />
+
 ### 1.4.2
 
 - Ajout de la recherche rapide
 
----
+<br />
+
 ### 1.4.1 
 
 - Les filtres sur les colonnes booléenes utilisent désormais un set de valeur prédéfini
 
----
+<br />
+
 ### 1.4.0
 
 - Nouvelle doc

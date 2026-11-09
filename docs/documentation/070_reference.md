@@ -29,7 +29,7 @@ function example() {
 ```
 
 ::: warning Important 
-Consulter la [Définition API](/api-definition/models.md#TQuery64GridApi) pour connaitre les méthodes disponibles. 
+Consulter la [Définition API](/documentation/999_definition.md#TQuery64GridApi) pour connaitre les méthodes disponibles. 
 :::
 
 

@@ -1,9 +1,13 @@
-import { computeSidebar } from "./compute-sidebar.ts"
-import { computeApiDefinition } from './compute-api-definition.ts'
-import { computeVersion } from "./compute-version.ts"
+import {
+  computeSidebar,
+  computeVersion,
+  computeApiDefinition,
+  computeIndexMd,
+} from "vitepress-bigbang/scripts";
 
-console.log("Compute started...")
-computeSidebar()
-computeApiDefinition()
-computeVersion()
-console.log("🎉 Compute done")
+console.log("Compute started...");
+computeApiDefinition();
+computeSidebar();
+computeVersion({ mode: "package.json", fileToReadPath: '../package.json' });
+computeIndexMd();
+console.log("🎉 Compute done");
