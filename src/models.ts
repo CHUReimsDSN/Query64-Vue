@@ -128,6 +128,7 @@ export type TQuery64GridProps = {
   displayRowComponent?: Component;
   themeMode?: TAgGridThemeMode;
   saveStrategy?: TSaverStrategy;
+  gridName?: string;
   context?: Record<string, unknown>;
 };
 

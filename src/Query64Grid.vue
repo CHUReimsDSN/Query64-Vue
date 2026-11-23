@@ -351,7 +351,8 @@ function setupGridOptionsConfig() {
       propsComponent.initialGridParams.rowGroupCols,
     );
     if (propsComponent.saveStrategy !== 'none' && (propsComponent.saveStrategy === "storage" || Query64.getGlobalSaverStrategy() === 'storage')) {
-      gridSaver = GridSaver.findOrCreate('', api)
+      const gridName = propsComponent.gridName ?? propsComponent.resourceName
+      gridSaver = GridSaver.findOrCreate(gridName, api)
       gridSaver.applyPreferenceToGrid()
       gridSaver.watchChanges()
     }

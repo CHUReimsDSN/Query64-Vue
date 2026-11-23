@@ -68,7 +68,7 @@ var Ge = (e) => e == null || e === "" ? null : e;
 function k(e) {
   return e != null && e !== "";
 }
-function ce(e) {
+function de(e) {
   return !k(e);
 }
 var ht = (e) => e != null && typeof e.toString == "function" ? e.toString() : null, vi = (e, t) => {
@@ -1351,7 +1351,7 @@ function mF(e) {
 }
 function zt(e) {
   const { environment: t, gos: s } = e, i = s.get("rowHeight");
-  if (!i || ce(i))
+  if (!i || de(i))
     return t.getDefaultRowHeight();
   const o = t.refreshRowHeightVariable();
   return o !== -1 ? o : (E(24), t.getDefaultRowHeight());
@@ -1366,7 +1366,7 @@ function Dw(e, t, s) {
 function Io(e, t, s, i) {
   const o = e.getDomDataKey();
   let r = t[o];
-  ce(r) && (r = {}, t[o] = r), r[s] = i;
+  de(r) && (r = {}, t[o] = r), r[s] = i;
 }
 function pr(e) {
   return e.get("ensureDomOrder") ? !1 : e.get("animateRows");
@@ -1847,7 +1847,7 @@ var MF = ["asc", "desc", null], DF = [
   }
   /** @deprecated v32 use col.getSort() === undefined */
   isSortNone() {
-    return ce(this.getSort());
+    return de(this.getSort());
   }
   /** @deprecated v32 use col.getSort() !== undefined */
   isSorting() {
@@ -1978,13 +1978,13 @@ var MF = ["asc", "desc", null], DF = [
     });
   }
   getColSpan(e) {
-    if (ce(this.colDef.colSpan))
+    if (de(this.colDef.colSpan))
       return 1;
     const t = this.createBaseColDefParams(e), s = this.colDef.colSpan(t);
     return Math.max(s, 1);
   }
   getRowSpan(e) {
-    if (ce(this.colDef.rowSpan))
+    if (de(this.colDef.rowSpan))
       return 1;
     const t = this.createBaseColDefParams(e), s = this.colDef.rowSpan(t);
     return Math.max(s, 1);
@@ -6183,10 +6183,10 @@ var Fg = class extends F {
   }
 }, CP = "ag-column-first", vP = "ag-column-last";
 function Eg(e, t, s, i) {
-  return ce(e) ? [] : Fb(e.headerClass, e, t, s, i);
+  return de(e) ? [] : Fb(e.headerClass, e, t, s, i);
 }
 function xb(e, t, s, i) {
-  return ce(e) ? [] : Fb(e.toolPanelClass, e, t, s, i);
+  return de(e) ? [] : Fb(e.toolPanelClass, e, t, s, i);
 }
 function Rb(e, t, s) {
   e.toggleCss(CP, s.isColAtEdge(t, "first")), e.toggleCss(vP, s.isColAtEdge(t, "last"));
@@ -6202,7 +6202,7 @@ function wP(e, t, s, i) {
   });
 }
 function Fb(e, t, s, i, o) {
-  if (ce(e))
+  if (de(e))
     return [];
   let r;
   if (typeof e == "function") {
@@ -8625,7 +8625,7 @@ var oT = class extends A {
   }
   createCellEditorInstance(e, t, s) {
     const i = this.editorVersion, o = e.newAgStackInstance(), { params: r } = e;
-    o.then((a) => this.afterCellEditorCreated(i, a, r, t, s)), ce(this.cellEditor) && r.cellStartedEdit && this.cellCtrl.focusCell(!0);
+    o.then((a) => this.afterCellEditorCreated(i, a, r, t, s)), de(this.cellEditor) && r.cellStartedEdit && this.cellCtrl.focusCell(!0);
   }
   insertValueWithoutCellRenderer(e) {
     const t = this.getParentOfValue();
@@ -11490,7 +11490,7 @@ var rm = 7, Ku = 100, Ta = Ku / 2, nM = 5, aM = 100, lM = class extends F {
       this.finishColumnMoving();
       return;
     }
-    if (this.lastDraggingEvent = e, !e || !i && ce(e.hDirection))
+    if (this.lastDraggingEvent = e, !e || !i && de(e.hDirection))
       return;
     const a = $u({
       x: e.x,
@@ -13298,7 +13298,7 @@ function it(e, t, s) {
     }
     T || !x.primary || (h == null || h.syncColumnWithState(x, s, I), o == null || o.syncColumnWithState(x, s, I, M), r == null || r.syncColumnWithState(x, s, I, D));
   }, v = (x, P, M) => {
-    var de, be;
+    var ce, be;
     const D = ay(e, s), T = P.slice(), I = {}, G = {}, W = [], L = [], H = [];
     let B = 0;
     const J = (o == null ? void 0 : o.columns.slice()) ?? [], U = (r == null ? void 0 : r.columns.slice()) ?? [];
@@ -13327,7 +13327,7 @@ function it(e, t, s) {
     return Q(
       (Pe) => (n == null ? void 0 : n.getColumn(Pe)) ?? null,
       W,
-      (de = n == null ? void 0 : n.getColumns()) == null ? void 0 : de.slice()
+      (ce = n == null ? void 0 : n.getColumns()) == null ? void 0 : ce.slice()
     ), Q(
       (Pe) => (a == null ? void 0 : a.getColumn(Pe)) ?? null,
       L,
@@ -13362,7 +13362,7 @@ function ny(e, t) {
   let u = 1e3, h = 1e3;
   const g = (b) => {
     const y = ly(b);
-    ce(y.rowGroupIndex) && y.rowGroup && (y.rowGroupIndex = u++), ce(y.pivotIndex) && y.pivot && (y.pivotIndex = h++), d.push(y);
+    de(y.rowGroupIndex) && y.rowGroup && (y.rowGroupIndex = u++), de(y.pivotIndex) && y.pivot && (y.pivotIndex = h++), d.push(y);
   };
   (v = i == null ? void 0 : i.getColumns()) == null || v.forEach(g), (w = o == null ? void 0 : o.getColumns()) == null || w.forEach(g), c == null || c.forEach(g), it(e, { state: d }, t);
   const p = (i == null ? void 0 : i.getColumns()) ?? [], C = [...(o == null ? void 0 : o.getColumns()) ?? [], ...p, ...c].map((b) => ({ colId: b.colId }));
@@ -13425,7 +13425,7 @@ function ay(e, t) {
 }
 function kl(e) {
   const { colModel: t, rowGroupColsSvc: s, pivotColsSvc: i } = e, o = t.getColDefCols();
-  if (ce(o) || !t.isAlive())
+  if (de(o) || !t.isAlive())
     return [];
   const r = s == null ? void 0 : s.columns, n = i == null ? void 0 : i.columns, a = [], l = (d) => {
     var f;
@@ -20103,7 +20103,7 @@ var f2 = class extends A {
     if (!n) {
       n = i[0];
       const a = gt(this.beans, e, !0);
-      if (ce(a) || !a.rowPinned && !((s == null ? void 0 : s.isRowInPage(a.rowIndex)) ?? !0))
+      if (de(a) || !a.rowPinned && !((s == null ? void 0 : s.isRowInPage(a.rowIndex)) ?? !0))
         return null;
       o = a ? a.rowIndex : null, r = a ? a.rowPinned : null;
     }
@@ -20115,7 +20115,7 @@ var f2 = class extends A {
     if (!a) {
       a = j(o);
       const l = ls(t, { rowIndex: e.rowIndex, rowPinned: e.rowPinned }, !0);
-      if (ce(l) || !l.rowPinned && !((i == null ? void 0 : i.isRowInPage(l.rowIndex)) ?? !0))
+      if (de(l) || !l.rowPinned && !((i == null ? void 0 : i.isRowInPage(l.rowIndex)) ?? !0))
         return null;
       r = l ? l.rowIndex : null, n = l ? l.rowPinned : null;
     }
@@ -21226,7 +21226,7 @@ var Y2 = class extends F {
     else {
       let o = e;
       const r = e.getPinned();
-      for (let n = 0; o && n < s && (i.push(o), o = this.beans.visibleCols.getColAfter(o), !(!o || ce(o) || r !== o.getPinned())); n++)
+      for (let n = 0; o && n < s && (i.push(o), o = this.beans.visibleCols.getColAfter(o), !(!o || de(o) || r !== o.getPinned())); n++)
         ;
     }
     return i;
@@ -23120,7 +23120,7 @@ var a3 = class extends F {
     let o = s, r = !1;
     const n = this.beans, { cellNavigation: a, focusSvc: l, gos: c } = n;
     for (; o && (o === s || !this.isValidNavigateCell(o)); )
-      c.get("enableRtl") ? t === S.LEFT && (o = this.getLastCellOfColSpan(o)) : t === S.RIGHT && (o = this.getLastCellOfColSpan(o)), o = a.getNextCellToFocus(t, o), r = ce(o);
+      c.get("enableRtl") ? t === S.LEFT && (o = this.getLastCellOfColSpan(o)) : t === S.RIGHT && (o = this.getLastCellOfColSpan(o)), o = a.getNextCellToFocus(t, o), r = de(o);
     if (r && (e == null ? void 0 : e.key) === S.UP && (o = {
       rowIndex: -1,
       rowPinned: null,
@@ -23215,7 +23215,7 @@ var a3 = class extends F {
   }
   ensureCellVisible(e) {
     const t = gc(this.gos), s = this.beans.rowModel.getRow(e.rowIndex), i = t && (s == null ? void 0 : s.sticky), { scrollFeature: o } = this.gridBodyCon;
-    !i && ce(e.rowPinned) && o.ensureIndexVisible(e.rowIndex), e.column.isPinned() || o.ensureColumnVisible(e.column);
+    !i && de(e.rowPinned) && o.ensureIndexVisible(e.rowIndex), e.column.isPinned() || o.ensureColumnVisible(e.column);
   }
   ensureColumnVisible(e) {
     const t = this.gridBodyCon.scrollFeature;
@@ -25711,7 +25711,7 @@ var ek = "paste", tk = class extends F {
   isSetValueSupported(e, t, s, i) {
     var c;
     const { field: o, valueSetter: r } = i, n = this.beans.formula, a = e.colDef.allowFormula && (n == null ? void 0 : n.isFormula(s)), l = !!((c = this.formulaDataSvc) != null && c.hasDataSource());
-    return ce(o) && ce(r) && !(l && a) ? t.group && (i.groupRowValueSetter || i.groupRowEditable) ? !0 : (E(17), !1) : this.dataTypeSvc && !this.dataTypeSvc.checkType(e, s) ? (E(135), !1) : !0;
+    return de(o) && de(r) && !(l && a) ? t.group && (i.groupRowValueSetter || i.groupRowEditable) ? !0 : (E(17), !1) : this.dataTypeSvc && !this.dataTypeSvc.checkType(e, s) ? (E(135), !1) : !0;
   }
   handleExternalFormulaChange(e) {
     const { column: t, rowNode: s, newValue: i, eventSource: o, setterParams: r } = e, n = this.beans.formula, a = this.formulaDataSvc;
@@ -25723,7 +25723,7 @@ var ek = "paste", tk = class extends F {
         return !1;
       a.setFormula({ column: t, rowNode: s, formula: i });
       const u = n == null ? void 0 : n.resolveValue(t, s), h = t.colDef;
-      if (k(h.valueSetter) || !ce(h.field)) {
+      if (k(h.valueSetter) || !de(h.field)) {
         const g = { ...r, newValue: u };
         this.computeValueChange({
           column: t,
@@ -26688,7 +26688,7 @@ var bk = 1, yk = class {
   }
   createProvidedBeans(e, t, s) {
     let i = s ? s.frameworkOverrides : null;
-    ce(i) && (i = new Oy());
+    de(i) && (i = new Oy());
     const o = {
       gridOptions: t,
       eGridDiv: e,
@@ -31265,7 +31265,7 @@ var $L = (e, t) => {
   initialiseEditor(e) {
     this.focusAfterAttached = e.cellStartedEdit;
     const { eEditor: t, valueSvc: s, gos: i } = this, { values: o, value: r, eventKey: n } = e;
-    if (ce(o)) {
+    if (de(o)) {
       E(58);
       return;
     }
@@ -37304,7 +37304,7 @@ var WO = class extends F {
   }
   loadFromDatasource() {
     const e = this.createLoadParams();
-    if (ce(this.params.datasource.getRows)) {
+    if (de(this.params.datasource.getRows)) {
       E(90);
       return;
     }
@@ -39061,7 +39061,7 @@ var W4 = {
   refresh(e, t = !1) {
     var o;
     let s = e.value;
-    if (ce(s) && (s = ""), s === this.lastValue || (o = this.beans.filterManager) != null && o.isSuppressFlashingCellsBecauseFiltering())
+    if (de(s) && (s = ""), s === this.lastValue || (o = this.beans.filterManager) != null && o.isSuppressFlashingCellsBecauseFiltering())
       return !1;
     t || this.addSlideAnimation(), this.lastValue = s;
     const i = this.eCurrent;
@@ -58249,12 +58249,12 @@ var j9 = {
         case "rowUnGroup":
           if (g && c.isModuleRegistered("SharedRowGrouping")) {
             const U = L == null ? void 0 : L.colDef.showRowGroup, te = c.get("groupLockGroupColumns");
-            let Q, de, be;
+            let Q, ce, be;
             if (U === !0)
-              Q = a("ungroupAll", "Un-Group All"), de = c.get("functionsReadOnly") || te === -1 || te >= (g.columns.length ?? 0), be = () => g.setColumns(g.columns.slice(0, te), B);
+              Q = a("ungroupAll", "Un-Group All"), ce = c.get("functionsReadOnly") || te === -1 || te >= (g.columns.length ?? 0), be = () => g.setColumns(g.columns.slice(0, te), B);
             else if (typeof U == "string") {
               const Pe = f.getColDefCol(U), re = Pe != null ? p.getDisplayNameForColumn(Pe, "header") : U;
-              Q = Bn(a, "ungroupBy", re), de = c.get("functionsReadOnly") || qn(Pe, l), be = () => {
+              Q = Bn(a, "ungroupBy", re), ce = c.get("functionsReadOnly") || qn(Pe, l), be = () => {
                 g.removeColumns([U], B);
               };
             } else
@@ -58262,10 +58262,10 @@ var j9 = {
                 a,
                 "ungroupBy",
                 p.getDisplayNameForColumn(L, "header")
-              ), de = c.get("functionsReadOnly") || !(L != null && L.isRowGroupActive()) || !(L != null && L.colDef.enableRowGroup) || qn(L, l), be = () => g.removeColumns([L], B);
+              ), ce = c.get("functionsReadOnly") || !(L != null && L.isRowGroupActive()) || !(L != null && L.colDef.enableRowGroup) || qn(L, l), be = () => g.removeColumns([L], B);
             return {
               name: Q,
-              disabled: de,
+              disabled: ce,
               action: be,
               icon: $("menuRemoveRowGroup", l, null)
             };
@@ -59229,7 +59229,7 @@ var rW = class extends F {
   }
   initialiseEditor(e) {
     const { cellStartedEdit: t, values: s, valuesPage: i, eventKey: o } = this.params;
-    this.pendingInitialEventKey = null, this.initialEventKeyProcessed = !1, ce(s) && ce(i) && E(180);
+    this.pendingInitialEventKey = null, this.initialEventKeyProcessed = !1, de(s) && de(i) && E(180);
     const r = this.resolveAsyncMode(), { params: n, valueList: a } = this.buildRichSelectParams(r), l = this.createManagedBean(new Qc(n));
     this.eEditor = l, l.addCss("ag-cell-editor"), this.appendChild(l);
     const c = this.getAsyncValuesSource(r);
@@ -61355,7 +61355,7 @@ var VW = {
         const I = o[T];
         let G = i.getRangeStartRow(I);
         const W = i.getRangeEndRow(I);
-        for (; !(ce(G) || !G || $e(W, G) || !G || !I.columns); )
+        for (; !(de(G) || !G || $e(W, G) || !G || !I.columns); )
           I.columns.forEach((H) => {
             if (G === null)
               return;
@@ -61368,10 +61368,10 @@ var VW = {
               return;
             m[B] = !0;
             const J = Ve(e, G);
-            if (ce(J))
+            if (de(J))
               return;
             let U = t.getValue(H, J, "data");
-            if (H.colDef.allowFormula && (s != null && s.isFormula(U)) && (U = s.resolveValue(H, J)), !(ce(U) || U === "") && (c++, !(typeof U == "object" && "value" in U && (U = U.value, U === "")))) {
+            if (H.colDef.allowFormula && (s != null && s.isFormula(U)) && (U = s.resolveValue(H, J)), !(de(U) || U === "") && (c++, !(typeof U == "object" && "value" in U && (U = U.value, U === "")))) {
               if (typeof U == "string") {
                 const te = U.trim();
                 if (te === "")
@@ -63802,7 +63802,7 @@ var m1 = class extends Tp {
   createAutoColDef(e, t, s) {
     let i = this.createBaseColDef(t);
     const o = this.gos.get("autoGroupColumnDef");
-    We(i, o), i = Lo(this.beans, i, e, !0), (o == null ? void 0 : o.groupRowEditable) == null && (i.groupRowEditable = void 0), (o == null ? void 0 : o.groupRowValueSetter) == null && (i.groupRowValueSetter = void 0), this.gos.get("treeData") || ce(i.field) && ce(i.valueGetter) && ce(i.filterValueGetter) && i.filter !== "agGroupColumnFilter" && (i.filter = !1), s && s > 0 && (i.headerCheckboxSelection = !1);
+    We(i, o), i = Lo(this.beans, i, e, !0), (o == null ? void 0 : o.groupRowEditable) == null && (i.groupRowEditable = void 0), (o == null ? void 0 : o.groupRowValueSetter) == null && (i.groupRowValueSetter = void 0), this.gos.get("treeData") || de(i.field) && de(i.valueGetter) && de(i.filterValueGetter) && i.filter !== "agGroupColumnFilter" && (i.filter = !1), s && s > 0 && (i.headerCheckboxSelection = !1);
     const r = gi(this.gos), n = i.valueGetter || i.field != null;
     return r && !n && (i.sortIndex = void 0, i.initialSort = void 0), i;
   }
@@ -69385,7 +69385,7 @@ var I$ = {
   }
   createDetailGrid() {
     const { params: e, gos: t } = this;
-    if (ce(e.detailGridOptions)) {
+    if (de(e.detailGridOptions)) {
       E(171);
       return;
     }
@@ -69514,7 +69514,7 @@ var I$ = {
     const t = () => {
       this.setTemplate(N$);
     };
-    if (ce(e.template))
+    if (de(e.template))
       t();
     else if (typeof e.template == "string")
       this.setTemplate(e.template, []);
@@ -70339,7 +70339,7 @@ var cK = class {
   }
   addSelectionHandle(e) {
     var c;
-    const { editSvc: t, gos: s, context: i, registry: o } = this.beans, r = t == null ? void 0 : t.isRangeSelectionEnabledWhileEditing(), n = e.type, l = !r && ZC(s) && ce(n) ? 0 : 1;
+    const { editSvc: t, gos: s, context: i, registry: o } = this.beans, r = t == null ? void 0 : t.isRangeSelectionEnabledWhileEditing(), n = e.type, l = !r && ZC(s) && de(n) ? 0 : 1;
     if (this.selectionHandle && this.selectionHandle.getType() !== l && (this.selectionHandle = i.destroyBean(this.selectionHandle)), !this.selectionHandle) {
       const d = o.createDynamicBean(
         l === 0 ? "fillHandle" : "rangeHandle",
@@ -70683,7 +70683,7 @@ var cK = class {
     if (!i)
       return;
     const { suppressMultiRanges: o } = this.getMultiRangeContext();
-    (o || !t || ce(this.cellRanges)) && this.removeAllCellRanges(!0);
+    (o || !t || de(this.cellRanges)) && this.removeAllCellRanges(!0);
     const r = {
       rowIndex: e.rowIndex,
       rowPinned: e.rowPinned
@@ -71816,7 +71816,7 @@ var JC = "PivotRowTotal_", AK = ({ headerName: e }, { headerName: t }) => e && !
     for (let l = 0, c = e.length; l < c; ++l) {
       const d = e[l];
       let u = this.beans.valueSvc.getKeyForNode(r, d);
-      if (ce(u) && (u = ""), !i.get(u)) {
+      if (de(u) && (u = ""), !i.get(u)) {
         this.currentUniqueCount += 1, i.set(u, /* @__PURE__ */ new Map());
         const h = this.currentUniqueCount > this.maxUniqueValues;
         if (n && h)
@@ -79066,7 +79066,7 @@ var _Y = class extends F {
    */
   getParts(e) {
     const { value: t, node: s, column: i, precedingNumMatches: o } = e, r = this.findSearchValue, n = Rs(t) ?? "";
-    if (ce(r))
+    if (de(r))
       return [{ value: n }];
     const a = this.caseFormat(n) ?? "", l = this.getActiveMatchNum(s, i) - (o ?? 0);
     let c = 0, d = 0;
@@ -79150,13 +79150,13 @@ var _Y = class extends F {
     const x = e ? this.activeMatch : void 0;
     this.activeMatch = void 0;
     const P = l.get("masterDetail") && (v == null ? void 0 : v.searchDetail) && f;
-    if (ce(y)) {
+    if (de(y)) {
       if (this.active = !1, this.topNumMatches = 0, this.centerNumMatches = 0, this.totalMatches = 0, this.refreshRows(t), P) {
         const re = f.store;
         for (const kt of Object.keys(re))
           (Pe = (be = re[kt]) == null ? void 0 : be.api) == null || Pe.findClearActive();
       }
-      ce(C) || this.dispatchFindChanged();
+      de(C) || this.dispatchFindChanged();
       return;
     }
     const M = c.allCols, D = l.getCallback("isFullWidthRow"), T = l.get("detailCellRendererParams"), I = l.get("fullWidthCellRendererParams"), G = l.get("groupRowRendererParams"), W = y1(l), L = m.pivotMode;
@@ -79304,8 +79304,8 @@ var _Y = class extends F {
       }
     };
     B = i, J = s, h == null || h.forEachPinnedRow("top", Q), this.topNumMatches = H;
-    let de = H;
-    B = o, J = r, H = 0, U = !!g && !!(v != null && v.currentPageOnly), d.forEachNodeAfterFilterAndSort(Q, !0), this.centerNumMatches = H, de += H, B = a, J = n, H = 0, U = !1, h == null || h.forEachPinnedRow("bottom", Q), de += H, this.totalMatches = de, this.active = !0, this.refreshRows(t), x && this.resetActiveMatch(x), this.dispatchFindChanged();
+    let ce = H;
+    B = o, J = r, H = 0, U = !!g && !!(v != null && v.currentPageOnly), d.forEachNodeAfterFilterAndSort(Q, !0), this.centerNumMatches = H, ce += H, B = a, J = n, H = 0, U = !1, h == null || h.forEachPinnedRow("bottom", Q), ce += H, this.totalMatches = ce, this.active = !0, this.refreshRows(t), x && this.resetActiveMatch(x), this.dispatchFindChanged();
   }
   // update the active match back to what it was previously if possible. e.g. row index might have changed
   resetActiveMatch(e) {
@@ -87148,8 +87148,8 @@ var EJ = {
         C * u,
         C * d,
         C * c
-      ], P = Math.round(g.convert(y)), M = Math.round(p.convert(v)), D = Math.round(M + f), T = Math.round(g.convert(b)), I = Math.round(g.convert(w)), G = Math.round(g.convert(C)), W = Math.round(g.convert(x)), L = M + m, H = new a.Group(), B = new a.Rect(), J = new a.Line(), U = new a.Line(), te = new a.Line(), Q = new a.Line(), de = new a.Line();
-      return B.x = M, B.y = P, B.width = f, B.height = T - P, B.strokeWidth = 1, B.strokeOpacity = 0.75, B.crisp = !0, this.setLineProperties(J, M, D, G, G), this.setLineProperties(U, L, L, W, P), this.setLineProperties(te, L, L, I, T), this.setLineProperties(Q, M, D, W, W), this.setLineProperties(de, M, D, I, I), H.append([B, J, U, te, Q, de]), H;
+      ], P = Math.round(g.convert(y)), M = Math.round(p.convert(v)), D = Math.round(M + f), T = Math.round(g.convert(b)), I = Math.round(g.convert(w)), G = Math.round(g.convert(C)), W = Math.round(g.convert(x)), L = M + m, H = new a.Group(), B = new a.Rect(), J = new a.Line(), U = new a.Line(), te = new a.Line(), Q = new a.Line(), ce = new a.Line();
+      return B.x = M, B.y = P, B.width = f, B.height = T - P, B.strokeWidth = 1, B.strokeOpacity = 0.75, B.crisp = !0, this.setLineProperties(J, M, D, G, G), this.setLineProperties(U, L, L, W, P), this.setLineProperties(te, L, L, I, T), this.setLineProperties(Q, M, D, W, W), this.setLineProperties(ce, M, D, I, I), H.append([B, J, U, te, Q, ce]), H;
     }), this.updateColors(s, i, o), this.root.append(this.boxPlotGroups);
   }
   updateColors(e, t, s) {
@@ -87234,8 +87234,8 @@ var EJ = {
       y.forEach((W, L, H) => {
         let B = D;
         B || (B = new c.Group(), this.series.push(B));
-        const J = g[0] + x * C, U = g[0] + I * C, te = 1 / H.length, Q = G, de = Q + M * te, be = new c.Sector();
-        be.centerX = v, be.centerY = v, be.innerRadius = J, be.outerRadius = U, be.startAngle = Q, be.endAngle = de, be.stroke = void 0, be.strokeWidth = 0, be.inset = 0.75, G = de, B.append(be), b(W, I, Q, Math.abs(de - Q), B);
+        const J = g[0] + x * C, U = g[0] + I * C, te = 1 / H.length, Q = G, ce = Q + M * te, be = new c.Sector();
+        be.centerX = v, be.centerY = v, be.innerRadius = J, be.outerRadius = U, be.startAngle = Q, be.endAngle = ce, be.stroke = void 0, be.strokeWidth = 0, be.inset = 0.75, G = ce, B.append(be), b(W, I, Q, Math.abs(ce - Q), B);
       });
     };
     b(o, 0, w, h), this.root.append(this.series), this.updateColors(s, i);
@@ -91326,7 +91326,7 @@ class Zee {
     at(this, "query64Api");
     at(this, "gridName");
     at(this, "changeTimeout", null);
-    this.gridPreference = t, this.query64Api = s, this.gridName = i;
+    this.gridPreference = t, this.query64Api = s, this.gridName = `query64_${i}`;
   }
   static findOrCreate(t, s) {
     let i = this.getFromStorage(t);
@@ -91427,6 +91427,7 @@ const Qee = ["data-ag-theme-mode"], Vte = /* @__PURE__ */ Qn({
     displayRowComponent: {},
     themeMode: {},
     saveStrategy: {},
+    gridName: {},
     context: {}
   },
   setup(e, { expose: t }) {
@@ -91464,7 +91465,7 @@ const Qee = ["data-ag-theme-mode"], Vte = /* @__PURE__ */ Qn({
             );
             return;
           }
-          const J = ((Q = B.api.getColumns()) == null ? void 0 : Q.filter((de) => de.isVisible() || a.getAllColumnDepedencies().includes(de.getColId())).map((de) => de.getColId())) ?? [];
+          const J = ((Q = B.api.getColumns()) == null ? void 0 : Q.filter((ce) => ce.isVisible() || a.getAllColumnDepedencies().includes(ce.getColId())).map((ce) => ce.getColId())) ?? [];
           if (J.length === 0) {
             B.success({
               rowData: [],
@@ -91487,7 +91488,7 @@ const Qee = ["data-ag-theme-mode"], Vte = /* @__PURE__ */ Qn({
             sortModel: []
           }) || r.join(", ") !== J.join(", ") || o !== null && o.quickSearch !== n || i;
           r = J;
-          const te = B.api.getRowGroupColumns().map((de) => de.getColId());
+          const te = B.api.getRowGroupColumns().map((ce) => ce.getColId());
           J.push(...te), o = {
             resourceName: s.resourceName,
             agGridServerParams: { ...B.request },
@@ -91495,7 +91496,7 @@ const Qee = ["data-ag-theme-mode"], Vte = /* @__PURE__ */ Qn({
             shallReturnCount: U,
             quickSearch: n,
             context: s.context
-          }, g.value = !0, a.getRowsFn(o).then((de) => {
+          }, g.value = !0, a.getRowsFn(o).then((ce) => {
             var kt, Xe;
             g.value = !1;
             let be = /* @__PURE__ */ new Map();
@@ -91510,19 +91511,19 @@ const Qee = ["data-ag-theme-mode"], Vte = /* @__PURE__ */ Qn({
                   tn
                 );
               }
-            const re = de.items.map((Ft) => {
+            const re = ce.items.map((Ft) => {
               for (const Ze of be.entries())
                 Ft[Ze[0]] = JSON.parse(Ft[Ze[0]]), Ze[1] && (Ft[Ze[0]] = Ft[Ze[0]].at(0));
               return Ft;
             });
-            de.row_count !== -1 ? B.success({
+            ce.row_count !== -1 ? B.success({
               rowData: re,
-              rowCount: de.row_count
+              rowCount: ce.row_count
             }) : B.success({
               rowData: re
-            }), i = !1, U && de.row_count === 0 || !U && de.items.length === 0 ? (kt = d.value) == null || kt.showNoRowsOverlay() : (Xe = d.value) == null || Xe.hideOverlay();
-          }).catch((de) => {
-            B.fail(), zs.tryLog("003", de), g.value = !1;
+            }), i = !1, U && ce.row_count === 0 || !U && ce.items.length === 0 ? (kt = d.value) == null || kt.showNoRowsOverlay() : (Xe = d.value) == null || Xe.hideOverlay();
+          }).catch((ce) => {
+            B.fail(), zs.tryLog("003", ce), g.value = !1;
           });
         }
       };
@@ -91535,17 +91536,17 @@ const Qee = ["data-ag-theme-mode"], Vte = /* @__PURE__ */ Qn({
     }
     function b(B, J, U, te = !1) {
       if (d.value && (B && (te && d.value.setFilterModel(null), d.value.setFilterModel(B)), J && (te && d.value.resetColumnState(), d.value.applyColumnState({ state: J })), U)) {
-        const Q = d.value.getAllGridColumns(), de = U.map((be) => Q.find((Pe) => Pe.getColId() == be.field)).filter((be) => be !== void 0);
-        te && d.value.setRowGroupColumns([]), d.value.setRowGroupColumns(de);
+        const Q = d.value.getAllGridColumns(), ce = U.map((be) => Q.find((Pe) => Pe.getColId() == be.field)).filter((be) => be !== void 0);
+        te && d.value.setRowGroupColumns([]), d.value.setRowGroupColumns(ce);
       }
     }
-    function y(B, J, U, te, Q, de = !1) {
+    function y(B, J, U, te, Q, ce = !1) {
       d.value && (w(B), b(
         J,
         U,
         te,
-        de
-      ), Q && (n = Q), de && (i = !0));
+        ce
+      ), Q && (n = Q), ce && (i = !0));
     }
     function x() {
       d.value && (u.value = d.value.getDisplayedRowCount());
@@ -91597,12 +91598,16 @@ const Qee = ["data-ag-theme-mode"], Vte = /* @__PURE__ */ Qn({
         getChildCount: C
       }, J = B.onGridReady;
       B.onGridReady = (Q) => {
-        d.value = Q.api, y(
+        if (d.value = Q.api, y(
           s.initialGridParams.preferences,
           s.initialGridParams.filterModel,
           s.initialGridParams.sortModel,
           s.initialGridParams.rowGroupCols
-        ), s.saveStrategy !== "none" && (s.saveStrategy === "storage" || $s.getGlobalSaverStrategy() === "storage") && (l = Zee.findOrCreate("", H), l.applyPreferenceToGrid(), l.watchChanges()), J && J(Q);
+        ), s.saveStrategy !== "none" && (s.saveStrategy === "storage" || $s.getGlobalSaverStrategy() === "storage")) {
+          const ce = s.gridName ?? s.resourceName;
+          l = Zee.findOrCreate(ce, H), l.applyPreferenceToGrid(), l.watchChanges();
+        }
+        J && J(Q);
       };
       const U = B.onModelUpdated;
       B.onModelUpdated = (Q) => {
@@ -91612,7 +91617,7 @@ const Qee = ["data-ag-theme-mode"], Vte = /* @__PURE__ */ Qn({
       };
       const te = B.onColumnVisible;
       B.onColumnVisible = (Q) => {
-        te && te(Q), !(!Q.column || !d.value) && (Q.visible ? d.value.refreshServerSide() : o != null && o.columnsToDisplay && (o.columnsToDisplay = o.columnsToDisplay.filter((de) => de !== Q.column.getColId())));
+        te && te(Q), !(!Q.column || !d.value) && (Q.visible ? d.value.refreshServerSide() : o != null && o.columnsToDisplay && (o.columnsToDisplay = o.columnsToDisplay.filter((ce) => ce !== Q.column.getColId())));
       }, c.value = B;
     }
     function I(B) {
@@ -92069,7 +92074,7 @@ export {
   pF as _logPreInitWarn,
   Ge as _makeNull,
   We as _mergeDeep,
-  ce as _missing,
+  de as _missing,
   mc as _normalizeSortDirection,
   Es as _normalizeSortType,
   ti as _observeResize,

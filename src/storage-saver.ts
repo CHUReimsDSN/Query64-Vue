@@ -28,7 +28,7 @@ export class GridSaver {
   ) {
     this.gridPreference = gridPref;
     this.query64Api = query64Api;
-    this.gridName = gridName;
+    this.gridName = `query64_${gridName}`;
   }
 
   static findOrCreate(
