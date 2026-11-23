@@ -1,0 +1,34 @@
+import type { ColDef } from "ag-grid-enterprise";
+import type { TColumnPreference, TCustomColumn, TQuery64GridConfig, TCustomColId, TCustomColumnRegistration, TResourceColumnMetaData, TQuery64GetRowsParams, TAggridGenericData } from "./models";
+import type { TRecord } from "./private-models";
+export declare class GridFactory {
+    resourceName: string;
+    gridConfig: TQuery64GridConfig;
+    customColumnsMap: Map<TCustomColId, TCustomColumn>;
+    columnsMetadataMap: Map<TCustomColId, TResourceColumnMetaData>;
+    getRowsFn: (query64Params: TQuery64GetRowsParams) => Promise<TAggridGenericData>;
+    constructor(resourceName: string, columnsMetadatas: TResourceColumnMetaData[], getRowsFn: (query64Params: TQuery64GetRowsParams) => Promise<TAggridGenericData>, gridConfig?: Partial<TQuery64GridConfig>, additionals?: TCustomColumnRegistration[], overloads?: TCustomColumnRegistration[]);
+    getColumns(): TCustomColumn[];
+    getColumnsByPreferences(preferences: TColumnPreference[]): TCustomColumn[];
+    getMetadataByColId(colId: TCustomColId): TResourceColumnMetaData | undefined;
+    getColumnByColId(colId: TCustomColId): TCustomColumn | undefined;
+    getColIdList(): string[];
+    getAllColumnDepedencies(): string[];
+    columnExist(colId: TCustomColId): boolean;
+    private getGenericColumnString;
+    private getGenericColumnNumber;
+    private getGenericColumnDate;
+    private getGenericColumnDatetime;
+    private getGenericColumnBoolean;
+    private getGenericColumnObject;
+    private getGenericColumnValueGetterRelation;
+    private generateSafeColDefStyle;
+    private detectDeadDepedencies;
+    private static generateCustomColumn;
+    static formatDateFn(dateValue: string | Date): string;
+    static formatDatetimeFn(dateValue: string | Date): string;
+    static defaultColumnTypesConfig(): Record<string, ColDef<TRecord>>;
+    static defaultGridStyle(): string;
+    static defaultContainerStyle(): string;
+    static getFrenchTranslate(): Record<string, string>;
+}
