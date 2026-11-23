@@ -1,7 +1,7 @@
 import type { ColDef, GridApi, GridOptions, IServerSideGetRowsRequest } from "ag-grid-community";
 import { type Component, type Ref } from "vue";
 import type { TRecord } from "./private-models";
-import type { TSaverStrategy } from "./storage-saver";
+import type { TSaverStrategy } from "./grid-saver";
 export type TAggridGenericData = {
     items: TRecord[];
     row_count: number;

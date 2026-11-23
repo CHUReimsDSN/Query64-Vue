@@ -25,7 +25,7 @@ import {
 import type { TRecord } from "./private-models";
 import { Query64Logger } from "./logger";
 import { Query64 } from "./query64";
-import { GridSaver } from "./storage-saver";
+import { GridSaver } from "./grid-saver";
 
 // props
 const propsComponent = withDefaults(defineProps<TQuery64GridProps>(), {
@@ -350,7 +350,8 @@ function setupGridOptionsConfig() {
       propsComponent.initialGridParams.sortModel,
       propsComponent.initialGridParams.rowGroupCols,
     );
-    if (propsComponent.saveStrategy !== 'none' && (propsComponent.saveStrategy === "storage" || Query64.getGlobalSaverStrategy() === 'storage')) {
+    const enabledSaver = (propsComponent.saveStrategy ?? Query64.getGlobalSaverStrategy()) === 'storage'
+    if (enabledSaver) {
       const gridName = propsComponent.gridName ?? propsComponent.resourceName
       gridSaver = GridSaver.findOrCreate(gridName, api)
       gridSaver.applyPreferenceToGrid()
