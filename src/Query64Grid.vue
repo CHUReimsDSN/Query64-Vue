@@ -351,7 +351,6 @@ function setupGridOptionsConfig() {
       propsComponent.initialGridParams.rowGroupCols,
     );
     const enabledSaver = (propsComponent.saveStrategy ?? Query64.getGlobalSaverStrategy()) === 'storage'
-    console.log(enabledSaver)
     if (enabledSaver) {
       const gridName = propsComponent.gridName ?? propsComponent.resourceName
       gridSaver = GridSaver.findOrCreate(gridName, api)

@@ -44,7 +44,7 @@ export class GridSaver {
   }
 
   private static getFromStorage(gridName: string): TGridPreference | null {
-    const item = localStorage.getItem(gridName);
+    const item = localStorage.getItem(`query64_${gridName}`);
     if (!item) {
       return null;
     }

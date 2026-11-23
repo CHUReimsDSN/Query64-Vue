@@ -91333,7 +91333,7 @@ class Zee {
     return i || (i = this.getDefaultGridPref(s)), new this(i, s, t);
   }
   static getFromStorage(t) {
-    const s = localStorage.getItem(t);
+    const s = localStorage.getItem(`query64_${t}`);
     return s ? JSON.parse(s) : null;
   }
   saveToStorage() {
@@ -91598,14 +91598,12 @@ const Qee = ["data-ag-theme-mode"], Vte = /* @__PURE__ */ Qn({
         getChildCount: C
       }, J = B.onGridReady;
       B.onGridReady = (Q) => {
-        d.value = Q.api, y(
+        if (d.value = Q.api, y(
           s.initialGridParams.preferences,
           s.initialGridParams.filterModel,
           s.initialGridParams.sortModel,
           s.initialGridParams.rowGroupCols
-        );
-        const ce = (s.saveStrategy ?? $s.getGlobalSaverStrategy()) === "storage";
-        if (console.log(ce), ce) {
+        ), (s.saveStrategy ?? $s.getGlobalSaverStrategy()) === "storage") {
           const ve = s.gridName ?? s.resourceName;
           l = Zee.findOrCreate(ve, H), l.applyPreferenceToGrid(), l.watchChanges();
         }
