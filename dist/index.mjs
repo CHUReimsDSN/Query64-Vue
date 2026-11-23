@@ -91598,12 +91598,14 @@ const Qee = ["data-ag-theme-mode"], Vte = /* @__PURE__ */ Qn({
         getChildCount: C
       }, J = B.onGridReady;
       B.onGridReady = (Q) => {
-        if (d.value = Q.api, y(
+        d.value = Q.api, y(
           s.initialGridParams.preferences,
           s.initialGridParams.filterModel,
           s.initialGridParams.sortModel,
           s.initialGridParams.rowGroupCols
-        ), (s.saveStrategy ?? $s.getGlobalSaverStrategy()) === "storage") {
+        );
+        const ce = (s.saveStrategy ?? $s.getGlobalSaverStrategy()) === "storage";
+        if (console.log(ce), ce) {
           const ve = s.gridName ?? s.resourceName;
           l = Zee.findOrCreate(ve, H), l.applyPreferenceToGrid(), l.watchChanges();
         }
