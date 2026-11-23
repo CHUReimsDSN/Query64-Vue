@@ -6,6 +6,7 @@ import type {
 } from "ag-grid-community";
 import { type Component, type Ref } from "vue";
 import type { TRecord } from "./private-models";
+import type { TSaverStrategy } from "./storage-saver";
 
 export type TAggridGenericData = {
   items: TRecord[];
@@ -126,6 +127,7 @@ export type TQuery64GridProps = {
   containerStyle?: string;
   displayRowComponent?: Component;
   themeMode?: TAgGridThemeMode;
+  saveStrategy?: TSaverStrategy;
   context?: Record<string, unknown>;
 };
 

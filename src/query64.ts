@@ -38,6 +38,7 @@ import type {
 import CellDefaultListValue from "./CellDefaultListValue.vue";
 import DisplayRowCountDefault from "./DisplayRowCountDefault.vue";
 import { GridFactory } from "./grid-factory";
+import type { TSaverStrategy } from "./storage-saver";
 
 export class Query64 {
   private static _instance: Query64 = new Query64();
@@ -61,6 +62,7 @@ export class Query64 {
     aggridTheme: themeAlpine,
   };
   private loggerConfig: TLoggerConfig = Query64Logger.getDefaultConfig();
+  private saverStrategy: TSaverStrategy = 'none';
 
   static getGlobalAdditionalColumnsByResourceName(
     resourceName: string,
@@ -161,5 +163,12 @@ export class Query64 {
       ...loggerConfig,
     };
   }
+  static getGlobalSaverStrategy() {
+    return this._instance.saverStrategy
+  }
+  static registerGlobalSaverStrategy(strategy: TSaverStrategy) {
+    this._instance.saverStrategy = strategy
+  }
+
   private constructor() {}
 }
