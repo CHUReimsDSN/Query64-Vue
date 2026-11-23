@@ -4,6 +4,12 @@ title: Changelog
 
 # Changelog
 
+### 2.2.4
+
+- Ajout d'une stratégie de sauvegarde de grille
+
+<br />
+
 ### 2.2.3
 
 - Correction de la surcharge de la grid options.
