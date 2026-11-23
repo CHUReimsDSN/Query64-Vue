@@ -24,7 +24,7 @@ export class GridSaver {
         return JSON.parse(item);
     }
     saveToStorage() {
-        localStorage.set(this.gridName, this.gridPreference);
+        localStorage.setItem(this.gridName, JSON.stringify(this.gridPreference));
     }
     applyPreferenceToGrid() {
         this.query64Api.updateGridParams(this.gridPreference.columns_data, this.gridPreference.grid_params_data.filterModel, this.gridPreference.grid_params_data.sortModel, this.gridPreference.grid_params_data.rowGroupCols, "", true);

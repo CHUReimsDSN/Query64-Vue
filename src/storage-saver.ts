@@ -52,7 +52,7 @@ export class GridSaver {
   }
 
   saveToStorage() {
-    localStorage.set(this.gridName, this.gridPreference);
+    localStorage.setItem(this.gridName, JSON.stringify(this.gridPreference));
   }
 
   applyPreferenceToGrid() {

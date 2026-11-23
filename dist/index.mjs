@@ -91337,7 +91337,7 @@ class Zee {
     return s ? JSON.parse(s) : null;
   }
   saveToStorage() {
-    localStorage.set(this.gridName, this.gridPreference);
+    localStorage.setItem(this.gridName, JSON.stringify(this.gridPreference));
   }
   applyPreferenceToGrid() {
     this.query64Api.updateGridParams(
