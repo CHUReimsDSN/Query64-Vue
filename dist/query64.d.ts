@@ -1,7 +1,7 @@
 import { ModuleRegistry } from "ag-grid-community";
 import { type TLoggerConfig } from "./logger";
 import type { TQuery64Config, TCustomColumnRegistration, TQuery64GridConfig } from "./models";
-import type { TSaverStrategy } from "./storage-saver";
+import type { TSaverStrategy } from "./grid-saver";
 export declare class Query64 {
     private static _instance;
     private globalOverloadColumnsMap;

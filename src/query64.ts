@@ -38,7 +38,7 @@ import type {
 import CellDefaultListValue from "./CellDefaultListValue.vue";
 import DisplayRowCountDefault from "./DisplayRowCountDefault.vue";
 import { GridFactory } from "./grid-factory";
-import type { TSaverStrategy } from "./storage-saver";
+import type { TSaverStrategy } from "./grid-saver";
 
 export class Query64 {
   private static _instance: Query64 = new Query64();

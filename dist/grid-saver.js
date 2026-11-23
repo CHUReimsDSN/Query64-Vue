@@ -17,7 +17,7 @@ export class GridSaver {
         return instance;
     }
     static getFromStorage(gridName) {
-        const item = localStorage.getItem(gridName);
+        const item = localStorage.getItem(`query64_${gridName}`);
         if (!item) {
             return null;
         }
